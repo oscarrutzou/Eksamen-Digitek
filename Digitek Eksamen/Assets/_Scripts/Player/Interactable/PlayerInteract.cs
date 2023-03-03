@@ -9,15 +9,6 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField]
     private Collider2D[] interactColliderArray;
 
-    public MyStruct[] structArray;
-    [System.Serializable]
-    public struct MyStruct
-    {
-        public string title;
-        public int number;
-    }
-
-
     public void Interact()
     {
         interactColliderArray = Physics2D.OverlapCircleAll(transform.position, interactRange);

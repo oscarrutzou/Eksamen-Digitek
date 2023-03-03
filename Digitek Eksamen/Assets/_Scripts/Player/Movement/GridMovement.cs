@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class GridMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public PlayerController PlayerController;
+    public GameManager GameManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+
+
+
 }

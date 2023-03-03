@@ -475,7 +475,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 11
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6867251, g: 0.9245283, b: 0.2660199, a: 1}
+  m_Color: {r: 0.6513752, g: 0.8867924, b: 0.23843002, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -595,28 +595,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 342313}
+  gridMovement: {fileID: 0}
   gameManager: {fileID: 1715573562}
   moveSpeed: 5
   tempMoveSpeed: 0
   collisionOffset: 0.05
-  movementFilter:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
   movementInput: {x: 0, y: 0}
   lastXInput: 0
   lastYInput: 0
   specialMovement: 0
+  gridMovementBool: 0
 --- !u!114 &550584676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,15 +619,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 1.2
   interactColliderArray: []
-  structArray:
-  - title: Goat
-    number: 1
-  - title: Shoe
-    number: 0
-  - title: 
-    number: 0
-  - title: 
-    number: 0
 --- !u!1 &626506719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,6 +1160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1715573560}
   - component: {fileID: 1715573562}
+  - component: {fileID: 1715573563}
   - component: {fileID: 1715573561}
   m_Layer: 0
   m_Name: GameManager
@@ -1233,6 +1213,20 @@ MonoBehaviour:
   PlayerInteract: {fileID: 550584676}
   Menu: {fileID: 342313}
   AudioManager: {fileID: 999901272}
+--- !u!114 &1715573563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715573559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07819aa9a1f07a46a517df9553ca8d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerController: {fileID: 550584675}
+  GameManager: {fileID: 1715573562}
 --- !u!1 &1928397045
 GameObject:
   m_ObjectHideFlags: 0
