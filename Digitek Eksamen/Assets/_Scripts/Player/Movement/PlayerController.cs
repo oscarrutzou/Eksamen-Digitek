@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
 
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
+
+    //Goat
+    //Interact med ged, 
+    private PlayerInteract playerInteract;
+
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
@@ -35,6 +40,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerInteract = GetComponent<PlayerInteract>();
     }
 
     #region Enable + Disable
@@ -154,7 +160,10 @@ public class PlayerController : MonoBehaviour
 
     private void Interact(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Interact");
+        //Debug.Log("Interact");
+        //Check navn, lav switch
+        //Tag interactable
+        playerInteract.Interact();
     }
 
 }
