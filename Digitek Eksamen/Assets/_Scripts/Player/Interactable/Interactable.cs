@@ -5,11 +5,13 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     public static PlayerController PlayerController;
+    public static GameManager GameManager;
     [SerializeField] private bool isQuestItem = false;
 
     private void Start()
     {
         PlayerController = FindObjectOfType<PlayerController>();
+        GameManager = GetComponent<GameManager>();
     }
 
     public virtual void ObjectInteract()

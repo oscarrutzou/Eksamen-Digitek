@@ -6,13 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public Menu menu;
+    public GameManager gameManager;
     public PlayerInputActions playerInputActions;
     private SpriteRenderer spriteRenderer;
 
     private Animator animator;
     private Rigidbody2D rb;
 
-    [SerializeField] float moveSpeed = 1f;
+    public float moveSpeed = 1f;
+    public float tempMoveSpeed;
     [SerializeField] float collisionOffset = 0.05f;
     [SerializeField] ContactFilter2D movementFilter;
 
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private InputAction interact;
     private InputAction pause;
+    private InputAction jump;
 
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
@@ -29,10 +32,14 @@ public class PlayerController : MonoBehaviour
     //Goat
     //Interact med ged, 
     private PlayerInteract playerInteract;
+    public bool specialMovement;
+    public bool gridMovement;
+    private bool unlockedJump;
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
+        
     }
 
     private void Start()
@@ -41,6 +48,11 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInteract = GetComponent<PlayerInteract>();
+
+        specialMovement = false;
+        gridMovement = false;
+        unlockedJump = false;
+        tempMoveSpeed = moveSpeed;
     }
 
     #region Enable + Disable
@@ -53,17 +65,27 @@ public class PlayerController : MonoBehaviour
         interact = playerInputActions.Player.Interact;
         interact.Enable();
         interact.performed += Interact;
+
+        jump = playerInputActions.Player.Jump;
+        jump.Enable();
+        jump.performed += Jump;
     }
 
     private void OnDisable()
     {
         pause.Disable();
         interact.Disable();
+        jump.Disable();
     }
     #endregion
 
     private void FixedUpdate()
     {
+        if (specialMovement && gridMovement)
+        {
+            Debug.LogError("Cant have both special and grid movement on, on the same time");
+        }
+
         #region Movement Input
         if (movementInput != Vector2.zero)
         {
@@ -82,11 +104,30 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("Movementinput.y");
             }
 
-            animator.SetBool("isMoving", success);
+            if (!specialMovement && !gridMovement)
+            {
+                //normal movement.
+                animator.SetBool("isMoving", success);
+            }
+            else if (specialMovement || gridMovement)
+            {
+                //Lav om til goat animation
+                animator.SetBool("isMoving", success);
+            }
+            
         }
         else
         {
-            animator.SetBool("isMoving", false);
+            if (!specialMovement && !gridMovement)
+            {
+                //normal movement
+                animator.SetBool("isMoving", false);
+            }
+            else if (specialMovement || gridMovement)
+            {
+                //Lav om til goat animation
+                animator.SetBool("isMoving", false);
+            }
         }
 
         if (movementInput.x != 0)
@@ -126,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
             if (count == 0)
             {
-                rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + movementInput * tempMoveSpeed * Time.fixedDeltaTime);
                 return true;
             }
             else
@@ -146,16 +187,63 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    //Ged movement
+    public void SpecialMovement(bool active)
+    {
+        if (active)
+        {
+            Debug.Log("Special mov on");
+            specialMovement = true;
+            tempMoveSpeed = moveSpeed * 1.5f; //Sæt speed for movement med ged
+            //Ændre animation
+        }
+        else if (!active)
+        {
+            Debug.Log("Special mov off");
+            specialMovement = false;
+            tempMoveSpeed = moveSpeed;
+            //Ændre animation.
+        }
+    }
+
+
+    public void GridMovement(bool active)
+    {
+        if (active)
+        {
+            Debug.Log("GridMovement mov on");
+            
+        }
+        else if (!active)
+        {
+            Debug.Log("GridMovement mov off");
+            
+        }
+    }
+
+
+    private void Jump(InputAction.CallbackContext ctx)
+    {
+        Debug.Log(" jumped");
+
+        
+        unlockedJump = true; //gør intet, bare for at fjerne debug tingen
+        unlockedJump = false; //gør intet, bare for at fjerne debug tingen
+        //Check if collideren er jumpable, hvis ja, så jump animation når man går ind i den. Find ud af hvad der sker når den går ned.
+    }
+    
     private void Pause(InputAction.CallbackContext ctx)
     {
-        if (menu.gameIsPaused)
-        {
-            menu.Resume();
-        }
-        else
-        {
-            menu.Pause();
-        }
+
+        gameManager.StopSpecialMovement();
+        //if (menu.gameIsPaused)
+        //{
+        //    menu.Resume();
+        //}
+        //else
+        //{
+        //    menu.Pause();
+        //}
     }
 
     private void Interact(InputAction.CallbackContext ctx)

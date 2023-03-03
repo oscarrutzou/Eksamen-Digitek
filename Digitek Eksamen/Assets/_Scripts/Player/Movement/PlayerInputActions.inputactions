@@ -1,5 +1,5 @@
 {
-    "name": "Digitek Eksamen",
+    "name": "PlayerInputActions",
     "maps": [
         {
             "name": "Player",
@@ -36,6 +36,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "a78cb43b-2f75-4d1d-9aa5-5c44f4278f92",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "24d46656-da15-491c-a39b-5d2cb28575e1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -282,6 +291,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51689d5d-c874-4bed-90d4-f3a89101f83c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

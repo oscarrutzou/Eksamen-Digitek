@@ -595,7 +595,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 342313}
+  gameManager: {fileID: 1715573562}
   moveSpeed: 5
+  tempMoveSpeed: 0
   collisionOffset: 0.05
   movementFilter:
     useTriggers: 0
@@ -614,6 +616,7 @@ MonoBehaviour:
   movementInput: {x: 0, y: 0}
   lastXInput: 0
   lastYInput: 0
+  specialMovement: 0
 --- !u!114 &550584676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,7 +1024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f88076e38df4f4e94edf009edbe7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
   isQuestItem: 0
 --- !u!1 &933208812
 GameObject:
@@ -1178,6 +1180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1715573560}
+  - component: {fileID: 1715573562}
   - component: {fileID: 1715573561}
   m_Layer: 0
   m_Name: GameManager
@@ -1213,8 +1216,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c22a096b4e9216449686e794405eb26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 550584675}
   isQuestItem: 0
+--- !u!114 &1715573562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715573559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbb9e3b5471d854c8bc090f9d21df2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerController: {fileID: 550584675}
+  PlayerInteract: {fileID: 550584676}
+  Menu: {fileID: 342313}
+  AudioManager: {fileID: 999901272}
 --- !u!1 &1928397045
 GameObject:
   m_ObjectHideFlags: 0
