@@ -48,22 +48,12 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        playerInteract = GetComponent<PlayerInteract>();
-
-        specialMovement = false;
-        gridMovementBool = false;
-        canJump = false;
-        tempMoveSpeed = moveSpeed;
-    }
-
     #region Enable + Disable
     private void OnEnable()
     {
+        playerInputActions.Enable();
+        
+
         pause = playerInputActions.Player.Pause;
         pause.Enable();
         pause.performed += Pause;
@@ -79,11 +69,56 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+        playerInputActions.Disable();
         pause.Disable();
         interact.Disable();
         jump.Disable();
     }
     #endregion
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerInteract = GetComponent<PlayerInteract>();
+
+        specialMovement = false;
+        gridMovementBool = false;
+        canJump = false;
+        tempMoveSpeed = moveSpeed;
+
+        playerInputActions.Player.GridMove.performed += ctx => GridMove(ctx.ReadValue<Vector2>());
+    }
+
+
+    private void GridMove(Vector2 direction)
+    {
+        if (true)
+        {
+            Debug.Log("HEJ Eigil");
+        }
+
+        if (CanGridMove(direction))
+        {
+            transform.position += (Vector3)direction;
+        }
+    }
+
+    private bool CanGridMove(Vector2 direction)
+    {
+        Vector3Int gridPosistion = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
+        return true;
+        //if (!groundTilemap.HasTile(gridPosistion) || collisionTilemap.HasTile(gridPosistion))
+        //{
+
+        //    return false;
+        //}
+        //else 
+        //{
+        //    return true;
+        //}
+    }
+
 
     private void FixedUpdate()
     {
@@ -94,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
         if (!gridMovementBool)
         {
-            NormalMovement();
+            //NormalMovement();
         }
         else
         {
