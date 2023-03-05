@@ -18,7 +18,7 @@ public class GoatInteractable : Interactable
         //Check om kan hoppe på ged - quest done
 
 
-        gameManager.StartSpecialMovement();
+        gameManager.StartMountMovement();
 
         gameObject.SetActive(false);
     }

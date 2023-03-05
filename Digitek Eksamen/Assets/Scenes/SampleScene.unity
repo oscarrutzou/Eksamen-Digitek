@@ -595,16 +595,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 342313}
-  gridMovement: {fileID: 0}
   gameManager: {fileID: 1715573562}
   moveSpeed: 5
   tempMoveSpeed: 0
   collisionOffset: 0.05
-  movementInput: {x: 0, y: 0}
-  lastXInput: 0
-  lastYInput: 0
-  specialMovement: 0
-  gridMovementBool: 0
+  normalMovement: 0
+  mountMovement: 0
+  gridMovement: 0
+  canAutoMoveBool: 0
+  currentLane: 1
+  autoDirection: {x: 0, y: 0}
   groundTilemap: {fileID: 877700801}
   collisionTilemap: {fileID: 1772275822}
 --- !u!114 &550584676
@@ -1328,7 +1328,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1715573560}
   - component: {fileID: 1715573562}
-  - component: {fileID: 1715573563}
   - component: {fileID: 1715573561}
   m_Layer: 0
   m_Name: GameManager
@@ -1381,20 +1380,6 @@ MonoBehaviour:
   PlayerInteract: {fileID: 550584676}
   Menu: {fileID: 342313}
   AudioManager: {fileID: 999901272}
---- !u!114 &1715573563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715573559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e07819aa9a1f07a46a517df9553ca8d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerController: {fileID: 550584675}
-  GameManager: {fileID: 1715573562}
 --- !u!1 &1772275819
 GameObject:
   m_ObjectHideFlags: 0

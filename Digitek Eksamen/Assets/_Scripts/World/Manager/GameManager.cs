@@ -26,15 +26,15 @@ public class GameManager : MonoBehaviour
 
     //Lavet så der kan ske andre ting når man starter og stopper. Måske transitions eller lign.
     //Bliver sat ved trigger colliders, når de skal starte og stoppe.
-    public void StartSpecialMovement()
+    public void StartMountMovement()
     {
         //Starter special mov, altså ged mov
-        PlayerController.SpecialMovement(true);
+        PlayerController.MountMovement(true);
     }
-    public void StopSpecialMovement()
+    public void StopMountMovement()
     {
         //Stopper special mov, altså ged mov
-        PlayerController.SpecialMovement(false);
+        PlayerController.MountMovement(false);
     }
 
 
