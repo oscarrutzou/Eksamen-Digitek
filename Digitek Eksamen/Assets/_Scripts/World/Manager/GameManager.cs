@@ -38,9 +38,11 @@ public class GameManager : MonoBehaviour
     }
 
 
+    //Vec start af 
     public void StartGridMovement()
     {
         //Start grid mov
+        //Pause og spil start cutscene
         PlayerController.GridMovement(true);
     }
 
