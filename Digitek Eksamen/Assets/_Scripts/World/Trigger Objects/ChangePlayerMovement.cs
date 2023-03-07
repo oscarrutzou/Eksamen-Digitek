@@ -9,6 +9,14 @@ public class ChangePlayerMovement : MonoBehaviour
 
     [SerializeField] private GameObject playerObject;
 
+    private Collider2D colliderTrigger;
+    [SerializeField] private bool startRun = false; //player done quest
+    [SerializeField] private bool stopRun = false;
+
+    private void Start()
+    {
+        colliderTrigger = GetComponent<Collider2D>();
+    }
     //Start & stop, grid mov trigger
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -16,18 +24,30 @@ public class ChangePlayerMovement : MonoBehaviour
         {
             playerObject = collision.gameObject;
             playerController = collision.GetComponent<PlayerController>();
-            
-            if (playerController.mountMovement)
+
+            //Debug.Log("TEst");
+
+            if (playerController.mountMovement && startRun)
             {
+                gameManager.StopMountMovement();
                 gameManager.StartGridMovement();
-                playerController.mountMovement = false;
-                
+                ///Player cutscene, efter cutscene s�t players transform til noget bestemt
+
             }
-            else if (playerController.gridMovement)
+
+            if (playerController.gridMovement && stopRun)
             {
                 gameManager.StopGridMovement();
                 playerController.normalMovement = true;
+                colliderTrigger.isTrigger = false;
             }
+
+            //if (playerController.mountMovement)
+            //{
+            //    //playerController.normalMovement = false;
+            //    //playerController.mountMovement = false;
+            //    gameManager.StartGridMovement();
+
         }
     }
 

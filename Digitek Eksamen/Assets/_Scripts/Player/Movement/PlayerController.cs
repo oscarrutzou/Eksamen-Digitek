@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Grid Movement")]
     [SerializeField] private bool canAutoMoveBool = false;
-    [SerializeField] private int currentLane = 1; //0 = venstre, 1 = midt, 2 = højre
+    [SerializeField] public int currentLane = 1; //0 = venstre, 1 = midt, 2 = højre
 
     [SerializeField] private Vector2 autoDirection;
 
@@ -65,35 +65,6 @@ public class PlayerController : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         
     }
-
-    #region Enable + Disable
-    private void OnEnable()
-    {
-        playerInputActions.Enable();
-        
-
-        pause = playerInputActions.Player.Pause;
-        pause.Enable();
-        pause.performed += Pause;
-
-        interact = playerInputActions.Player.Interact;
-        interact.Enable();
-        interact.performed += Interact;
-
-        jump = playerInputActions.Player.Jump;
-        jump.Enable();
-        jump.performed += Jump;
-    }
-
-    private void OnDisable()
-    {
-        playerInputActions.Disable();
-        
-        pause.Disable();
-        interact.Disable();
-        jump.Disable();
-    }
-    #endregion
 
 
     private void Start()
@@ -132,14 +103,158 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Enable + Disable
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+
+        pause = playerInputActions.Player.Pause;
+        pause.Enable();
+        pause.performed += Pause;
+
+        interact = playerInputActions.Player.Interact;
+        interact.Enable();
+        interact.performed += Interact;
+
+        jump = playerInputActions.Player.Jump;
+        jump.Enable();
+        jump.performed += Jump;
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
+
+        pause.Disable();
+        interact.Disable();
+        jump.Disable();
+    }
+    #endregion
 
 
-    /// <summary>
-    ///Lav en måde på at detext en collider trigger som skal kunne ændre templeft/tempright eller deactive begge.
-    ///Brug et script, som skal på den hvor den har en bool med hvilken slags den skal påvirke.
-    ///Tag den bool fra objectet ved at se om trigger collider har sat på og ændre efter den.
-    ///Gør dette for at ikke skulle bruge comparetags, og til sidst ville jeg have for mange tags.
-    /// </summary>
+    #region Grid Movement - 3 lanes
+    private void GridMove(Vector2 direction)
+    {
+        if (gridMovement)
+        {
+            if (CanGridMove(direction))
+            {
+                //Debug.Log("Direction + " + direction);
+                //Direction er præcis 1 og virker derfor med tilemap som også er 1.
+                if (TempRight)
+                {
+                    Debug.Log("TempRight");
+  
+                    transform.position += new Vector3(0, -direction.x, 0);
+                }
+                else if (TempLeft)
+                {
+                    Debug.Log("TempLeft");
+                    transform.position += new Vector3(0, direction.x, 0);
+                } 
+                else
+                {
+                    Debug.Log("NOnSOS");
+
+                    transform.position += (Vector3)direction;
+                }
+
+                #region Flip Sprite
+                if (direction.x != 0)
+                {
+                    lastXInput = direction.x;
+                }
+                else if (movementInput.y != 0)
+                {
+                    lastYInput = direction.y;
+                }
+
+                if (direction.x < 0)
+                {
+                    spriteRenderer.flipX = true;
+                }
+                else if (direction.x > 0)
+                {
+                    spriteRenderer.flipX = false;
+                }
+                #endregion
+            }
+        }
+    }
+    public void GridMovement(bool active)
+    {
+        if (active)
+        {
+            if (normalMovement || mountMovement)
+            {
+                normalMovement = false;
+                mountMovement = false;
+            }
+            Debug.Log("GridMovement mov on");
+            animator.SetBool("onMount", true);
+
+            gridMovement = true;
+            canAutoMoveBool = true;
+        }
+        else if (!active)
+        {
+            Debug.Log("GridMovement mov off");
+            //Alle grid bool = false
+            animator.SetBool("onMount", false);
+
+            gridMovement = false;
+            canAutoMoveBool = false;
+            TempLeft = false;
+            TempRight = false;
+        }
+    }
+    private bool CanGridMove(Vector2 direction)
+    {
+        Vector3Int gridPosistion = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
+
+        if (!groundTilemap.HasTile(gridPosistion))
+        {
+            return false;
+        }
+
+        if (!collisionTilemap.HasTile(gridPosistion))
+        {
+            //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
+            if (direction.x < 0)
+            {
+                //Debug.Log("direction.x < 0: " + direction.x);
+                if (currentLane == 0)
+                {
+                    //Debug.Log("Cant go more left");
+                    return false;
+                }
+                else if (currentLane == 1 || currentLane == 2)
+                {
+                    currentLane -= 1;
+                    return true;
+                }
+            }
+            else if (direction.x > 0)
+            {
+                //Debug.Log("direction.x > 0: " + direction.x);
+                if (currentLane == 2)
+                {
+                    //Debug.Log("Cant go more right");
+                    return false;
+                }
+                else if (currentLane == 0 || currentLane == 1)
+                {
+                    currentLane += 1;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    #endregion
+
+    #region Auto Grid Movement
     private void AutoGridMove()
     {
         //AutoDirection har en direction på y, for at teste i spillet.
@@ -166,76 +281,15 @@ public class PlayerController : MonoBehaviour
 
             //rb.MovePosition(rb.position + finalDirection * tempMoveSpeed * Time.fixedDeltaTime);
 
-            if (CanAutoGridMove(finalDirection) && !Died)
+            if (!Died)
             {
-                rb.MovePosition(rb.position + finalDirection * tempMoveSpeed * Time.fixedDeltaTime);
+                if (CanAutoGridMove(finalDirection))
+                {
+                    rb.MovePosition(rb.position + finalDirection * tempMoveSpeed * Time.fixedDeltaTime);
+                }
             }
         }
     }
-
-    private void GridMove(Vector2 direction)
-    {
-        if (gridMovement)
-        {
-            if (CanGridMove(direction))
-            {
-                //Debug.Log("Direction + " + direction);
-                //Direction er præcis 1 og virker derfor med tilemap som også er 1.
-                if (TempLeft || TempRight)
-                {
-                    transform.position += new Vector3(0, direction.x, 0);
-                } else
-                {
-                    transform.position += (Vector3)direction;
-                }
-
-                #region Flip Sprite
-                if (direction.x != 0)
-                {
-                    lastXInput = direction.x;
-                }
-                else if (movementInput.y != 0)
-                {
-                    lastYInput = direction.y;
-                }
-
-                if (direction.x < 0)
-                {
-                    spriteRenderer.flipX = true;
-                }
-                else if (direction.x > 0)
-                {
-                    spriteRenderer.flipX = false;
-                }
-                #endregion
-            }
-        }
-    }
-
-    public void GridMovement(bool active)
-    {
-        if (active)
-        {
-            Debug.Log("GridMovement mov on");
-            if (normalMovement || mountMovement)
-            {
-                normalMovement = false;
-                mountMovement = false;
-            }
-            gridMovement = true;
-            canAutoMoveBool = true;
-        }
-        else if (!active)
-        {
-            Debug.Log("GridMovement mov off");
-            //Alle grid bool = false
-            gridMovement = false;
-            canAutoMoveBool = false;
-            TempLeft = false;
-            TempRight = false;
-        }
-    }
-
     public bool ChangeAutoMoveDirection(bool left, bool forward, bool right)
     {
         if (left)
@@ -254,8 +308,6 @@ public class PlayerController : MonoBehaviour
 
         return false;
     }
-
-
     private bool CanAutoGridMove(Vector2 direction)
     {
         //Gør det i Int, da tingene ligger på et tilemap som er et grid af 1x1 firkanter.
@@ -277,50 +329,7 @@ public class PlayerController : MonoBehaviour
 
         return true;
     }
-
-    private bool CanGridMove(Vector2 direction)
-    {
-        Vector3Int gridPosistion = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
-
-        if (!groundTilemap.HasTile(gridPosistion))
-        {
-            return false;
-        }
-
-        if (!collisionTilemap.HasTile(gridPosistion))
-        {
-            //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
-            if (direction.x < 0)
-            {
-                if (currentLane == 0)
-                {
-                    Debug.Log("Cant go more left" + direction.x);
-                    return false;
-                }
-                else if (currentLane == 1 || currentLane == 2)
-                {
-                    currentLane -= 1;
-                    return true;
-                }
-            }
-            else if (direction.x > 0)
-            {
-                if (currentLane == 2)
-                {
-                    Debug.Log("Cant go more right" + direction.x);
-                    return false;
-                }
-                else if (currentLane == 0 || currentLane == 1)
-                {
-                    currentLane += 1;
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
+    #endregion
 
     #region Normal Movement
     private void NormalMovement()
@@ -425,35 +434,47 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Mount Movement
     public void MountMovement(bool active)
     {
         if (active)
         {
-            Debug.Log("Special mov on");
+            Debug.Log("Mount mov on");
             normalMovement = false;
             mountMovement = true;
             animator.SetBool("onMount", true);
             canJump = true;
             tempMoveSpeed = moveSpeed * 1.5f; //Sæt speed for movement med ged
-            //Ændre animation
         }
         else if (!active)
         {
-            Debug.Log("Special mov off");
+            
+            Debug.Log("Mount mov off");
             mountMovement = false;
-            normalMovement = true;
+            //normalMovement = true;
             animator.SetBool("onMount", false);
             canJump = false;
             tempMoveSpeed = moveSpeed;
-            //Ændre animation.
         }
     }
 
+    //Skal tjekke om collideren er jumpable. Måske bare slet.
+    //Kan lave pop up, som siger at man skal finde 1 ting ved at gå over stenen med hesten.
+    private bool CanMountJump()
+    {
+        return true;
+    }
+    #endregion
 
+    #region Input Actions
     private void Jump(InputAction.CallbackContext ctx)
     {
-        if (canJump)
+        if (canJump && mountMovement)
         {
+            if (CanMountJump())
+            {
+
+            }
             Debug.Log("Jumped");
             //Check if collideren er jumpable, hvis ja, så jump animation når man går ind i den. Find ud af hvad der sker når den går ned.
             
@@ -472,7 +493,6 @@ public class PlayerController : MonoBehaviour
         //Tag interactable
         playerInteract.Interact();
     }
-    
     private void Pause(InputAction.CallbackContext ctx)
     {
 
@@ -486,6 +506,6 @@ public class PlayerController : MonoBehaviour
         //    menu.Pause();
         //}
     }
-
+    #endregion
 
 }

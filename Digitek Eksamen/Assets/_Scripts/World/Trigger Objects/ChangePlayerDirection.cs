@@ -12,6 +12,9 @@ public class ChangePlayerDirection : MonoBehaviour
     [SerializeField] private bool turnRight;
     [SerializeField] private bool turnForward;
 
+    [SerializeField]
+    private int lane;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -19,20 +22,24 @@ public class ChangePlayerDirection : MonoBehaviour
             playerObject = collision.gameObject;
             playerController = collision.GetComponent<PlayerController>();
 
-            if (turnLeft)
+
+            if (turnLeft && !playerController.TempLeft)
             {
-                Debug.Log("left");
+                //Debug.Log("left");
                 playerController.TempLeft = true;
                 playerController.TempRight = false;
+                playerController.currentLane = lane;
+
 
                 playerObject.transform.position = new Vector3(playerObject.transform.position.x,
                     this.gameObject.transform.position.y - 1, playerObject.transform.position.z);
             } 
-            else if (turnRight)
+            else if (turnRight && !playerController.TempRight)
             {
-                Debug.Log("right");
+                //Debug.Log("right");
                 playerController.TempRight = true;
                 playerController.TempLeft = false;
+                playerController.currentLane = lane;
 
                 playerObject.transform.position = new Vector3(playerObject.transform.position.x, 
                     this.gameObject.transform.position.y - 1, playerObject.transform.position.z);
@@ -46,6 +53,7 @@ public class ChangePlayerDirection : MonoBehaviour
                         playerObject.transform.position.y, playerObject.transform.position.z);
 
                     playerController.TempLeft = false;
+                    playerController.currentLane = lane;
 
                 }
                 else if (playerController.TempRight)
@@ -54,6 +62,7 @@ public class ChangePlayerDirection : MonoBehaviour
                         playerObject.transform.position.y, playerObject.transform.position.z);
 
                     playerController.TempRight = false;
+                    playerController.currentLane = lane;
 
                 }
             }

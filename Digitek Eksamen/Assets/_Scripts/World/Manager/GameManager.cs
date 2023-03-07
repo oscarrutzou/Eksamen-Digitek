@@ -52,4 +52,9 @@ public class GameManager : MonoBehaviour
         PlayerController.GridMovement(false);
     }
 
+    public void CutSceneMeetBrothersLvl1()
+    {
+        Debug.Log("Cutscene her");
+    }
+
 }

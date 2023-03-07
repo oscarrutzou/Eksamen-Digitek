@@ -205,7 +205,7 @@ Transform:
   m_GameObject: {fileID: 121349010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 13.5, y: 31.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1666495636}
@@ -228,6 +228,7 @@ MonoBehaviour:
   turnLeft: 1
   turnRight: 0
   turnForward: 0
+  lane: 0
 --- !u!61 &121349013
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -315,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 206408925}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 15.5, y: 17.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506332959}
@@ -338,6 +339,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 0
   turnForward: 1
+  lane: 2
 --- !u!61 &206408928
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -406,8 +408,9 @@ GameObject:
   - component: {fileID: 430065607}
   - component: {fileID: 430065609}
   - component: {fileID: 430065608}
+  - component: {fileID: 430065610}
   m_Layer: 0
-  m_Name: Square (1)
+  m_Name: Stop Grid Movement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -421,7 +424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430065606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 14.5, z: 0}
+  m_LocalPosition: {x: 3.5, y: 37.5, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -443,6 +446,8 @@ MonoBehaviour:
   playerController: {fileID: 0}
   gameManager: {fileID: 1715573562}
   playerObject: {fileID: 0}
+  startRun: 0
+  stopRun: 1
 --- !u!61 &430065609
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -469,6 +474,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &430065610
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430065606}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0201958, y: 7.9816, z: -10}
+  m_LocalPosition: {x: -1.0345763, y: 9.43155, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -653,7 +679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550584668}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 7.98, z: 0}
+  m_LocalPosition: {x: -1.5, y: 9.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -826,7 +852,7 @@ MonoBehaviour:
   moveSpeed: 5
   tempMoveSpeed: 0
   collisionOffset: 0.05
-  normalMovement: 0
+  normalMovement: 1
   mountMovement: 0
   gridMovement: 0
   canAutoMoveBool: 0
@@ -944,7 +970,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626506719}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 7.98, z: -10}
+  m_LocalPosition: {x: -1.5, y: 9.43, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1067,7 +1093,7 @@ Transform:
   m_GameObject: {fileID: 773188753}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.5, y: 31.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506332959}
@@ -1090,6 +1116,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 0
   turnForward: 1
+  lane: 2
 --- !u!61 &773188756
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1127,8 +1154,9 @@ GameObject:
   - component: {fileID: 783652723}
   - component: {fileID: 783652724}
   - component: {fileID: 783652725}
+  - component: {fileID: 783652726}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Start Grid Movement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1142,7 +1170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783652722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 9.5, z: 0}
+  m_LocalPosition: {x: -1.5, y: 10.36, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1190,6 +1218,29 @@ MonoBehaviour:
   playerController: {fileID: 0}
   gameManager: {fileID: 1715573562}
   playerObject: {fileID: 0}
+  startRun: 1
+  stopRun: 0
+--- !u!50 &783652726
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783652722}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &793426929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,7 +1300,7 @@ Transform:
   m_GameObject: {fileID: 874793048}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.5, y: 20.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1699323628}
@@ -1272,6 +1323,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 1
   turnForward: 0
+  lane: 0
 --- !u!61 &874793052
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6804,7 +6856,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915347139}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: -1.48, y: 8.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7063,7 +7115,7 @@ Transform:
   m_GameObject: {fileID: 1059507560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.5, y: 30.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506332959}
@@ -7086,6 +7138,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 0
   turnForward: 1
+  lane: 1
 --- !u!61 &1059507563
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7138,8 +7191,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080981215}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.5, y: 32.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalPosition: {x: 14.5, y: 32.5, z: 0}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1666495636}
@@ -7162,6 +7215,7 @@ MonoBehaviour:
   turnLeft: 1
   turnRight: 0
   turnForward: 0
+  lane: 2
 --- !u!61 &1080981218
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7249,7 +7303,7 @@ Transform:
   m_GameObject: {fileID: 1274908331}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.5, y: 29.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506332959}
@@ -7272,6 +7326,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 0
   turnForward: 1
+  lane: 0
 --- !u!61 &1274908334
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7325,7 +7380,7 @@ Transform:
   m_GameObject: {fileID: 1339492588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 13.5, y: 19.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506332959}
@@ -7348,6 +7403,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 0
   turnForward: 1
+  lane: 0
 --- !u!61 &1339492591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7447,7 +7503,7 @@ Transform:
   m_GameObject: {fileID: 1446025717}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 14.5, y: 18.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506332959}
@@ -7470,6 +7526,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 0
   turnForward: 1
+  lane: 1
 --- !u!61 &1446025720
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7523,7 +7580,7 @@ Transform:
   m_GameObject: {fileID: 1463846598}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: 18.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1699323628}
@@ -7546,6 +7603,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 1
   turnForward: 0
+  lane: 2
 --- !u!61 &1463846601
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7636,7 +7694,7 @@ Transform:
   m_GameObject: {fileID: 1585728715}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.5, y: 19.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1699323628}
@@ -7659,6 +7717,7 @@ MonoBehaviour:
   turnLeft: 0
   turnRight: 1
   turnForward: 0
+  lane: 1
 --- !u!61 &1585728718
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8785,8 +8844,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958878990}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.5, y: 30.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalPosition: {x: 12.5, y: 30.6, z: 0}
+  m_LocalScale: {x: 0.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1666495636}
@@ -8809,6 +8868,7 @@ MonoBehaviour:
   turnLeft: 1
   turnRight: 0
   turnForward: 0
+  lane: 0
 --- !u!61 &1958878993
 BoxCollider2D:
   m_ObjectHideFlags: 0
