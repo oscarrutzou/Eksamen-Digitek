@@ -16,10 +16,17 @@ public class PlayerInteract : MonoBehaviour
         foreach (Collider2D collider2D in interactColliderArray)
         {
             Interactable interactable = collider2D.GetComponent<Interactable>();
+
+            Debug.Log(interactable);
             if (interactable != null)
             {
                 switch (interactable)
                 {
+                    case NPC npc:
+                        npc.NPCInteract();
+                        break;
+
+                    //For første quest
                     case GoatInteractable goat:
                         goat.ObjectInteract();
                         break;
@@ -32,6 +39,7 @@ public class PlayerInteract : MonoBehaviour
                     case CrowInteractable crow:
                         crow.ObjectInteract();
                         break;
+
                     // add more cases for other types of interactable objects
                     default:
                         // handle other cases here

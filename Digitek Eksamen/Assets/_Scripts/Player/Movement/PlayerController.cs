@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     public Menu menu;
+    public DialogueManager dialogueManager;
     public GameManager gameManager;
     public PlayerInputActions playerInputActions;
     private SpriteRenderer spriteRenderer;
@@ -92,6 +93,11 @@ public class PlayerController : MonoBehaviour
             //Debug.LogError("Cant have both special and grid movement on, on the same time");
         }
 
+        if (dialogueManager.isActive)
+        {
+            return;
+        }
+
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
             NormalMovement();
@@ -135,7 +141,7 @@ public class PlayerController : MonoBehaviour
     #region Grid Movement - 3 lanes
     private void GridMove(Vector2 direction)
     {
-        if (gridMovement)
+        if (gridMovement && !dialogueManager.isActive)
         {
             if (CanGridMove(direction))
             {
@@ -334,7 +340,7 @@ public class PlayerController : MonoBehaviour
     #region Normal Movement
     private void NormalMovement()
     {
-        if (normalMovement || mountMovement)
+        if (normalMovement && !dialogueManager.isActive || mountMovement && !dialogueManager.isActive)
         {
             #region Movement Input
             if (movementInput != Vector2.zero)
@@ -469,20 +475,25 @@ public class PlayerController : MonoBehaviour
     #region Input Actions
     private void Jump(InputAction.CallbackContext ctx)
     {
-        if (canJump && mountMovement)
+        if (dialogueManager.isActive)
         {
-            if (CanMountJump())
-            {
+            dialogueManager.NextMessage();
+        }
+        
+        //if (canJump && mountMovement)
+        //{
+        //    if (CanMountJump())
+        //    {
 
-            }
-            Debug.Log("Jumped");
-            //Check if collideren er jumpable, hvis ja, så jump animation når man går ind i den. Find ud af hvad der sker når den går ned.
+        //    }
+        //    Debug.Log("Jumped");
+        //    //Check if collideren er jumpable, hvis ja, så jump animation når man går ind i den. Find ud af hvad der sker når den går ned.
             
-        }
-        else if (!canJump)
-        {
-            Debug.Log("Cant jump");
-        }
+        //}
+        //else if (!canJump)
+        //{
+        //    Debug.Log("Cant jump");
+        //}
         
         
     }
@@ -496,7 +507,7 @@ public class PlayerController : MonoBehaviour
     private void Pause(InputAction.CallbackContext ctx)
     {
 
-        gameManager.StopMountMovement();
+        //gameManager.StopMountMovement();
         //if (menu.gameIsPaused)
         //{
         //    menu.Resume();
