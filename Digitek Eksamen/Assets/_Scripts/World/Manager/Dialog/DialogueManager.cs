@@ -16,6 +16,14 @@ public class DialogueManager : MonoBehaviour
     int activeMessage = 0;
     public bool isActive = false;
 
+    private void Start()
+    {
+        backgroundBox.transform.localScale = Vector3.zero;
+    }
+
+    //Find ud af at have flere actors og lav så quest system kan holde øve med hvor den er. Skal kunne lave dialog om
+
+
     public void OpenDialogue(Message[] messages, Actor[] actors)
     {
         currentMessages = messages;
@@ -25,6 +33,7 @@ public class DialogueManager : MonoBehaviour
 
         Debug.Log("Started, loaded messages : " + messages.Length);
         DisplayMessage();
+        backgroundBox.LeanScale(Vector3.one, 0.5f).setEaseInOutExpo();
     }
 
     private void DisplayMessage()
@@ -36,6 +45,7 @@ public class DialogueManager : MonoBehaviour
         actorName.text = actorToDisplay.name;
         actorImage.sprite = actorToDisplay.sprite;
 
+        //AnimateTextColor();
     }
 
     public void NextMessage()
@@ -49,9 +59,16 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.Log("Convo enden");
             isActive = false;
+            backgroundBox.LeanScale(Vector3.zero, 0.5f).setEaseInOutExpo();
         }
     }
 
+    //private void AnimateTextColor()
+    //{
+    //    LeanTween.textAlpha(messageText.rectTransform, 0, 0);
+    //    LeanTween.textAlpha(messageText.rectTransform, 1, 1.5f);
+    //    Debug.Log("Anim text");
+    //}
 
 }
 

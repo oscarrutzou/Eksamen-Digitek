@@ -17,7 +17,6 @@ public class PlayerInteract : MonoBehaviour
         {
             Interactable interactable = collider2D.GetComponent<Interactable>();
 
-            Debug.Log(interactable);
             if (interactable != null)
             {
                 switch (interactable)

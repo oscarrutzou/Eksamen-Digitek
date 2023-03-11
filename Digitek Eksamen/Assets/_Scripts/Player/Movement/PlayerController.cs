@@ -475,10 +475,7 @@ public class PlayerController : MonoBehaviour
     #region Input Actions
     private void Jump(InputAction.CallbackContext ctx)
     {
-        if (dialogueManager.isActive)
-        {
-            dialogueManager.NextMessage();
-        }
+
         
         //if (canJump && mountMovement)
         //{
@@ -502,7 +499,16 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Interact");
         //Check navn, lav switch
         //Tag interactable
-        playerInteract.Interact();
+
+        if (dialogueManager.isActive)
+        {
+            dialogueManager.NextMessage();
+        } 
+        else if (!dialogueManager.isActive)
+        {
+            playerInteract.Interact();
+        }
+
     }
     private void Pause(InputAction.CallbackContext ctx)
     {
