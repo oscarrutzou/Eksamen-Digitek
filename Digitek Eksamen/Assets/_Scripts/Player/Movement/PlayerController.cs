@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public bool mountMovement;
     public bool gridMovement;
 
-    private bool canJump; //Hører til mount movement
+    //private bool canJump; //Hører til mount movement
 
     [Header("Grid Movement")]
     [SerializeField] private bool canAutoMoveBool = false;
@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
-        
     }
 
 
@@ -75,14 +74,13 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInteract = GetComponent<PlayerInteract>();
 
-        //normalMovement = true;
-        //mountMovement = false;
-        //gridMovement = false;
-        //canAutoMoveBool = false;
+        normalMovement = true;
+        mountMovement = false;
+        gridMovement = false;
+        canAutoMoveBool = false;
         //canJump = false;
         tempMoveSpeed = moveSpeed;
 
-        
         playerInputActions.Player.GridMove.performed += ctx => GridMove(ctx.ReadValue<Vector2>());
     }
 
@@ -93,7 +91,7 @@ public class PlayerController : MonoBehaviour
             //Debug.LogError("Cant have both special and grid movement on, on the same time");
         }
 
-        if (dialogueManager.isActive)
+        if (dialogueManager.dialogIsActive)
         {
             return;
         }
@@ -137,11 +135,10 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-
     #region Grid Movement - 3 lanes
     private void GridMove(Vector2 direction)
     {
-        if (gridMovement && !dialogueManager.isActive)
+        if (gridMovement && !dialogueManager.dialogIsActive)
         {
             if (CanGridMove(direction))
             {
@@ -340,7 +337,7 @@ public class PlayerController : MonoBehaviour
     #region Normal Movement
     private void NormalMovement()
     {
-        if (normalMovement && !dialogueManager.isActive || mountMovement && !dialogueManager.isActive)
+        if (normalMovement && !dialogueManager.dialogIsActive || mountMovement && !dialogueManager.dialogIsActive)
         {
             #region Movement Input
             if (movementInput != Vector2.zero)
@@ -449,7 +446,7 @@ public class PlayerController : MonoBehaviour
             normalMovement = false;
             mountMovement = true;
             animator.SetBool("onMount", true);
-            canJump = true;
+            //canJump = true;
             tempMoveSpeed = moveSpeed * 1.5f; //Sæt speed for movement med ged
         }
         else if (!active)
@@ -459,7 +456,7 @@ public class PlayerController : MonoBehaviour
             mountMovement = false;
             //normalMovement = true;
             animator.SetBool("onMount", false);
-            canJump = false;
+            //canJump = false;
             tempMoveSpeed = moveSpeed;
         }
     }
@@ -496,15 +493,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Interact(InputAction.CallbackContext ctx)
     {
-        //Debug.Log("Interact");
-        //Check navn, lav switch
-        //Tag interactable
-
-        if (dialogueManager.isActive)
+        
+        if (dialogueManager.dialogIsActive)
         {
             dialogueManager.NextMessage();
         } 
-        else if (!dialogueManager.isActive)
+        else if (!dialogueManager.dialogIsActive)
         {
             playerInteract.Interact();
         }

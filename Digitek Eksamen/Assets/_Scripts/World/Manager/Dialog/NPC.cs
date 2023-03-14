@@ -5,11 +5,10 @@ using UnityEngine;
 public class NPC : Interactable
 {
 
-    [SerializeField] private DialogueTrigger trigger;
+    //[SerializeField] private DialogueTrigger trigger;
 
     public override void NPCInteract()
     {
-        trigger.StartDialogue();
-        Debug.Log("Sstart");
+        //trigger.StartDialogue();
     }
 }
