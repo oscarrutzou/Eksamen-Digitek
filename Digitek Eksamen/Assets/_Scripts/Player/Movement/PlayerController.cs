@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     public Menu menu;
-    public DialogueManager dialogueManager;
+    //public DialogueManager dialogueManager;
     public GameManager gameManager;
     public PlayerInputActions playerInputActions;
     private SpriteRenderer spriteRenderer;
@@ -91,10 +91,10 @@ public class PlayerController : MonoBehaviour
             //Debug.LogError("Cant have both special and grid movement on, on the same time");
         }
 
-        if (dialogueManager.dialogIsActive)
-        {
-            return;
-        }
+        //if (dialogueManager.dialogIsActive)
+        //{
+        //    return;
+        //}
 
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
@@ -138,7 +138,8 @@ public class PlayerController : MonoBehaviour
     #region Grid Movement - 3 lanes
     private void GridMove(Vector2 direction)
     {
-        if (gridMovement && !dialogueManager.dialogIsActive)
+        //!dialogueManager.dialogIsActive
+        if (gridMovement )
         {
             if (CanGridMove(direction))
             {
@@ -337,7 +338,8 @@ public class PlayerController : MonoBehaviour
     #region Normal Movement
     private void NormalMovement()
     {
-        if (normalMovement && !dialogueManager.dialogIsActive || mountMovement && !dialogueManager.dialogIsActive)
+        //normalMovement && !dialogueManager.dialogIsActive || mountMovement && !dialogueManager.dialogIsActive
+        if (normalMovement || mountMovement)
         {
             #region Movement Input
             if (movementInput != Vector2.zero)
@@ -493,15 +495,15 @@ public class PlayerController : MonoBehaviour
     }
     private void Interact(InputAction.CallbackContext ctx)
     {
-        
-        if (dialogueManager.dialogIsActive)
-        {
-            dialogueManager.NextMessage();
-        } 
-        else if (!dialogueManager.dialogIsActive)
-        {
-            playerInteract.Interact();
-        }
+        playerInteract.Interact();
+        //if (dialogueManager.dialogIsActive)
+        //{
+        //    dialogueManager.NextMessage();
+        //} 
+        //else if (!dialogueManager.dialogIsActive)
+        //{
+        //    playerInteract.Interact();
+        //}
 
     }
     private void Pause(InputAction.CallbackContext ctx)
