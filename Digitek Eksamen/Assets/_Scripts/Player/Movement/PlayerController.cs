@@ -20,29 +20,24 @@ public class PlayerController : MonoBehaviour
     [Header("Normal Movement")]
     public float moveSpeed = 1f;
     public float tempMoveSpeed;
-    
+
     [SerializeField] float collisionOffset = 0.05f;
     private ContactFilter2D movementFilter;
 
     private Vector2 movementInput;
+    //private Vector2 gridMovementInput;
+
     private float lastXInput;
     private float lastYInput;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
-    [HideInInspector]
-    [Header("InputActions")]
     private PlayerInteract playerInteract;
-    private InputAction interact;
-    private InputAction pause;
-    private InputAction jump;
-
 
     [Header("Bools Movement")]
     public bool normalMovement;
     public bool mountMovement;
     public bool gridMovement;
 
-    //private bool canJump; //Hører til mount movement
 
     [Header("Grid Movement")]
     [SerializeField] private bool canAutoMoveBool = false;
@@ -53,19 +48,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Tilemap groundTilemap;
     [SerializeField] private Tilemap collisionTilemap;
 
-    //Fjern SerializeField efter test
-    public bool TempLeft = false;
-    public bool TempRight = false;
-    [SerializeField] private Vector2 finalDirection;
-
+    public bool GridMovAutoLeft = false;
+    public bool GridMovAutoRight = false; //Måske ændre til GridMovAutoLeft
+    private Vector2 finalDirection;
 
     public bool Died = false;
 
+    private static PlayerController instance;
+
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        if (instance != null)
+        {
+            Debug.LogError("Found more than one Input Manager in the scene.");
+        }
+        instance = this;
     }
 
+    public static PlayerController GetInstance()
+    {
+        return instance;
+    }
 
     private void Start()
     {
@@ -80,86 +83,55 @@ public class PlayerController : MonoBehaviour
         canAutoMoveBool = false;
         //canJump = false;
         tempMoveSpeed = moveSpeed;
-
-        playerInputActions.Player.GridMove.performed += ctx => GridMove(ctx.ReadValue<Vector2>());
     }
 
     private void FixedUpdate()
     {
-        if (normalMovement && gridMovement)
-        {
-            //Debug.LogError("Cant have both special and grid movement on, on the same time");
-        }
-
         //if (dialogueManager.dialogIsActive)
         //{
         //    return;
         //}
 
+        //Inputs before movement
+        if (InputManager.GetInstance().GetPausePressed())
+        {
+            PauseMenuUI();
+        } //Pause
+        if (InputManager.GetInstance().GetInteractPressed())
+        {
+            Interact();
+        } //Interact
+
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
-            NormalMovement();
-        }
+            movementInput = InputManager.GetInstance().GetMoveDirection();
+            NormalMovement(movementInput);
+        } //Normal movement
         else if (gridMovement && canAutoMoveBool)
         {
-            //Debug.Log("GridMov");
             AutoGridMove();
-        }
+        } //AutoGrid movement
     }
-
-    #region Enable + Disable
-    private void OnEnable()
-    {
-        playerInputActions.Enable();
-
-        pause = playerInputActions.Player.Pause;
-        pause.Enable();
-        pause.performed += Pause;
-
-        interact = playerInputActions.Player.Interact;
-        interact.Enable();
-        interact.performed += Interact;
-
-        jump = playerInputActions.Player.Jump;
-        jump.Enable();
-        jump.performed += Jump;
-    }
-
-    private void OnDisable()
-    {
-        playerInputActions.Disable();
-
-        pause.Disable();
-        interact.Disable();
-        jump.Disable();
-    }
-    #endregion
 
     #region Grid Movement - 3 lanes
-    private void GridMove(Vector2 direction)
+    public void HandleGridMove(Vector2 direction)
     {
         //!dialogueManager.dialogIsActive
-        if (gridMovement )
+        if (gridMovement)
         {
             if (CanGridMove(direction))
             {
-                //Debug.Log("Direction + " + direction);
                 //Direction er præcis 1 og virker derfor med tilemap som også er 1.
-                if (TempRight)
+                if (GridMovAutoRight)
                 {
-                    Debug.Log("TempRight");
-  
                     transform.position += new Vector3(0, -direction.x, 0);
                 }
-                else if (TempLeft)
+                else if (GridMovAutoLeft)
                 {
-                    Debug.Log("TempLeft");
                     transform.position += new Vector3(0, direction.x, 0);
-                } 
+                }
                 else
                 {
-                    Debug.Log("NOnSOS");
-
                     transform.position += (Vector3)direction;
                 }
 
@@ -208,8 +180,8 @@ public class PlayerController : MonoBehaviour
 
             gridMovement = false;
             canAutoMoveBool = false;
-            TempLeft = false;
-            TempRight = false;
+            GridMovAutoLeft = false;
+            GridMovAutoRight = false;
         }
     }
     private bool CanGridMove(Vector2 direction)
@@ -226,10 +198,8 @@ public class PlayerController : MonoBehaviour
             //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
             if (direction.x < 0)
             {
-                //Debug.Log("direction.x < 0: " + direction.x);
                 if (currentLane == 0)
                 {
-                    //Debug.Log("Cant go more left");
                     return false;
                 }
                 else if (currentLane == 1 || currentLane == 2)
@@ -240,10 +210,8 @@ public class PlayerController : MonoBehaviour
             }
             else if (direction.x > 0)
             {
-                //Debug.Log("direction.x > 0: " + direction.x);
                 if (currentLane == 2)
                 {
-                    //Debug.Log("Cant go more right");
                     return false;
                 }
                 else if (currentLane == 0 || currentLane == 1)
@@ -253,7 +221,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
         return false;
     }
     #endregion
@@ -267,23 +234,21 @@ public class PlayerController : MonoBehaviour
 
         if (canAutoMoveBool)
         {
-            if (TempLeft)
+            if (GridMovAutoLeft)
             {
                 //Move left
                 finalDirection = new Vector2(-autoDirection.y, 0);
             }
-            else if (TempRight)
+            else if (GridMovAutoRight)
             {
                 //Move right
                 finalDirection = new Vector2(autoDirection.y, 0);
             }
-            else 
+            else
             {
                 //Forward
                 finalDirection = autoDirection;
             }
-
-            //rb.MovePosition(rb.position + finalDirection * tempMoveSpeed * Time.fixedDeltaTime);
 
             if (!Died)
             {
@@ -298,16 +263,16 @@ public class PlayerController : MonoBehaviour
     {
         if (left)
         {
-            TempLeft = true;
+            GridMovAutoLeft = true;
         }
         else if (forward)
         {
-            TempLeft = false;
-            TempRight = false;
+            GridMovAutoLeft = false;
+            GridMovAutoRight = false;
         }
         else if (right)
         {
-            TempRight = true;
+            GridMovAutoRight = true;
         }
 
         return false;
@@ -322,7 +287,7 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
-        
+
         //Den som sørger for at tjekke om man dør når man rammer ind i noget.
         if (collisionTilemap.HasTile(gridPosistion))
         {
@@ -336,27 +301,25 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Normal Movement
-    private void NormalMovement()
+    private void NormalMovement(Vector2 direction)
     {
         //normalMovement && !dialogueManager.dialogIsActive || mountMovement && !dialogueManager.dialogIsActive
         if (normalMovement || mountMovement)
         {
+
             #region Movement Input
-            if (movementInput != Vector2.zero)
+            if (direction != Vector2.zero)
             {
-                bool success = TryMove(movementInput);
+                bool success = TryMove(direction);
 
                 if (!success)
                 {
-                    success = TryMove(new Vector2(movementInput.x, 0));
-                    //Debug.Log("Movementinput.x");
-
+                    success = TryMove(new Vector2(direction.x, 0));
                 }
 
                 if (!success)
                 {
-                    success = TryMove(new Vector2(0, movementInput.y));
-                    //Debug.Log("Movementinput.y");
+                    success = TryMove(new Vector2(0, direction.y));
                 }
 
                 if (!mountMovement && !gridMovement)
@@ -369,7 +332,6 @@ public class PlayerController : MonoBehaviour
                     //Lav om til goat animation
                     animator.SetBool("isMoving", success);
                 }
-
             }
             else
             {
@@ -385,40 +347,40 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (movementInput.x != 0)
+            if (direction.x != 0)
             {
-                lastXInput = movementInput.x;
+                lastXInput = direction.x;
             }
-            else if (movementInput.y != 0)
+            else if (direction.y != 0)
             {
-                lastYInput = movementInput.y;
+                lastYInput = direction.y;
             }
 
-            if (movementInput.x < 0)
+            if (direction.x < 0)
             {
                 spriteRenderer.flipX = true;
             }
-            else if (movementInput.x > 0)
+            else if (direction.x > 0)
             {
                 spriteRenderer.flipX = false;
             }
             #endregion
         }
     }
+
     private bool TryMove(Vector2 direction)
     {
-
         if (direction != Vector2.zero)
         {
             int count = rb.Cast(
-                    movementInput,
+                    direction,
                     movementFilter,
                     castCollisions,
                     moveSpeed * Time.fixedDeltaTime + collisionOffset);
 
             if (count == 0)
             {
-                rb.MovePosition(rb.position + movementInput * tempMoveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + direction * tempMoveSpeed * Time.fixedDeltaTime);
                 return true;
             }
             else
@@ -430,13 +392,8 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
-
     }
 
-    private void OnMove(InputValue movementValue)
-    {
-        movementInput = movementValue.Get<Vector2>();
-    }
     #endregion
 
     #region Mount Movement
@@ -453,7 +410,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (!active)
         {
-            
+
             Debug.Log("Mount mov off");
             mountMovement = false;
             //normalMovement = true;
@@ -462,54 +419,19 @@ public class PlayerController : MonoBehaviour
             tempMoveSpeed = moveSpeed;
         }
     }
-
-    //Skal tjekke om collideren er jumpable. Måske bare slet.
-    //Kan lave pop up, som siger at man skal finde 1 ting ved at gå over stenen med hesten.
-    private bool CanMountJump()
-    {
-        return true;
-    }
     #endregion
 
-    #region Input Actions
-    private void Jump(InputAction.CallbackContext ctx)
+    #region Misc Input Metoder
+    private void Interact()
     {
+        //Debug.Log("Interact");
 
-        
-        //if (canJump && mountMovement)
-        //{
-        //    if (CanMountJump())
-        //    {
-
-        //    }
-        //    Debug.Log("Jumped");
-        //    //Check if collideren er jumpable, hvis ja, så jump animation når man går ind i den. Find ud af hvad der sker når den går ned.
-            
-        //}
-        //else if (!canJump)
-        //{
-        //    Debug.Log("Cant jump");
-        //}
-        
-        
-    }
-    private void Interact(InputAction.CallbackContext ctx)
-    {
         playerInteract.Interact();
-        //if (dialogueManager.dialogIsActive)
-        //{
-        //    dialogueManager.NextMessage();
-        //} 
-        //else if (!dialogueManager.dialogIsActive)
-        //{
-        //    playerInteract.Interact();
-        //}
-
     }
-    private void Pause(InputAction.CallbackContext ctx)
+    private void PauseMenuUI()
     {
-
-        //gameManager.StopMountMovement();
+        //Debug.Log("Pause menu open");
+        //Pause UI menu
         //if (menu.gameIsPaused)
         //{
         //    menu.Resume();
@@ -520,5 +442,4 @@ public class PlayerController : MonoBehaviour
         //}
     }
     #endregion
-
 }

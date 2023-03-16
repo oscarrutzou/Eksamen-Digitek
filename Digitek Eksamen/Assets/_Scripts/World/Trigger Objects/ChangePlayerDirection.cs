@@ -23,22 +23,22 @@ public class ChangePlayerDirection : MonoBehaviour
             playerController = collision.GetComponent<PlayerController>();
 
 
-            if (turnLeft && !playerController.TempLeft)
+            if (turnLeft && !playerController.GridMovAutoLeft)
             {
                 //Debug.Log("left");
-                playerController.TempLeft = true;
-                playerController.TempRight = false;
+                playerController.GridMovAutoLeft = true;
+                playerController.GridMovAutoRight = false;
                 playerController.currentLane = lane;
 
 
                 playerObject.transform.position = new Vector3(playerObject.transform.position.x,
                     this.gameObject.transform.position.y - 1, playerObject.transform.position.z);
             } 
-            else if (turnRight && !playerController.TempRight)
+            else if (turnRight && !playerController.GridMovAutoRight)
             {
                 //Debug.Log("right");
-                playerController.TempRight = true;
-                playerController.TempLeft = false;
+                playerController.GridMovAutoRight = true;
+                playerController.GridMovAutoLeft = false;
                 playerController.currentLane = lane;
 
                 playerObject.transform.position = new Vector3(playerObject.transform.position.x, 
@@ -47,21 +47,21 @@ public class ChangePlayerDirection : MonoBehaviour
             } 
             else if (turnForward)
             {
-                if (playerController.TempLeft)
+                if (playerController.GridMovAutoLeft)
                 {
                     playerObject.transform.position = new Vector3(this.gameObject.transform.position.x + 1,
                         playerObject.transform.position.y, playerObject.transform.position.z);
 
-                    playerController.TempLeft = false;
+                    playerController.GridMovAutoLeft = false;
                     playerController.currentLane = lane;
 
                 }
-                else if (playerController.TempRight)
+                else if (playerController.GridMovAutoRight)
                 {
                     playerObject.transform.position = new Vector3(this.gameObject.transform.position.x - 1,
                         playerObject.transform.position.y, playerObject.transform.position.z);
 
-                    playerController.TempRight = false;
+                    playerController.GridMovAutoRight = false;
                     playerController.currentLane = lane;
 
                 }
