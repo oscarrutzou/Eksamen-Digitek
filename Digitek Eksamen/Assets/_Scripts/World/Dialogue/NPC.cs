@@ -10,6 +10,7 @@ public class NPC : Interactable
 
     public override void NPCInteract()
     {
+        //Debug.Log("NPCInteract");
         dialogueTrigger.StartDialogue();
         //trigger.StartDialogue();
     }

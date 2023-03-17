@@ -23,7 +23,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange)
+        if (playerInRange && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
             visualCue.SetActive(true);
         }
@@ -37,7 +37,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (playerInRange)
         {
-            //DialogueManager.GetInstance().EnterDialogueMode(inkJSON, emoteAnimator);
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
         }
     }
 

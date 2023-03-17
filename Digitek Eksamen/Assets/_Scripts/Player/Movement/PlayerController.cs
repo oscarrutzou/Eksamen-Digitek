@@ -87,10 +87,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if (dialogueManager.dialogIsActive)
-        //{
-        //    return;
-        //}
+        if (DialogueManager.GetInstance().dialogueIsPlaying)
+        {
+            return;
+        }
 
         //Inputs before movement
         if (InputManager.GetInstance().GetPausePressed())
