@@ -19,7 +19,7 @@ public class DialogueVariables
         if (PlayerPrefs.HasKey(saveVariablesKey))
         {
             string jsonState = PlayerPrefs.GetString(saveVariablesKey);
-            Debug.Log("HASKEY");
+            //Debug.Log("Load Save");
             globalVariablesStory.state.LoadJson(jsonState);
         }
 

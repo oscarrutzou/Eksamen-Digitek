@@ -1,6 +1,6 @@
 INCLUDE globals.ink
 
-#audio:animal_crossing_low
+#audio:celeste_high
 { pokemon_name == "": -> main | -> already_chose }
 
 === main ===

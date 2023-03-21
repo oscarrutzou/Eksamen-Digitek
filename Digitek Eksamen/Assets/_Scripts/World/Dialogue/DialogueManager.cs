@@ -15,9 +15,14 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextAsset loadGlobalsJSON;
 
     [Header("Audio")]
-    [SerializeField] private AudioClip dialogueTypingSoundClip;
-    [SerializeField] private bool stopAudioSource;
+    [SerializeField] private DialogueAudioInfoSO defaultAudioInfo;
+    [SerializeField] private DialogueAudioInfoSO[] audioInfos;
 
+
+    [SerializeField] private bool makePredictable;
+
+    private DialogueAudioInfoSO currentAudioInfo;
+    private Dictionary<string, DialogueAudioInfoSO> audioInfoDictionary;
     private AudioSource audioSource;
 
     [Header("Dialogue UI")]
@@ -47,7 +52,7 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
-    //private const string AUDIO_TAG = "audio";
+    private const string AUDIO_TAG = "audio";
 
     private DialogueVariables dialogueVariables;
 
@@ -63,7 +68,7 @@ public class DialogueManager : MonoBehaviour
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
         audioSource = this.gameObject.AddComponent<AudioSource>();
-
+        currentAudioInfo = defaultAudioInfo;
     }
 
     public static DialogueManager GetInstance()
@@ -84,6 +89,31 @@ public class DialogueManager : MonoBehaviour
         {
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
+        }
+        InitializeAudioInfoDictionary();
+    }
+
+    private void InitializeAudioInfoDictionary()
+    {
+        audioInfoDictionary = new Dictionary<string, DialogueAudioInfoSO>();
+        audioInfoDictionary.Add(defaultAudioInfo.id, defaultAudioInfo);
+        foreach (DialogueAudioInfoSO audioInfo in audioInfos)
+        {
+            audioInfoDictionary.Add(audioInfo.id, audioInfo);
+        }
+    }
+
+    private void SetCurrentAudioInfo(string id)
+    {
+        DialogueAudioInfoSO audioInfo = null;
+        audioInfoDictionary.TryGetValue(id, out audioInfo);
+        if (audioInfo != null)
+        {
+            this.currentAudioInfo = audioInfo;
+        }
+        else
+        {
+            Debug.LogWarning("Failed to find audio info for id: " + id);
         }
     }
 
@@ -127,6 +157,9 @@ public class DialogueManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+
+        //Sætter default audio på for fejl
+        SetCurrentAudioInfo(defaultAudioInfo.id);
     }
 
     private void ContinueStory()
@@ -138,11 +171,11 @@ public class DialogueManager : MonoBehaviour
             {
                 StopCoroutine(displayLineCoroutine);
             }
-            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
-
-
+            string nextLine = currentStory.Continue();
             //Håndtere tags
             HandleTags(currentStory.currentTags);
+
+            displayLineCoroutine = StartCoroutine(DisplayLine(nextLine));
         }
         else
         {
@@ -185,13 +218,8 @@ public class DialogueManager : MonoBehaviour
             }
             else //Hvis ikke det er et rich text tag, adder bogstaver efter at vente lidt
             {
+                PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]); //Skal være her siden at der ville stå 0%2=0 og det ville give true. I stedet for 1%2=false og ville ikke blive kørt i starten.
                 dialogueText.maxVisibleCharacters++;
-                if (stopAudioSource)
-                {
-                    audioSource.Stop();
-                }
-
-                audioSource.PlayOneShot(dialogueTypingSoundClip);
 
                 yield return new WaitForSeconds(typingSpeed);
             }
@@ -204,6 +232,64 @@ public class DialogueManager : MonoBehaviour
 
         canContinueToNextLine = true;
     }
+
+    private void PlayDialogueSound(int currentDisplayedCharacterCount, char currentCharacter)
+    {
+        // set variables for the below based on our config
+        AudioClip[] dialogueTypingSoundClips = currentAudioInfo.dialogueTypingSoundClips;
+        int frequencyLevel = currentAudioInfo.frequencyLevel;
+        float minPitch = currentAudioInfo.minPitch;
+        float maxPitch = currentAudioInfo.maxPitch;
+        bool stopAudioSource = currentAudioInfo.stopAudioSource;
+
+
+        //Moduller division baseret på config
+        if (currentDisplayedCharacterCount % frequencyLevel == 0 )
+        {
+            if (stopAudioSource)
+            {
+                audioSource.Stop();
+            }
+            AudioClip soundClip = null;
+            //Lav predictable audio fra hashing
+            if (makePredictable)
+            {
+                int hashCode = currentCharacter.GetHashCode();
+                // sound clip
+                int predictableIndex = hashCode % dialogueTypingSoundClips.Length;
+                soundClip = dialogueTypingSoundClips[predictableIndex];
+                // pitch
+                int minPitchInt = (int)(minPitch * 100);
+                int maxPitchInt = (int)(maxPitch * 100);
+                int pitchRangeInt = maxPitchInt - minPitchInt;
+
+                // cannot divide by 0, so if there is no range then skip the selection
+                if (pitchRangeInt != 0)
+                {
+                    int predictablePitchInt = (hashCode % pitchRangeInt) + minPitchInt;
+                    float predictablePitch = predictablePitchInt / 100f;
+                    audioSource.pitch = predictablePitch;
+                }
+                else
+                {
+                    audioSource.pitch = minPitch;
+                }
+            }
+            else
+            {
+                //Random Sound Clip
+                int randomIndex = Random.Range(0, dialogueTypingSoundClips.Length);
+                soundClip = dialogueTypingSoundClips[randomIndex];
+
+                //Random pitch
+                audioSource.pitch = Random.Range(minPitch, maxPitch);
+            }
+
+
+            audioSource.PlayOneShot(soundClip);
+        }
+    }
+
 
     private void HideChoices()
     {
@@ -238,6 +324,9 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case LAYOUT_TAG:
                     layoutAnimator.Play(tagValue);
+                    break;
+                case AUDIO_TAG:
+                    SetCurrentAudioInfo(tagValue);
                     break;
                 default:
                     Debug.LogWarning("Tag kom ind men kunne ikke håndteres: " + tag);
