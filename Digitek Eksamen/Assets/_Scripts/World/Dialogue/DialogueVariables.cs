@@ -8,7 +8,7 @@ public class DialogueVariables
 
     private Story globalVariablesStory;
 
-    private const string saveVariablesKey = "INK_VARIABLES";
+    private string saveVariablesKey = "INK_VARIABLES";
 
     public DialogueVariables(TextAsset loadGlobalsJSON)
     {
@@ -18,8 +18,8 @@ public class DialogueVariables
         //Hvis der er data, load det
         if (PlayerPrefs.HasKey(saveVariablesKey))
         {
-            Debug.Log("HASKEY");
             string jsonState = PlayerPrefs.GetString(saveVariablesKey);
+            Debug.Log("HASKEY");
             globalVariablesStory.state.LoadJson(jsonState);
         }
 
@@ -38,9 +38,11 @@ public class DialogueVariables
     {
         if (globalVariablesStory != null)
         {
+            // Load the current state of all of our variables to the globals story
             VariablesToStory(globalVariablesStory);
-            PlayerPrefs.SetString(saveVariablesKey, globalVariablesStory.state.ToString()); //Kan ændre til et andet save/load metode 
-            Debug.Log("TEst save variables");
+            // NOTE: eventually, you'd want to replace this with an actual save/load method
+            // rather than using PlayerPrefs.
+            PlayerPrefs.SetString(saveVariablesKey, globalVariablesStory.state.ToJson());
         }
     }
 
