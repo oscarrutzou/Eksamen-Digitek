@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     private bool pausePressed = false;
     private bool interactPressed = false;
     private bool submitPressed = false;
+    private bool jumpPressed = false;
 
     private static InputManager instance;
 
@@ -33,7 +34,7 @@ public class InputManager : MonoBehaviour
 
     public void MovePressed(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
             moveDirection = context.ReadValue<Vector2>();
         }
@@ -45,7 +46,7 @@ public class InputManager : MonoBehaviour
 
     public void GridMovePressed(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
             gridMoveDirection = context.ReadValue<Vector2>();
             PlayerController.GetInstance().HandleGridMove(gridMoveDirection);
@@ -56,9 +57,22 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public void JumpPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
+        {
+            jumpPressed = true;
+        }
+        else if (context.canceled)
+        {
+            jumpPressed = false;
+        }
+    }
+
+
     public void PausePressed(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
             pausePressed = true;
         }

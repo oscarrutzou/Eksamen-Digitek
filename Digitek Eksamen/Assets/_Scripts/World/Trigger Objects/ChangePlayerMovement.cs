@@ -8,11 +8,11 @@ public class ChangePlayerMovement : MonoBehaviour
     [SerializeField] private GameManager gameManager;
 
     [SerializeField] private GameObject playerObject;
+    [SerializeField] private GameObject playerSpawnPoint;
 
     private Collider2D colliderTrigger;
     [SerializeField] private bool startRun = false; //player done quest
     [SerializeField] private bool stopRun = false;
-
     private void Start()
     {
         colliderTrigger = GetComponent<Collider2D>();
@@ -30,6 +30,7 @@ public class ChangePlayerMovement : MonoBehaviour
             if (playerController.mountMovement && startRun)
             {
                 gameManager.StopMountMovement();
+                playerObject.transform.position = playerSpawnPoint.transform.position;
                 gameManager.StartGridMovement();
                 ///Player cutscene, efter cutscene s�t players transform til noget bestemt
 
@@ -40,6 +41,7 @@ public class ChangePlayerMovement : MonoBehaviour
                 gameManager.StopGridMovement();
                 playerController.normalMovement = true;
                 colliderTrigger.isTrigger = false;
+                //playerObject.transform.position = playerSpawnPoint.transform.position;
             }
 
             //if (playerController.mountMovement)

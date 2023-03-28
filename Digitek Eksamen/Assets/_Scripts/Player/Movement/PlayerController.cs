@@ -20,12 +20,15 @@ public class PlayerController : MonoBehaviour
     [Header("Normal Movement")]
     public float moveSpeed = 1f;
     public float tempMoveSpeed;
-
-    [SerializeField] float collisionOffset = 0.05f;
+    [SerializeField] private float collisionOffset = 0.05f;
     private ContactFilter2D movementFilter;
 
     private Vector2 movementInput;
     //private Vector2 gridMovementInput;
+
+    [Header("On Mount")]
+    [SerializeField] private float onMountSpeed;
+    [SerializeField] private float jumpForce = 2f;
 
     private float lastXInput;
     private float lastYInput;
@@ -37,6 +40,8 @@ public class PlayerController : MonoBehaviour
     public bool normalMovement;
     public bool mountMovement;
     public bool gridMovement;
+    //public bool canJump;
+    public bool isJumping;
 
 
     [Header("Grid Movement")]
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     private static PlayerController instance;
 
+    #region GetInstance til andre scripts
     private void Awake()
     {
         if (instance != null)
@@ -69,6 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         return instance;
     }
+    #endregion
 
     private void Start()
     {
@@ -89,6 +96,7 @@ public class PlayerController : MonoBehaviour
     {
         if (DialogueManager.GetInstance().dialogueIsPlaying)
         {
+            animator.SetBool("isMoving", false);
             return;
         }
 
@@ -106,11 +114,11 @@ public class PlayerController : MonoBehaviour
         {
             movementInput = InputManager.GetInstance().GetMoveDirection();
             NormalMovement(movementInput);
-        } //Normal movement
+        }
         else if (gridMovement && canAutoMoveBool)
         {
             AutoGridMove();
-        } //AutoGrid movement
+        }
     }
 
     #region Grid Movement - 3 lanes
@@ -134,26 +142,6 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.position += (Vector3)direction;
                 }
-
-                #region Flip Sprite
-                if (direction.x != 0)
-                {
-                    lastXInput = direction.x;
-                }
-                else if (movementInput.y != 0)
-                {
-                    lastYInput = direction.y;
-                }
-
-                if (direction.x < 0)
-                {
-                    spriteRenderer.flipX = true;
-                }
-                else if (direction.x > 0)
-                {
-                    spriteRenderer.flipX = false;
-                }
-                #endregion
             }
         }
     }
@@ -167,6 +155,7 @@ public class PlayerController : MonoBehaviour
                 mountMovement = false;
             }
             Debug.Log("GridMovement mov on");
+            
             animator.SetBool("onMount", true);
 
             gridMovement = true;
@@ -322,15 +311,12 @@ public class PlayerController : MonoBehaviour
                     success = TryMove(new Vector2(0, direction.y));
                 }
 
-                if (!mountMovement && !gridMovement)
-                {
-                    //normal movement.
-                    animator.SetBool("isMoving", success);
-                }
-                else if (mountMovement || gridMovement)
+                if (normalMovement || mountMovement || gridMovement)
                 {
                     //Lav om til goat animation
                     animator.SetBool("isMoving", success);
+                    animator.SetFloat("horizontalMovement", direction.x);
+                    animator.SetFloat("verticalMovement", direction.y);
                 }
             }
             else
@@ -345,24 +331,6 @@ public class PlayerController : MonoBehaviour
                     //Lav om til goat animation
                     animator.SetBool("isMoving", false);
                 }
-            }
-
-            if (direction.x != 0)
-            {
-                lastXInput = direction.x;
-            }
-            else if (direction.y != 0)
-            {
-                lastYInput = direction.y;
-            }
-
-            if (direction.x < 0)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else if (direction.x > 0)
-            {
-                spriteRenderer.flipX = false;
             }
             #endregion
         }
@@ -396,7 +364,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Mount Movement
+    #region OnMount 
     public void MountMovement(bool active)
     {
         if (active)
@@ -405,8 +373,9 @@ public class PlayerController : MonoBehaviour
             normalMovement = false;
             mountMovement = true;
             animator.SetBool("onMount", true);
+
             //canJump = true;
-            tempMoveSpeed = moveSpeed * 1.5f; //Sæt speed for movement med ged
+            tempMoveSpeed = onMountSpeed; 
         }
         else if (!active)
         {
@@ -419,6 +388,29 @@ public class PlayerController : MonoBehaviour
             tempMoveSpeed = moveSpeed;
         }
     }
+
+    private void MountJump()
+    {
+        if (isJumping)
+        {
+            return;
+        }
+        else if (!isJumping)
+        {
+           StartCoroutine(WaitForJump());
+        }
+    }
+
+    private IEnumerator WaitForJump()
+    {
+        isJumping = true;
+        Vector2 jumpDirection = new Vector2(0, jumpForce);
+        rb.AddForce(jumpDirection, ForceMode2D.Impulse);
+
+        yield return new WaitForSecondsRealtime(1f);
+        isJumping = false;
+    }
+
     #endregion
 
     #region Misc Input Metoder

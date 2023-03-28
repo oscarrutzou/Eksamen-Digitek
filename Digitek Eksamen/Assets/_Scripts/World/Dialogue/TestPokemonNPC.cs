@@ -20,8 +20,7 @@ public class TestPokemonNPC : MonoBehaviour
     {
         //Hvis valuen ikke er en string så cast den indtil den rigtige value f.eks. float.
         string pokemonName = ((Ink.Runtime.StringValue)DialogueManager.GetInstance().GetVariableState("pokemon_name")).value;
-        Debug.Log(pokemonName);
-
+        
         switch (pokemonName)
         {
             case "":
