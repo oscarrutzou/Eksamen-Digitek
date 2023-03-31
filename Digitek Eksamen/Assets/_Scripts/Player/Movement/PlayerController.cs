@@ -17,17 +17,18 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
 
-    [Header("Normal Movement")]
+    [Header("Speed")]
     public float moveSpeed = 1f;
+    [SerializeField] private float onMountSpeed;
+    [SerializeField] private float autoMoveSpeed;
     public float tempMoveSpeed;
+
+    [Header("Normal Movement")]
     [SerializeField] private float collisionOffset = 0.05f;
     private ContactFilter2D movementFilter;
-
     private Vector2 movementInput;
-    //private Vector2 gridMovementInput;
 
     [Header("On Mount")]
-    [SerializeField] private float onMountSpeed;
     [SerializeField] private float jumpForce = 2f;
 
     private float lastXInput;
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInteract = GetComponent<PlayerInteract>();
 
@@ -154,8 +155,7 @@ public class PlayerController : MonoBehaviour
                 normalMovement = false;
                 mountMovement = false;
             }
-            Debug.Log("GridMovement mov on");
-            
+            tempMoveSpeed = autoMoveSpeed;
             animator.SetBool("onMount", true);
 
             gridMovement = true;
@@ -163,8 +163,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (!active)
         {
-            Debug.Log("GridMovement mov off");
-            //Alle grid bool = false
+            tempMoveSpeed = moveSpeed;
             animator.SetBool("onMount", false);
 
             gridMovement = false;
@@ -227,15 +226,19 @@ public class PlayerController : MonoBehaviour
             {
                 //Move left
                 finalDirection = new Vector2(-autoDirection.y, 0);
+                animator.SetFloat("horizontalMovement", new Vector2(-1, 0).x);
             }
             else if (GridMovAutoRight)
             {
                 //Move right
+                animator.SetFloat("horizontalMovement", new Vector2(1, 0).x);
                 finalDirection = new Vector2(autoDirection.y, 0);
             }
             else
             {
                 //Forward
+                animator.SetFloat("horizontalMovement", new Vector2(0, 0).x);
+                animator.SetFloat("verticalMovement", new Vector2(0, 1).y);
                 finalDirection = autoDirection;
             }
 
@@ -243,6 +246,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (CanAutoGridMove(finalDirection))
                 {
+
                     rb.MovePosition(rb.position + finalDirection * tempMoveSpeed * Time.fixedDeltaTime);
                 }
             }
@@ -311,7 +315,7 @@ public class PlayerController : MonoBehaviour
                     success = TryMove(new Vector2(0, direction.y));
                 }
 
-                if (normalMovement || mountMovement || gridMovement)
+                if (normalMovement || mountMovement) //|| gridMovement
                 {
                     //Lav om til goat animation
                     animator.SetBool("isMoving", success);
@@ -389,13 +393,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void MountJump()
+    public void MountJump()
     {
-        if (isJumping)
+        if (isJumping && mountMovement)
         {
             return;
         }
-        else if (!isJumping)
+        else if (!isJumping && mountMovement)
         {
            StartCoroutine(WaitForJump());
         }
