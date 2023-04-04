@@ -23,6 +23,8 @@ public class Sound
     //Så man kan loop musikken
     public bool loop;
 
+    public AudioMixer audioMixer;
+
     //Skal ikke vises i inspectoren
     [HideInInspector]
     public AudioSource sorce;

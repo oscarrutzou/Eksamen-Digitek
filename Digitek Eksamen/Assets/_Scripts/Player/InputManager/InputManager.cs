@@ -134,11 +134,19 @@ public class InputManager : MonoBehaviour
         return result;
     }
 
-    //Enter
+    //Space
     public bool GetSubmitPressed()
     {
         bool result = submitPressed;
         submitPressed = false;
+        return result;
+    }
+
+    //Space
+    public bool GetJumpPressed()
+    {
+        bool result = jumpPressed;
+        jumpPressed = false;
         return result;
     }
 

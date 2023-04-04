@@ -111,6 +111,13 @@ public class PlayerController : MonoBehaviour
             Interact();
         } //Interact
 
+        //Jump
+        if (InputManager.GetInstance().GetJumpPressed())
+        {
+            MountJump();
+        }
+
+        //Movemeent
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
             movementInput = InputManager.GetInstance().GetMoveDirection();
@@ -373,7 +380,7 @@ public class PlayerController : MonoBehaviour
     {
         if (active)
         {
-            Debug.Log("Mount mov on");
+            //Debug.Log("Mount mov on");
             normalMovement = false;
             mountMovement = true;
             animator.SetBool("onMount", true);
@@ -384,7 +391,7 @@ public class PlayerController : MonoBehaviour
         else if (!active)
         {
 
-            Debug.Log("Mount mov off");
+            //Debug.Log("Mount mov off");
             mountMovement = false;
             //normalMovement = true;
             animator.SetBool("onMount", false);
@@ -393,7 +400,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void MountJump()
+    private void MountJump()
     {
         if (isJumping && mountMovement)
         {
@@ -410,8 +417,9 @@ public class PlayerController : MonoBehaviour
         isJumping = true;
         Vector2 jumpDirection = new Vector2(0, jumpForce);
         rb.AddForce(jumpDirection, ForceMode2D.Impulse);
-
+        Debug.Log("Jump before wait");
         yield return new WaitForSecondsRealtime(1f);
+        Debug.Log("Jump after wait");
         isJumping = false;
     }
 

@@ -13,7 +13,7 @@ public class GoatInteractable : Interactable
         playerController = PlayerController;
         gameManager = GameManager;
 
-        Debug.Log("Hop på ged");
+        //Debug.Log("Hop på ged");
 
         //Check om kan hoppe på ged - quest done
 
