@@ -22,7 +22,7 @@ public class Menu : MonoBehaviour
 
     [Header("Music")]
     [SerializeField] private AudioMixerGroup musicMixer;
-    [SerializeField] private Slider musiclVolumeSlider;
+    [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private AudioMixerGroup sfxMixer;
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] public AudioMixerGroup dialogueMixer;
@@ -35,11 +35,11 @@ public class Menu : MonoBehaviour
             PlayerPrefs.SetFloat("musicVolume", 1);
             PlayerPrefs.SetFloat("sfxVolume", 1);
             PlayerPrefs.SetFloat("dialogueVolume", 1);
-            //Load();
+            Save();
         }
         else
         {
-            //Load();
+            Load();
         }
     }
 
@@ -56,26 +56,29 @@ public class Menu : MonoBehaviour
     public void ChangeMusicVolume()
     {
         //Sætter volume til valuen på slideren og laver en save.
-        AudioListener.volume = musiclVolumeSlider.value;
-        Save();
+        AudioListener.volume = musicVolumeSlider.value;
+        PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
+
     }
     public void ChangeSFXVolume()
     {
         //Sætter volume til valuen på slideren og laver en save.
         AudioListener.volume = sfxVolumeSlider.value;
-        Save();
+        PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
+
     }
     public void ChangeDialogueVolume()
     {
         //Sætter volume til valuen på slideren og laver en save.
         AudioListener.volume = dialogueVolumeSlider.value;
-        Save();
+        PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
+
     }
 
     private void Load()
     {
         //Sætter den lig med hvad vi har gemt
-        musiclVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
         sfxVolumeSlider.value = PlayerPrefs.GetFloat("sfxVolume");
         dialogueVolumeSlider.value = PlayerPrefs.GetFloat("dialogueVolume");
     }
@@ -83,7 +86,7 @@ public class Menu : MonoBehaviour
     private void Save()
     {
         //Sætter value fra slider ind i vores key name
-        PlayerPrefs.SetFloat("musicVolume", musiclVolumeSlider.value);
+        PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
         PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
     }
@@ -111,10 +114,25 @@ public class Menu : MonoBehaviour
     #endregion
 
     #region Pause Menu
+
+    public void PauseMenu()
+    {
+        //Pause UI menu
+        if (gameIsPaused)
+        {
+            Resume();
+        }
+        else
+        {
+            Pause();
+        }
+    }
     public void Pause()
     {
         //Aktivere objectet
         pauseMenuUI.SetActive(true);
+        gameIsPaused = true;
+        Time.timeScale = 1f;
     }
 
     public void Resume()
@@ -123,6 +141,8 @@ public class Menu : MonoBehaviour
         if (pauseMenuUI != null)
         {
             pauseMenuUI.SetActive(false);
+            gameIsPaused = false;
+            Time.timeScale = 1;
         }
         else
         {
@@ -138,5 +158,10 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(0);
     }
     #endregion
+
+    public void OnDeathMenu()
+    {
+        Debug.Log("Hvad der sker når man er død i menu");
+    }
 
 }

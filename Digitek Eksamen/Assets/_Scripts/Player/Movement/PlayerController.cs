@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         //Inputs before movement
         if (InputManager.GetInstance().GetPausePressed())
         {
-            PauseMenuUI();
+            menu.PauseMenu();
         } //Pause
         if (InputManager.GetInstance().GetInteractPressed())
         {
@@ -371,6 +371,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Player Died by slamming your head into a wall"); //Siden at personen ramte noget
             Died = true;
+            gameManager.PlayerDead();
             return false;
         }
 
@@ -510,18 +511,6 @@ public class PlayerController : MonoBehaviour
 
         playerInteract.Interact();
     }
-    private void PauseMenuUI()
-    {
-        //Debug.Log("Pause menu open");
-        //Pause UI menu
-        //if (menu.gameIsPaused)
-        //{
-        //    menu.Resume();
-        //}
-        //else
-        //{
-        //    menu.Pause();
-        //}
-    }
+
     #endregion
 }

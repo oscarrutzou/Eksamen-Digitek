@@ -10,7 +10,24 @@ public class GameManager : MonoBehaviour
     public AudioManager AudioManager;
 
 
-    
+    private static GameManager instance;
+
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+        }
+        instance = this;
+
+        
+    }
+    public static GameManager GetInstance()
+    {
+        return instance;
+    }
+
 
     //Hvornår man må slå special movement and grid movement fra.
 
@@ -50,6 +67,13 @@ public class GameManager : MonoBehaviour
     public void CutSceneMeetBrothersLvl1()
     {
         Debug.Log("Cutscene her");
+    }
+
+    public void PlayerDead()
+    {
+        Menu.OnDeathMenu(); //Klarer menu delen
+
+
     }
 
 }
