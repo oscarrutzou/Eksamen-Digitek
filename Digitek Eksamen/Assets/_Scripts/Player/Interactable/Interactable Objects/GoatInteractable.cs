@@ -10,17 +10,15 @@ public class GoatInteractable : Interactable
 
     public override void ObjectInteract()
     {
-        playerController = PlayerController;
-        gameManager = GameManager;
+        if (((Ink.Runtime.IntValue)DialogueManager.GetInstance().GetVariableState("questItemsCollected")).value >= 2)
+        {
+            playerController = PlayerController;
+            gameManager = GameManager;
 
-        //Debug.Log("Hop på ged");
+            gameManager.StartMountMovement();
 
-        //Check om kan hoppe på ged - quest done
-
-
-        gameManager.StartMountMovement();
-
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
 }
 

@@ -20,13 +20,17 @@ INCLUDE ../globals.ink
 === FirstTalk ===
 Hej Klods Hans! Jeg hedder H.C. Andersen. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
-Jeg har hørt fra dine brødre at de ikke tror du har en chance med kongedatteren, men det tror jeg ikke på det. Jeg ved du er en speciel person og kan gøre det hvis du prøver. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Jeg har hørt fra dine brødre at de ikke tror du har en chance med kongedatteren, men det tror jeg ikke på det. 
+
+Jeg ved du er en speciel person og kan gøre det hvis du prøver. 
 
 Halohoj Hr. Andersen! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
 Har du da nogen ide omkring hvad jeg skal gøre for at få hende? #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Ja, det er jo en god ide at have en gave med. Prøv derfor at kig rundt og se om du kan finde noget hun ville kunne lide, og kom tilbage til mig når du har fundet to gaver. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Ja, det er jo en god ide at have en gave med. Prøv derfor at kig rundt og se om du kan finde noget hun ville kunne lide. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+
+Kom tilbage til mig når du har fundet to gaver. 
 
 Oki dokki! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
@@ -43,7 +47,9 @@ Godt gået, Klods Hans! Du har fundet både mudder og en gammel træsko. #speake
 
 Tak skal du have! Var der mere jeg har brug for? #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Ja. Den sidste ting, du skal finde, ligger på toppen af en klippe. Men du har brug for noget at ride på for at komme op på toppen af klippen og til den lange tur hen til kongedatteren. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Ja. Den sidste ting, du skal finde, ligger på toppen af en klippe. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+
+Men du har brug for noget at ride på for at komme op på toppen af klippen og til den lange tur hen til kongedatteren. 
 
 Hmm. Hvad kan jeg mon bruge? #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 

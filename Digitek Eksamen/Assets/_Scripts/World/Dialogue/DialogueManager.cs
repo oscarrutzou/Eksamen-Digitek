@@ -95,6 +95,8 @@ public class DialogueManager : MonoBehaviour
         }
         InitializeAudioInfoDictionary();
 
+        audioSource.outputAudioMixerGroup = menu.dialogueMixer;
+
         dialogueVariables.DeleteSavedVariables();
     }
 
@@ -290,7 +292,6 @@ public class DialogueManager : MonoBehaviour
                 audioSource.pitch = Random.Range(minPitch, maxPitch);
             }
 
-            audioSource.outputAudioMixerGroup = menu.dialogueMixer;
             audioSource.PlayOneShot(soundClip);
         }
     }

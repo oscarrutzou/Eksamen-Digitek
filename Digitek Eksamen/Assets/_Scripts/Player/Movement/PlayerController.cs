@@ -181,41 +181,119 @@ public class PlayerController : MonoBehaviour
     }
     private bool CanGridMove(Vector2 direction)
     {
-        Vector3Int gridPosistion = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
+        Vector3Int gridPosistionStraight = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
+        Vector3Int gridPosistionRight = groundTilemap.WorldToCell(transform.position + new Vector3(0, -direction.x, 0));
+        Vector3Int gridPosistionLeft = groundTilemap.WorldToCell(transform.position + new Vector3(0, direction.x, 0));
 
-        if (!groundTilemap.HasTile(gridPosistion))
+        if (GridMovAutoRight)
         {
-            return false;
-        }
-
-        if (!collisionTilemap.HasTile(gridPosistion))
-        {
-            //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
-            if (direction.x < 0)
+            if (!groundTilemap.HasTile(gridPosistionRight))
             {
-                if (currentLane == 0)
+                return false;
+            }
+
+            if (!collisionTilemap.HasTile(gridPosistionRight))
+            {
+                //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
+                if (direction.x < 0)
                 {
-                    return false;
+                    if (currentLane == 0)
+                    {
+                        return false;
+                    }
+                    else if (currentLane == 1 || currentLane == 2)
+                    {
+                        currentLane -= 1;
+                        return true;
+                    }
                 }
-                else if (currentLane == 1 || currentLane == 2)
+                else if (direction.x > 0)
                 {
-                    currentLane -= 1;
-                    return true;
+                    if (currentLane == 2)
+                    {
+                        return false;
+                    }
+                    else if (currentLane == 0 || currentLane == 1)
+                    {
+                        currentLane += 1;
+                        return true;
+                    }
                 }
             }
-            else if (direction.x > 0)
+        }
+        else if (GridMovAutoLeft)
+        {
+            if (!groundTilemap.HasTile(gridPosistionLeft))
             {
-                if (currentLane == 2)
+                return false;
+            }
+
+            if (!collisionTilemap.HasTile(gridPosistionLeft))
+            {
+                //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
+                if (direction.x < 0)
                 {
-                    return false;
+                    if (currentLane == 0)
+                    {
+                        return false;
+                    }
+                    else if (currentLane == 1 || currentLane == 2)
+                    {
+                        currentLane -= 1;
+                        return true;
+                    }
                 }
-                else if (currentLane == 0 || currentLane == 1)
+                else if (direction.x > 0)
                 {
-                    currentLane += 1;
-                    return true;
+                    if (currentLane == 2)
+                    {
+                        return false;
+                    }
+                    else if (currentLane == 0 || currentLane == 1)
+                    {
+                        currentLane += 1;
+                        return true;
+                    }
                 }
             }
         }
+        else
+        {
+            if (!groundTilemap.HasTile(gridPosistionStraight))
+            {
+                return false;
+            }
+
+            if (!collisionTilemap.HasTile(gridPosistionStraight))
+            {
+                //Sørg for at man ikke kan ændre lane ud over de 3 der er sat.
+                if (direction.x < 0)
+                {
+                    if (currentLane == 0)
+                    {
+                        return false;
+                    }
+                    else if (currentLane == 1 || currentLane == 2)
+                    {
+                        currentLane -= 1;
+                        return true;
+                    }
+                }
+                else if (direction.x > 0)
+                {
+                    if (currentLane == 2)
+                    {
+                        return false;
+                    }
+                    else if (currentLane == 0 || currentLane == 1)
+                    {
+                        currentLane += 1;
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
     #endregion
