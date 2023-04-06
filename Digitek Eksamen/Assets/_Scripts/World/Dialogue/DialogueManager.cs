@@ -18,13 +18,13 @@ public class DialogueManager : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private DialogueAudioInfoSO defaultAudioInfo;
     [SerializeField] private DialogueAudioInfoSO[] audioInfos;
-
-
     [SerializeField] private bool makePredictable;
+
+    public AudioSource audioSource;
+
 
     private DialogueAudioInfoSO currentAudioInfo;
     private Dictionary<string, DialogueAudioInfoSO> audioInfoDictionary;
-    private AudioSource audioSource;
 
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
@@ -57,6 +57,7 @@ public class DialogueManager : MonoBehaviour
 
     public DialogueVariables dialogueVariables;
 
+    public Menu menu;
 
     private void Awake()
     {
@@ -69,6 +70,7 @@ public class DialogueManager : MonoBehaviour
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
 
         audioSource = this.gameObject.AddComponent<AudioSource>();
+        
         currentAudioInfo = defaultAudioInfo;
     }
 
@@ -288,7 +290,7 @@ public class DialogueManager : MonoBehaviour
                 audioSource.pitch = Random.Range(minPitch, maxPitch);
             }
 
-
+            audioSource.outputAudioMixerGroup = menu.dialogueMixer;
             audioSource.PlayOneShot(soundClip);
         }
     }

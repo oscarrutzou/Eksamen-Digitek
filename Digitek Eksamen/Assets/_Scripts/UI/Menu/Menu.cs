@@ -9,13 +9,6 @@ using System;
 
 public class Menu : MonoBehaviour
 {
-    [Header("Music")]
-    [SerializeField] private AudioMixer globalMixer;
-    [SerializeField] Slider globalVolumeSlider;
-    [SerializeField] private AudioMixer musicMixer;
-    [SerializeField] Slider musiclVolumeSlider;
-    [SerializeField] private AudioMixer sfxMixer;
-    [SerializeField] Slider sfxVolumeSlider;
 
     [Header("Pause Menu")]
     public bool gameIsPaused = false;
@@ -24,13 +17,24 @@ public class Menu : MonoBehaviour
     [Header("Level")]
     [SerializeField] public int levelNumber;
 
-    private void Start()
+    [Header("InkJSON Filer til baner")]
+    public TextAsset inkJSON_KlodsHans;
+
+    [Header("Music")]
+    [SerializeField] private AudioMixerGroup musicMixer;
+    [SerializeField] private Slider musiclVolumeSlider;
+    [SerializeField] private AudioMixerGroup sfxMixer;
+    [SerializeField] private Slider sfxVolumeSlider;
+    [SerializeField] public AudioMixerGroup dialogueMixer;
+    [SerializeField] private Slider dialogueVolumeSlider;
+
+    private void Awake()
     {
-        if (!PlayerPrefs.HasKey("globalVolume") && !PlayerPrefs.HasKey("musicVolume") && !PlayerPrefs.HasKey("sfxVolume"))
+        if (!PlayerPrefs.HasKey("musicVolume") && !PlayerPrefs.HasKey("sfxVolume") && !PlayerPrefs.HasKey("dialogueVolume"))
         {
-            PlayerPrefs.SetFloat("globalVolume", 1);
             PlayerPrefs.SetFloat("musicVolume", 1);
             PlayerPrefs.SetFloat("sfxVolume", 1);
+            PlayerPrefs.SetFloat("dialogueVolume", 1);
             //Load();
         }
         else
@@ -43,17 +47,12 @@ public class Menu : MonoBehaviour
     public void SetVolume(float volume)
     {
         //Dramatisk går fra -60DB til -40DB, dog kan mennesket ikke hører under -40DB så det går:)
-        globalMixer.SetFloat("globalVolume", Mathf.Log10(volume) * 20);
-        musicMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
-        sfxMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
+        musicMixer.audioMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
+        sfxMixer.audioMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
+        dialogueMixer.audioMixer.SetFloat("dialogueVolume", Mathf.Log10(volume) * 20);
+        Debug.Log("PlayerPrefs.GetFloat(dialogueVolume)" + PlayerPrefs.GetFloat("dialogueVolume"));
     }
 
-    public void ChangeGlobalVolume()
-    {
-        //Sætter volume til valuen på slideren og laver en save.
-        AudioListener.volume = globalVolumeSlider.value;
-        Save();
-    }
     public void ChangeMusicVolume()
     {
         //Sætter volume til valuen på slideren og laver en save.
@@ -66,21 +65,27 @@ public class Menu : MonoBehaviour
         AudioListener.volume = sfxVolumeSlider.value;
         Save();
     }
+    public void ChangeDialogueVolume()
+    {
+        //Sætter volume til valuen på slideren og laver en save.
+        AudioListener.volume = dialogueVolumeSlider.value;
+        Save();
+    }
 
     private void Load()
     {
         //Sætter den lig med hvad vi har gemt
-        globalVolumeSlider.value = PlayerPrefs.GetFloat("globalVolume");
         musiclVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
         sfxVolumeSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        dialogueVolumeSlider.value = PlayerPrefs.GetFloat("dialogueVolume");
     }
 
     private void Save()
     {
         //Sætter value fra slider ind i vores key name
-        PlayerPrefs.SetFloat("globalVolume", globalVolumeSlider.value);
         PlayerPrefs.SetFloat("musicVolume", musiclVolumeSlider.value);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
+        PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
     }
     #endregion
 
@@ -89,6 +94,7 @@ public class Menu : MonoBehaviour
     {
         //Ik hardkode det ind
         SceneManager.LoadScene(1);
+        
     }
 
     public void QuitGame()
@@ -96,6 +102,12 @@ public class Menu : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+
+    public void StartIntroDialogue(TextAsset inkJSON)
+    {
+
+    }
+
     #endregion
 
     #region Pause Menu

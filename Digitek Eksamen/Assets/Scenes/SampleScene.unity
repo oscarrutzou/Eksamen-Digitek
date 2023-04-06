@@ -169,15 +169,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f2143261ad38b44bca78c0527725a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalMixer: {fileID: 0}
-  globalVolumeSlider: {fileID: 0}
-  musicMixer: {fileID: 0}
-  musiclVolumeSlider: {fileID: 0}
-  sfxMixer: {fileID: 0}
-  sfxVolumeSlider: {fileID: 0}
   gameIsPaused: 0
   pauseMenuUI: {fileID: 0}
   levelNumber: 1
+  inkJSON_KlodsHans: {fileID: 0}
+  musicMixer: {fileID: 24300002, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
+  musiclVolumeSlider: {fileID: 0}
+  sfxMixer: {fileID: 24300002, guid: ac1d250ff4b3f9646bdd7d70a41c297e, type: 2}
+  sfxVolumeSlider: {fileID: 0}
+  dialogueMixer: {fileID: 24300002, guid: c3eea7206d2366a488554f4905895d86, type: 2}
+  dialogueVolumeSlider: {fileID: 0}
 --- !u!1 &121349010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1924,6 +1925,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5afaee0d43eca64189cdbd1fb532f2d, type: 2}
   - {fileID: 11400000, guid: 65cef8d8c0808ee49a3c6272c8111c3d, type: 2}
   makePredictable: 1
+  audioSource: {fileID: 0}
   dialoguePanel: {fileID: 1561657620}
   continueIcon: {fileID: 1301690936}
   dialogueText: {fileID: 1828096712}
@@ -1933,6 +1935,7 @@ MonoBehaviour:
   - {fileID: 1789643609}
   - {fileID: 277931891}
   - {fileID: 154955657}
+  menu: {fileID: 342313}
 --- !u!1 &481988201
 GameObject:
   m_ObjectHideFlags: 0

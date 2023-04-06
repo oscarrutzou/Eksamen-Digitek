@@ -8,14 +8,9 @@ public class GameManager : MonoBehaviour
     public PlayerInteract PlayerInteract;
     public Menu Menu;
     public AudioManager AudioManager;
-    
-    
 
 
-    private void Start()
-    {
-        
-    }
+    
 
     //Hvornår man må slå special movement and grid movement fra.
 
