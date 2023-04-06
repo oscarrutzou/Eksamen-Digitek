@@ -92,6 +92,8 @@ public class DialogueManager : MonoBehaviour
             index++;
         }
         InitializeAudioInfoDictionary();
+
+        dialogueVariables.DeleteSavedVariables();
     }
 
     private void InitializeAudioInfoDictionary()
@@ -401,6 +403,7 @@ public class DialogueManager : MonoBehaviour
             if (dialogueVariables.variables[variableName] != variableValue)
             {
                 dialogueVariables.variables[variableName] = variableValue;
+                //Debug.Log(dialogueVariables.variables[variableName]);
             }
             else
             {

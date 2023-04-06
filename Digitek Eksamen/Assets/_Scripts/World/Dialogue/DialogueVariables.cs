@@ -24,14 +24,19 @@ public class DialogueVariables
         }
 
         //Initialize dictionary
+        InitializeDictionary();
+
+    }
+
+    private void InitializeDictionary()
+    {
         variables = new Dictionary<string, Ink.Runtime.Object>();
         foreach (string name in globalVariablesStory.variablesState)
         {
             Ink.Runtime.Object value = globalVariablesStory.variablesState.GetVariableWithName(name);
             variables.Add(name, value);
-            Debug.Log("Initialized global dialogue variable:" + name + " = " + value);
+            //Debug.Log("Initialized global dialogue variable:" + name + " = " + value);
         }
-
     }
 
     public void SaveVariables()
@@ -40,10 +45,22 @@ public class DialogueVariables
         {
             // Load the current state of all of our variables to the globals story
             VariablesToStory(globalVariablesStory);
-            // NOTE: eventually, you'd want to replace this with an actual save/load method
-            // rather than using PlayerPrefs.
+            // Replace this with an actual save/load method
+            
             PlayerPrefs.SetString(saveVariablesKey, globalVariablesStory.state.ToJson());
         }
+    }
+
+    public void DeleteSavedVariables()
+    {
+        DialogueManager.GetInstance().SetVariableState("questItemsCollected", new Ink.Runtime.IntValue(0));
+
+        DialogueManager.GetInstance().SetVariableState("hc_firstTalkCalled", new Ink.Runtime.BoolValue(false));
+
+        DialogueManager.GetInstance().SetVariableState("hc_secondTalkCalled", new Ink.Runtime.BoolValue(false));
+
+        SaveVariables();
+        InitializeDictionary();
     }
 
     public void StartListening(Story story)
