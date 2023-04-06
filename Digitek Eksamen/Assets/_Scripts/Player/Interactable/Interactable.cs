@@ -6,7 +6,6 @@ public class Interactable : MonoBehaviour
 {
     public static PlayerController PlayerController;
     public static GameManager GameManager;
-    [SerializeField] private bool isQuestItem = false;
 
     private void Start()
     {
@@ -16,14 +15,12 @@ public class Interactable : MonoBehaviour
 
     public virtual void ObjectInteract()
     {
-        
-        if (isQuestItem)
-        {
-            Debug.Log("Do something");
-        }
-        
         // Base implementation for all interactable objects
-        //
+    }
+
+    public virtual void QuestItemInteract()
+    {
+        // Base implementation for all interactable objects
     }
 
     public virtual void NPCInteract()

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class DialogueManager : MonoBehaviour
     private const string LAYOUT_TAG = "layout";
     private const string AUDIO_TAG = "audio";
 
-    private DialogueVariables dialogueVariables;
+    public DialogueVariables dialogueVariables;
 
 
     private void Awake()
@@ -391,6 +392,25 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning("Ink variable was found to be null: " + variableName);
         }
         return variableValue;
+    }
+
+    public void SetVariableState(string variableName, Ink.Runtime.Object variableValue)
+    {
+        if (dialogueVariables.variables.ContainsKey(variableName))
+        {
+            if (dialogueVariables.variables[variableName] != variableValue)
+            {
+                dialogueVariables.variables[variableName] = variableValue;
+            }
+            else
+            {
+                Debug.Log("Ink variable value is already the same: " + variableName);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Ink variable not found: " + variableName);
+        }
     }
 
     //Saver variabler når den lukker

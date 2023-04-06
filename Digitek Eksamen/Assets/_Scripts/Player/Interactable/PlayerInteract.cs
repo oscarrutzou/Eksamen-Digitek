@@ -25,18 +25,13 @@ public class PlayerInteract : MonoBehaviour
                         npc.NPCInteract();
                         break;
 
+                    case QuestInteractable questItem:
+                        questItem.QuestItemInteract();
+                        break;
+
                     //For første quest
                     case GoatInteractable goat:
                         goat.ObjectInteract();
-                        break;
-                    case ShoeInteractable shoe:
-                        shoe.ObjectInteract();
-                        break;
-                    case MudInteractable mud:
-                        mud.ObjectInteract();
-                        break;
-                    case CrowInteractable crow:
-                        crow.ObjectInteract();
                         break;
 
                     // add more cases for other types of interactable objects
