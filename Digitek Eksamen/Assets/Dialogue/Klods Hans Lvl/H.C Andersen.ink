@@ -8,7 +8,7 @@ INCLUDE ../globals.ink
 
 {questItemsCollected:
 - 0: {hc_firstTalkCalled: -> FirstTalk.FirstWaitStich | -> FirstTalk}
-- 1: -> FirstTalk.FirstWaitStich
+- 1: {hc_firstTalkCalled: -> FirstTalk.FirstWaitStich | -> FirstTalk}
 - 2: {hc_secondTalkCalled: -> SecondTalk.SecondWaitStich | -> SecondTalk}
 - 3: -> SecondTalk.ThirdWaitStich
 }

@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class GoatInteractable : Interactable
 {
-    private PlayerController playerController;
+    //private PlayerController playerController;
     private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     public override void ObjectInteract()
     {
         if (((Ink.Runtime.IntValue)DialogueManager.GetInstance().GetVariableState("questItemsCollected")).value >= 2)
         {
-            playerController = PlayerController;
-            gameManager = GameManager;
-
             gameManager.StartMountMovement();
-
             gameObject.SetActive(false);
         }
     }

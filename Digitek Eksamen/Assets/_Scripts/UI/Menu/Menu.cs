@@ -50,7 +50,7 @@ public class Menu : MonoBehaviour
         musicMixer.audioMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
         sfxMixer.audioMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
         dialogueMixer.audioMixer.SetFloat("dialogueVolume", Mathf.Log10(volume) * 20);
-        Debug.Log("PlayerPrefs.GetFloat(dialogueVolume)" + PlayerPrefs.GetFloat("dialogueVolume"));
+        //Debug.Log("PlayerPrefs.GetFloat(dialogueVolume)" + PlayerPrefs.GetFloat("dialogueVolume"));
     }
 
     public void ChangeMusicVolume()
