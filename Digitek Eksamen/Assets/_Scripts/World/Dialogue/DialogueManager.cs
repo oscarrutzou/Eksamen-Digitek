@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -58,6 +59,9 @@ public class DialogueManager : MonoBehaviour
     public DialogueVariables dialogueVariables;
 
     public Menu menu;
+
+
+    private bool isIntro = false;
 
     private void Awake()
     {
@@ -131,11 +135,12 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (canContinueToNextLine 
-            && currentStory.currentChoices.Count == 0 
-            && InputManager.GetInstance().GetSubmitPressed())
+        if (canContinueToNextLine && currentStory.currentChoices.Count == 0)
         {
-            ContinueStory();
+            if (isIntro || InputManager.GetInstance().GetSubmitPressed())
+            {
+                ContinueStory();
+            }
         }
     }
 
@@ -152,6 +157,7 @@ public class DialogueManager : MonoBehaviour
         displayNameText.text = "Name";
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
+        dialogueText.text = "";
 
         ContinueStory();
     }
@@ -167,36 +173,65 @@ public class DialogueManager : MonoBehaviour
 
         //Sætter default audio på for fejl
         SetCurrentAudioInfo(defaultAudioInfo.id);
+
+        if (isIntro)
+        {
+            Debug.Log("Send player to next scene after a bit");
+            isIntro = false;
+        }
     }
 
     private void ContinueStory()
     {
         if (currentStory.canContinue)
         {
-            //Sætter teksten ind
+            // Sets the text
             if (displayLineCoroutine != null)
             {
                 StopCoroutine(displayLineCoroutine);
             }
             string nextLine = currentStory.Continue();
-            //Håndtere tags
+            // Handles tags
             HandleTags(currentStory.currentTags);
+
+            if (isIntro)
+            {
+                StartCoroutine(DisplayIntroText());
+                return;
+            }
 
             displayLineCoroutine = StartCoroutine(DisplayLine(nextLine));
         }
-        else
+        else if (!isIntro || InputManager.GetInstance().GetSubmitPressed())
         {
             ExitDialogueMode();
         }
     }
 
+    string allLines;
 
-    private IEnumerator DisplayLine(string line)
+    private IEnumerator DisplayIntroText()
     {
-        dialogueText.text = line;
+        allLines += currentStory.currentText;
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (currentStory.canContinue)
+            {
+                allLines += currentStory.Continue();
+            }
+            else
+            {
+                break;
+            }
+        }
+        Debug.Log(allLines);
+
+
+        dialogueText.text = allLines;
         dialogueText.maxVisibleCharacters = 0;
 
-        //Alt hvad der skal gemmens mens den skriver
+        // Everything that should be hidden while typing
         continueIcon.SetActive(false);
         HideChoices();
 
@@ -204,17 +239,16 @@ public class DialogueManager : MonoBehaviour
 
         bool isAddingRichTextTag = false;
 
-
-        foreach (char letter in line.ToCharArray())
+        foreach (char letter in allLines.ToCharArray())
         {
-            //Hvis submit pressed, skriv hele linjen med det samme
+            // If submit pressed, write the whole line at once
             if (InputManager.GetInstance().GetSubmitPressed())
             {
-                dialogueText.maxVisibleCharacters = line.Length;
-                break; //Går ud af foreach loop
+                dialogueText.maxVisibleCharacters = allLines.Length;
+                break; // Exits foreach loop
             }
 
-            //Tjekker for rich text tag, og adder den uden at den skal vente
+            // Checks for rich text tag and adds it without waiting
             if (letter == '<' || isAddingRichTextTag)
             {
                 isAddingRichTextTag = true;
@@ -223,22 +257,70 @@ public class DialogueManager : MonoBehaviour
                     isAddingRichTextTag = false;
                 }
             }
-            else //Hvis ikke det er et rich text tag, adder bogstaver efter at vente lidt
+            else // If it's not a rich text tag, adds letters after waiting a bit
             {
-                PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]); //Skal være her siden at der ville stå 0%2=0 og det ville give true. I stedet for 1%2=false og ville ikke blive kørt i starten.
+                PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
                 dialogueText.maxVisibleCharacters++;
-
                 yield return new WaitForSeconds(typingSpeed);
             }
-
         }
 
-        //Viser alt der er gemt igen
+        // Shows everything that was hidden again
         continueIcon.SetActive(true);
         DisplayChoices();
 
         canContinueToNextLine = true;
     }
+
+
+    private IEnumerator DisplayLine(string line)
+    {
+
+            dialogueText.text = line;
+            dialogueText.maxVisibleCharacters = 0;
+
+            // Everything that should be hidden while typing
+            continueIcon.SetActive(false);
+            HideChoices();
+
+            canContinueToNextLine = false;
+
+            bool isAddingRichTextTag = false;
+
+            foreach (char letter in line.ToCharArray())
+            {
+                // If submit pressed, write the whole line at once
+                if (InputManager.GetInstance().GetSubmitPressed())
+                {
+                    dialogueText.maxVisibleCharacters = line.Length;
+                    break; // Exits foreach loop
+                }
+
+                // Checks for rich text tag and adds it without waiting
+                if (letter == '<' || isAddingRichTextTag)
+                {
+                    isAddingRichTextTag = true;
+                    if (letter == '>')
+                    {
+                        isAddingRichTextTag = false;
+                    }
+                }
+                else // If it's not a rich text tag, adds letters after waiting a bit
+                {
+                    PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
+                    dialogueText.maxVisibleCharacters++;
+                    yield return new WaitForSeconds(typingSpeed);
+                }
+            }
+
+            // Shows everything that was hidden again
+            continueIcon.SetActive(true);
+            DisplayChoices();
+
+            canContinueToNextLine = true;
+       
+    }
+
 
     private void PlayDialogueSound(int currentDisplayedCharacterCount, char currentCharacter)
     {
@@ -329,7 +411,7 @@ public class DialogueManager : MonoBehaviour
                     portraitAnimator.Play(tagValue); //Husk at animation navn skal være samme som tag value i inkJSON.
                     break;
                 case LAYOUT_TAG:
-                    layoutAnimator.Play(tagValue);
+                    CheckForIntro(tagValue);
                     break;
                 case AUDIO_TAG:
                     SetCurrentAudioInfo(tagValue);
@@ -339,6 +421,19 @@ public class DialogueManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void CheckForIntro(string tag)
+    {
+        if (tag == "book")
+        {
+            Debug.Log("Det er en intro");
+            isIntro = true;
+        }
+
+        layoutAnimator.Play(tag);
+
+
     }
 
     private void DisplayChoices()
