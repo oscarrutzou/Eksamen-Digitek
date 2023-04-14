@@ -14,11 +14,11 @@ public class Menu : MonoBehaviour
     public bool gameIsPaused = false;
     public GameObject pauseMenuUI;
 
-    [Header("Level")]
+    [Header("Level info")]
     [SerializeField] public int levelNumber;
 
-    [Header("InkJSON Filer til baner")]
-    public TextAsset inkJSON_KlodsHans;
+    public Level[] levels;
+    public int currentlevelIntro;
 
     [Header("Music")]
     [SerializeField] private AudioMixerGroup musicMixer;
@@ -28,8 +28,17 @@ public class Menu : MonoBehaviour
     [SerializeField] public AudioMixerGroup dialogueMixer;
     [SerializeField] private Slider dialogueVolumeSlider;
 
+
+    private static Menu instance;
+
     private void Awake()
     {
+        if (instance != null)
+        {
+            //Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+        }
+        instance = this;
+
         if (!PlayerPrefs.HasKey("musicVolume") && !PlayerPrefs.HasKey("sfxVolume") && !PlayerPrefs.HasKey("dialogueVolume"))
         {
             PlayerPrefs.SetFloat("musicVolume", 1);
@@ -41,6 +50,10 @@ public class Menu : MonoBehaviour
         {
             Load();
         }
+    }
+    public static Menu GetInstance()
+    {
+        return instance;
     }
 
     #region OptionMenu
@@ -106,11 +119,6 @@ public class Menu : MonoBehaviour
         Application.Quit();
     }
 
-    public void StartIntroDialogue(TextAsset inkJSON)
-    {
-
-    }
-
     #endregion
 
     #region Pause Menu
@@ -159,9 +167,51 @@ public class Menu : MonoBehaviour
     }
     #endregion
 
+    #region Level Selector
+    public void LevelSelector(int levelNumber)
+    {
+        // Check if level number is within the bounds of the array
+        if (levelNumber < 1 || levelNumber > levels.Length)
+        {
+            Debug.LogError("Level number out of range!");
+            return;
+        }
+
+        // Get the level at the specified index
+        Level level = levels[levelNumber - 1];
+
+        // Check if the level is locked
+        if (level.locked)
+        {
+            Debug.Log("Level " + levelNumber + " is locked!");
+            return;
+        }
+
+        currentlevelIntro = levelNumber;
+        // Load the inkJSON for the level
+        // Dette er denne som sender en videre efter den er færdig
+        DialogueManager.GetInstance().EnterDialogueMode(level.inkJSON);
+    }
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene(currentlevelIntro);
+    }
+
+    #endregion
+
     public void OnDeathMenu()
     {
         Debug.Log("Hvad der sker når man er død i menu");
     }
 
+}
+
+[System.Serializable]
+public class Level
+{
+    public int LvlNumber;
+    public bool locked;
+    public string LvlName;
+    public TextAsset inkJSON;
 }

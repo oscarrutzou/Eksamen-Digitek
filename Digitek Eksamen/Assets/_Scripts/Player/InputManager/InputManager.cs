@@ -49,7 +49,10 @@ public class InputManager : MonoBehaviour
         if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
             gridMoveDirection = context.ReadValue<Vector2>();
-            PlayerController.GetInstance().HandleGridMove(gridMoveDirection);
+            if (!GameManager.GetInstance().isInMainMenu)
+            {
+                PlayerController.GetInstance().HandleGridMove(gridMoveDirection);
+            }
         }
         else if (context.canceled)
         {

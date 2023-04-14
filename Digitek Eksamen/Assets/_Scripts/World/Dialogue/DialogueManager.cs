@@ -101,6 +101,8 @@ public class DialogueManager : MonoBehaviour
 
         audioSource.outputAudioMixerGroup = menu.dialogueMixer;
 
+
+        //Fjern denne hvis der skal gemees variabler igennem gameplays.
         dialogueVariables.DeleteSavedVariables();
     }
 
@@ -153,9 +155,9 @@ public class DialogueManager : MonoBehaviour
 
         dialogueVariables.StartListening(currentStory);
 
-        //Resser portræt, layout and navn
+        //Restter portræt, layout and navn
         displayNameText.text = "Name";
-        portraitAnimator.Play("default");
+        //portraitAnimator.Play("default");
         layoutAnimator.Play("right");
         dialogueText.text = "";
 
@@ -176,8 +178,9 @@ public class DialogueManager : MonoBehaviour
 
         if (isIntro)
         {
-            Debug.Log("Send player to next scene after a bit");
+            //Debug.Log("Send player to next scene after a bit");
             isIntro = false;
+            GameManager.GetInstance().OnChangeFromMenuToLevel();
         }
     }
 
@@ -264,6 +267,8 @@ public class DialogueManager : MonoBehaviour
         // Shows everything that was hidden again
         continueIcon.SetActive(true);
         DisplayChoices();
+
+        allLines = "";
 
         canContinueToNextLine = true;
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,9 +10,10 @@ public class GameManager : MonoBehaviour
     public Menu Menu;
     public AudioManager AudioManager;
 
+    public bool isInMainMenu { get; set; }
+    public bool isInLevel { get; set; }
 
     private static GameManager instance;
-
 
     private void Awake()
     {
@@ -21,7 +23,6 @@ public class GameManager : MonoBehaviour
         }
         instance = this;
 
-        
     }
     public static GameManager GetInstance()
     {
@@ -29,15 +30,39 @@ public class GameManager : MonoBehaviour
     }
 
 
-    //Hvornår man må slå special movement and grid movement fra.
+    private void Update()
+    {
+        CheckIfSceneChanged();
+    }
 
 
-    //Gør dette igennem gamemanager, fordi det hjælper på at holde styr på alt. Siden der også skal være andre elementer.
-    //Skal holde styr på at man først er på fods - så ged - temple run - så ged - fods.
-    //Lav statier i spillet - kig på level og hvad statie der er i den. Bare plus dem, så der kan holdes styr sådan.
+    public void CheckIfSceneChanged()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-    //Lavet så der kan ske andre ting når man starter og stopper. Måske transitions eller lign.
-    //Bliver sat ved trigger colliders, når de skal starte og stoppe.
+        if (currentSceneIndex == 0) //Is in main menu
+        {
+            isInMainMenu = true;
+            isInLevel = false;
+        }
+        else //Is in a level
+        {
+            isInMainMenu = false;
+            isInLevel = true;
+        }
+    }
+
+    public void OnChangeFromMenuToLevel()
+    {
+        if (isInMainMenu)
+        {
+            Menu.GetInstance().ChangeScene();
+        }
+    }
+
+
+
+    #region ChangeMovement
     public void StartMountMovement()
     {
         //Starter special mov, altså ged mov
@@ -64,6 +89,8 @@ public class GameManager : MonoBehaviour
         PlayerController.GridMovement(false);
     }
 
+    #endregion
+
     public void CutSceneMeetBrothersLvl1()
     {
         Debug.Log("Cutscene her");
@@ -77,3 +104,4 @@ public class GameManager : MonoBehaviour
     }
 
 }
+
