@@ -40,7 +40,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
 
-
+    private string allLines;
     private Story currentStory;
 
     public bool dialogueIsPlaying { get; private set; } //Kun andre scripts kan læse men ikke ændre på den.
@@ -208,8 +208,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    string allLines;
-
     private IEnumerator DisplayIntroText()
     {
         allLines += currentStory.currentText;
@@ -225,8 +223,6 @@ public class DialogueManager : MonoBehaviour
                 break;
             }
         }
-        Debug.Log(allLines);
-
 
         dialogueText.text = allLines;
         dialogueText.maxVisibleCharacters = 0;
@@ -271,54 +267,50 @@ public class DialogueManager : MonoBehaviour
 
         canContinueToNextLine = true;
     }
-
-
     private IEnumerator DisplayLine(string line)
     {
+        dialogueText.text = line;
+        dialogueText.maxVisibleCharacters = 0;
 
-            dialogueText.text = line;
-            dialogueText.maxVisibleCharacters = 0;
+        // Everything that should be hidden while typing
+        continueIcon.SetActive(false);
+        HideChoices();
 
-            // Everything that should be hidden while typing
-            continueIcon.SetActive(false);
-            HideChoices();
+        canContinueToNextLine = false;
 
-            canContinueToNextLine = false;
+        bool isAddingRichTextTag = false;
 
-            bool isAddingRichTextTag = false;
-
-            foreach (char letter in line.ToCharArray())
+        foreach (char letter in line.ToCharArray())
+        {
+            // If submit pressed, write the whole line at once
+            if (InputManager.GetInstance().GetSubmitPressed())
             {
-                // If submit pressed, write the whole line at once
-                if (InputManager.GetInstance().GetSubmitPressed())
-                {
-                    dialogueText.maxVisibleCharacters = line.Length;
-                    break; // Exits foreach loop
-                }
-
-                // Checks for rich text tag and adds it without waiting
-                if (letter == '<' || isAddingRichTextTag)
-                {
-                    isAddingRichTextTag = true;
-                    if (letter == '>')
-                    {
-                        isAddingRichTextTag = false;
-                    }
-                }
-                else // If it's not a rich text tag, adds letters after waiting a bit
-                {
-                    PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
-                    dialogueText.maxVisibleCharacters++;
-                    yield return new WaitForSeconds(typingSpeed);
-                }
+                dialogueText.maxVisibleCharacters = line.Length;
+                break; // Exits foreach loop
             }
 
-            // Shows everything that was hidden again
-            continueIcon.SetActive(true);
-            DisplayChoices();
+            // Checks for rich text tag and adds it without waiting
+            if (letter == '<' || isAddingRichTextTag)
+            {
+                isAddingRichTextTag = true;
+                if (letter == '>')
+                {
+                    isAddingRichTextTag = false;
+                }
+            }
+            else // If it's not a rich text tag, adds letters after waiting a bit
+            {
+                PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
+                dialogueText.maxVisibleCharacters++;
+                yield return new WaitForSeconds(typingSpeed);
+            }
+        }
 
-            canContinueToNextLine = true;
-       
+        // Shows everything that was hidden again
+        continueIcon.SetActive(true);
+        DisplayChoices();
+
+        canContinueToNextLine = true;
     }
 
 
