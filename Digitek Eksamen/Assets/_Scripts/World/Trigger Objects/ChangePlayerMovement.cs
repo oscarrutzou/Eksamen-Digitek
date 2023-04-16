@@ -33,7 +33,8 @@ public class ChangePlayerMovement : MonoBehaviour
 
         if (startRun 
             && !colliderTrigger.isTrigger 
-            && ((Ink.Runtime.IntValue)DialogueManager.GetInstance().GetVariableState("questItemsCollected")).value == 3)
+            && ((Ink.Runtime.IntValue)DialogueManager.GetInstance().GetVariableState("questItemsCollected")).value == 3 
+            && PlayerController.GetInstance().mountMovement)
         {
             colliderTrigger.isTrigger = true;
             visualGFX.enabled = false;

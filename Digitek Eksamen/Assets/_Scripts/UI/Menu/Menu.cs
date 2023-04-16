@@ -14,10 +14,14 @@ public class Menu : MonoBehaviour
     public bool gameIsPaused = false;
     public GameObject pauseMenuUI;
 
+    [Header("Death Menu")]
+    public bool playerIsDead = false;
+    public GameObject deathMenuUI;
+
     [Header("Level info")]
     [SerializeField] public int levelNumber;
 
-    public Level[] levels;
+    public LevelData[] levelData;
     public int currentlevelIntro;
 
     [Header("Music")]
@@ -171,26 +175,23 @@ public class Menu : MonoBehaviour
     public void LevelSelector(int levelNumber)
     {
         // Check if level number is within the bounds of the array
-        if (levelNumber < 1 || levelNumber > levels.Length)
+        if (levelNumber < 1 || levelNumber > levelData.Length)
         {
             Debug.LogError("Level number out of range!");
             return;
         }
 
         // Get the level at the specified index
-        Level level = levels[levelNumber - 1];
+        LevelData level = levelData[levelNumber - 1];
 
         // Check if the level is locked
-        if (level.locked)
+        if (!level.locked)
         {
-            Debug.Log("Level " + levelNumber + " is locked!");
-            return;
+            currentlevelIntro = levelNumber;
+            // Load the inkJSON for the level
+            // Dette er denne som sender en videre efter den er færdig
+            DialogueManager.GetInstance().EnterDialogueMode(level.inkJSON);
         }
-
-        currentlevelIntro = levelNumber;
-        // Load the inkJSON for the level
-        // Dette er denne som sender en videre efter den er færdig
-        DialogueManager.GetInstance().EnterDialogueMode(level.inkJSON);
     }
 
     public void ChangeScene()
@@ -203,6 +204,12 @@ public class Menu : MonoBehaviour
     public void OnDeathMenu()
     {
         Debug.Log("Hvad der sker når man er død i menu");
+    }
+
+    public void TryAgainDeathMenu()
+    {
+        Debug.Log("Try again");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }

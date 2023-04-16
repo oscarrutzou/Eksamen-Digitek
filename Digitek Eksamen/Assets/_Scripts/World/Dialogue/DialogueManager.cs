@@ -213,6 +213,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator DisplayIntroText()
     {
+        allLines = "";
         allLines += currentStory.currentText;
 
         for (int i = 0; i < 10; i++)
@@ -264,11 +265,13 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        // Fjern hvis den skal kunne bruges på flere sider. 
+        
+        //dialogueText.text = allLines;
+
         // Shows everything that was hidden again
         continueIcon.SetActive(true);
         DisplayChoices();
-
-        allLines = "";
 
         canContinueToNextLine = true;
     }
@@ -424,13 +427,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (tag == "book")
         {
-            Debug.Log("Det er en intro");
+            //Debug.Log("Det er en intro");
             isIntro = true;
         }
 
         layoutAnimator.Play(tag);
-
-
     }
 
     private void DisplayChoices()

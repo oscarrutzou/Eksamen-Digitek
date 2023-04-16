@@ -351,8 +351,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Baner
+  m_text: Levels
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
   m_sharedMaterial: {fileID: 2964306869964079531, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
@@ -626,7 +626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Kontroller
+  m_text: Controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
   m_sharedMaterial: {fileID: 2964306869964079531, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
@@ -1325,7 +1325,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Kontroller
+  m_text: Controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
   m_sharedMaterial: {fileID: 2964306869964079531, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
@@ -1466,8 +1466,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1805,8 +1805,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2372,7 +2372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Baner
+  m_text: Levels
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
   m_sharedMaterial: {fileID: 2964306869964079531, guid: 270171fc513e36d4ab729516c9aba975, type: 2}
@@ -2917,8 +2917,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3419,8 +3419,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4086,8 +4086,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5330,8 +5330,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5350,18 +5350,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1701963738}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: LevelSelector
@@ -5369,7 +5357,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5728,8 +5716,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5748,18 +5736,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1701963738}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: LevelSelector
@@ -5767,7 +5743,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6854,8 +6830,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -7543,8 +7519,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -7858,11 +7834,9 @@ MonoBehaviour:
   gameIsPaused: 0
   pauseMenuUI: {fileID: 0}
   levelNumber: 1
-  levels:
-  - LvlNumber: 1
-    locked: 0
-    LvlName: Klods Hans
-    inkJSON: {fileID: 4900000, guid: 7ad0d583612c7384c8cfc45c61417ea4, type: 3}
+  levelData:
+  - {fileID: 11400000, guid: fa88fa58ca2433b4ca2b89b1fee67d4e, type: 2}
+  - {fileID: 11400000, guid: c23cc9c502e624444af962fae5a5a8ac, type: 2}
   currentlevelIntro: 0
   musicMixer: {fileID: 24300002, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
   musicVolumeSlider: {fileID: 1243439739}
@@ -8457,8 +8431,8 @@ MonoBehaviour:
     m_NormalColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.2509804}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.4509804}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
+    m_DisabledColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 0.6}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -8477,18 +8451,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1701963738}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: LevelSelector
@@ -8496,7 +8458,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

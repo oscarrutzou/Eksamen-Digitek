@@ -369,15 +369,15 @@ public class PlayerController : MonoBehaviour
         //Den som sørger for at tjekke om man dør når man rammer ind i noget.
         if (collisionTilemap.HasTile(gridPosistion))
         {
-            Debug.Log("Player Died by slamming your head into a wall"); //Siden at personen ramte noget
-            Died = true;
-            gameManager.PlayerDead();
+            PlayerDied();
             return false;
         }
 
         return true;
     }
     #endregion
+
+
 
     #region Normal Movement
     private void NormalMovement(Vector2 direction)
@@ -504,12 +504,19 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Misc Input Metoder
+    #region Misc functions
     private void Interact()
     {
         //Debug.Log("Interact");
 
         playerInteract.Interact();
+    }
+
+    public void PlayerDied()
+    {
+        //Døde på en måde, kan blive kaldt i andre scripts.
+        Died = true;
+        gameManager.PlayerDead();
     }
 
     #endregion
