@@ -11,9 +11,9 @@ public class ChangePlayerDirection : MonoBehaviour
     [SerializeField] private bool turnLeft;
     [SerializeField] private bool turnRight;
     [SerializeField] private bool turnForward;
+    [SerializeField] private bool turnDown;
 
-    [SerializeField]
-    private int lane;
+    [SerializeField] private int lane;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,51 +21,54 @@ public class ChangePlayerDirection : MonoBehaviour
         {
             playerObject = collision.gameObject;
             playerController = collision.GetComponent<PlayerController>();
+        }
+    }
 
-
-            if (turnLeft && !playerController.GridMovAutoLeft)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (Mathf.Abs(playerObject.transform.position.x - transform.position.x) < 0.1f &&
+                Mathf.Abs(playerObject.transform.position.y - transform.position.y) < 0.1f)
             {
-                //Debug.Log("left");
-                playerController.GridMovAutoLeft = true;
-                playerController.GridMovAutoRight = false;
-                playerController.currentLane = lane;
-
-
-                playerObject.transform.position = new Vector3(playerObject.transform.position.x,
-                    this.gameObject.transform.position.y - 1, playerObject.transform.position.z);
-            } 
-            else if (turnRight && !playerController.GridMovAutoRight)
-            {
-                //Debug.Log("right");
-                playerController.GridMovAutoRight = true;
-                playerController.GridMovAutoLeft = false;
-                playerController.currentLane = lane;
-
-                playerObject.transform.position = new Vector3(playerObject.transform.position.x, 
-                    this.gameObject.transform.position.y - 1, playerObject.transform.position.z);
-
-            } 
-            else if (turnForward)
-            {
-                if (playerController.GridMovAutoLeft)
+                if (turnLeft && !playerController.GridMovAutoLeft)
                 {
-                    playerObject.transform.position = new Vector3(this.gameObject.transform.position.x + 1,
-                        playerObject.transform.position.y, playerObject.transform.position.z);
-
-                    playerController.GridMovAutoLeft = false;
-                    playerController.currentLane = lane;
+                    ChangeGridMov(true, false, false);
+                }
+                else if (turnRight && !playerController.GridMovAutoRight)
+                {
+                    ChangeGridMov(false, true, false);
 
                 }
-                else if (playerController.GridMovAutoRight)
+                else if (turnForward)
+                { 
+                    ChangeGridMov(false, false, false);
+
+                }
+                else if (turnDown && !playerController.GridMovAutoDown)
                 {
-                    playerObject.transform.position = new Vector3(this.gameObject.transform.position.x - 1,
-                        playerObject.transform.position.y, playerObject.transform.position.z);
-
-                    playerController.GridMovAutoRight = false;
-                    playerController.currentLane = lane;
-
+                    ChangeGridMov(false, false, true);
                 }
             }
+        }
+    }
+
+    private void ChangeGridMov(bool Left, bool Right, bool Down)
+    {
+        playerController.GridMovAutoLeft = Left;
+        playerController.GridMovAutoRight = Right;
+        playerController.GridMovAutoDown = Down;
+
+        playerController.currentLane = lane;
+
+        playerObject.transform.position = new Vector3(this.gameObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z);
+        if (Left || Right)
+        {
+            playerObject.transform.position = new Vector3(playerObject.transform.position.x, this.gameObject.transform.position.y, playerObject.transform.position.z);
+        }
+        else if (!Left && !Right && !Down || !Left && !Right && Down)
+        {
+            playerObject.transform.position = new Vector3(this.gameObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z);
         }
     }
 }

@@ -99,8 +99,6 @@ public class GameManager : MonoBehaviour
     public void PlayerDead()
     {
         Menu.OnDeathMenu(); //Klarer menu delen
-
-
     }
 
 }

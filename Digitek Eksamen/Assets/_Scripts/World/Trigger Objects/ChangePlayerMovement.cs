@@ -51,21 +51,32 @@ public class ChangePlayerMovement : MonoBehaviour
 
             if (playerController.mountMovement && startRun)
             {
-                ///Player cutscene, efter cutscene players transform til noget bestemt
-                gameManager.StopMountMovement();
-                playerObject.transform.position = playerSpawnPoint.transform.position;
-                gameManager.StartGridMovement();
-                colliderTrigger.isTrigger = false;
-                visualGFX.enabled = true;
+                MountToGridMovement();
             }
 
             if (playerController.gridMovement && stopRun)
             {
-                gameManager.StopGridMovement();
-                playerController.normalMovement = true;
-                colliderTrigger.isTrigger = false;
-                visualGFX.enabled = true;
+                GridToNormalMovement();
             }
         }
     }
+
+    public void MountToGridMovement()
+    {
+        ///Player cutscene, efter cutscene players transform til noget bestemt
+        gameManager.StopMountMovement();
+        playerObject.transform.position = playerSpawnPoint.transform.position;
+        gameManager.StartGridMovement();
+        colliderTrigger.isTrigger = false;
+        visualGFX.enabled = true;
+    }
+
+    public void GridToNormalMovement()
+    {
+        gameManager.StopGridMovement();
+        playerController.normalMovement = true;
+        colliderTrigger.isTrigger = false;
+        visualGFX.enabled = true;
+    }
+
 }

@@ -9,20 +9,24 @@ using System;
 
 public class Menu : MonoBehaviour
 {
+    [Header("Player")]
+    public GameObject playerObject;
+    public PlayerController playerController;
 
     [Header("Pause Menu")]
     public bool gameIsPaused = false;
     public GameObject pauseMenuUI;
 
     [Header("Death Menu")]
-    public bool playerIsDead = false;
-    public GameObject deathMenuUI;
+    [SerializeField] private GameObject deathMenuUI;
+    [SerializeField] private GameObject changePlayerMovStartObject;
+    [SerializeField] private Transform playerRestartPoint;
+    private bool deathMenuActive = false;
 
     [Header("Level info")]
-    [SerializeField] public int levelNumber;
-
-    public LevelData[] levelData;
-    public int currentlevelIntro;
+    [SerializeField] private int levelNumber;
+    [SerializeField] private LevelData[] levelData;
+    [SerializeField] private int currentlevelIntro;
 
     [Header("Music")]
     [SerializeField] private AudioMixerGroup musicMixer;
@@ -34,7 +38,6 @@ public class Menu : MonoBehaviour
 
 
     private static Menu instance;
-
     private void Awake()
     {
         if (instance != null)
@@ -203,22 +206,18 @@ public class Menu : MonoBehaviour
 
     public void OnDeathMenu()
     {
-        Debug.Log("Hvad der sker når man er død i menu");
+        deathMenuActive = true;
+        deathMenuUI.SetActive(deathMenuActive);
     }
 
     public void TryAgainDeathMenu()
     {
-        Debug.Log("Try again");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Lav alt mørkt og kun start efter måske 1 sec. Måske en count down?
+        deathMenuActive = false;
+        deathMenuUI.SetActive(deathMenuActive);
+        playerObject.transform.position = playerRestartPoint.transform.position;
+        playerController.Died = false;
+        playerController.GridMovement(true);
     }
 
-}
-
-[System.Serializable]
-public class Level
-{
-    public int LvlNumber;
-    public bool locked;
-    public string LvlName;
-    public TextAsset inkJSON;
 }

@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     public Menu menu;
-    //public DialogueManager dialogueManager;
     public GameManager gameManager;
     public PlayerInputActions playerInputActions;
     private SpriteRenderer spriteRenderer;
@@ -53,9 +52,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Tilemap groundTilemap;
     [SerializeField] private Tilemap collisionTilemap;
+    [SerializeField] private Tilemap inFrontPlayerTilemap;
+    [SerializeField] private Tilemap behindPlayerTilemap;
 
     public bool GridMovAutoLeft = false;
     public bool GridMovAutoRight = false; //Måske ændre til GridMovAutoLeft
+    public bool GridMovAutoDown = false;
     private Vector2 finalDirection;
 
     public bool Died = false;
@@ -95,6 +97,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Died) return;
+
         if (DialogueManager.GetInstance().dialogueIsPlaying)
         {
             animator.SetBool("isMoving", false);
@@ -117,7 +121,7 @@ public class PlayerController : MonoBehaviour
             MountJump();
         }
 
-        //Movemeent
+        //Movement
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
             movementInput = InputManager.GetInstance().GetMoveDirection();
@@ -132,6 +136,8 @@ public class PlayerController : MonoBehaviour
     #region Grid Movement - 3 lanes
     public void HandleGridMove(Vector2 direction)
     {
+        if (Died) return;
+
         //!dialogueManager.dialogIsActive
         if (gridMovement)
         {
@@ -164,9 +170,14 @@ public class PlayerController : MonoBehaviour
             }
             tempMoveSpeed = autoMoveSpeed;
             animator.SetBool("onMount", true);
+            animator.SetBool("isMoving", true);
+            currentLane = 1;
 
             gridMovement = true;
             canAutoMoveBool = true;
+            GridMovAutoRight = true;
+            GridMovAutoLeft = false;
+            GridMovAutoDown = false;
         }
         else if (!active)
         {
@@ -177,6 +188,7 @@ public class PlayerController : MonoBehaviour
             canAutoMoveBool = false;
             GridMovAutoLeft = false;
             GridMovAutoRight = false;
+            GridMovAutoDown = false;
         }
     }
     private bool CanGridMove(Vector2 direction)
@@ -319,6 +331,14 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("horizontalMovement", new Vector2(1, 0).x);
                 finalDirection = new Vector2(autoDirection.y, 0);
             }
+            else if (GridMovAutoDown)
+            {
+                // Move down
+                animator.SetFloat("horizontalMovement", new Vector2(0, 0).x);
+                animator.SetFloat("verticalMovement", new Vector2(0, -1).y);
+                finalDirection = new Vector2(0, -autoDirection.y);
+                Debug.Log("finalDirection" + finalDirection);
+            }
             else
             {
                 //Forward
@@ -331,35 +351,23 @@ public class PlayerController : MonoBehaviour
             {
                 if (CanAutoGridMove(finalDirection))
                 {
-
                     rb.MovePosition(rb.position + finalDirection * tempMoveSpeed * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    //Bliver kaldt da playeren har ramt ind i en væg
+                    PlayerDied();
+                    Debug.Log("Dead");
                 }
             }
         }
     }
-    public bool ChangeAutoMoveDirection(bool left, bool forward, bool right)
-    {
-        if (left)
-        {
-            GridMovAutoLeft = true;
-        }
-        else if (forward)
-        {
-            GridMovAutoLeft = false;
-            GridMovAutoRight = false;
-        }
-        else if (right)
-        {
-            GridMovAutoRight = true;
-        }
 
-        return false;
-    }
     private bool CanAutoGridMove(Vector2 direction)
     {
         //Gør det i Int, da tingene ligger på et tilemap som er et grid af 1x1 firkanter.
         Vector3Int gridPosistion = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
-
+        
         //For en sikkerheds skyld.
         if (!groundTilemap.HasTile(gridPosistion))
         {
@@ -377,12 +385,9 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-
-
     #region Normal Movement
     private void NormalMovement(Vector2 direction)
     {
-        //normalMovement && !dialogueManager.dialogIsActive || mountMovement && !dialogueManager.dialogIsActive
         if (normalMovement || mountMovement)
         {
 
@@ -516,6 +521,7 @@ public class PlayerController : MonoBehaviour
     {
         //Døde på en måde, kan blive kaldt i andre scripts.
         Died = true;
+        animator.SetBool("isMoving", false);
         gameManager.PlayerDead();
     }
 
