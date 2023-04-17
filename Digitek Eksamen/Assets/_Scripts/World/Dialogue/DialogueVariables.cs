@@ -59,6 +59,11 @@ public class DialogueVariables
 
         DialogueManager.GetInstance().SetVariableState("hc_secondTalkCalled", new Ink.Runtime.BoolValue(false));
 
+        DialogueManager.GetInstance().SetVariableState("brothers_firstTalkCalled", new Ink.Runtime.BoolValue(false));
+
+        DialogueManager.GetInstance().SetVariableState("brothers_secondTalkCalled", new Ink.Runtime.BoolValue(false));
+
+
         SaveVariables();
         InitializeDictionary();
     }

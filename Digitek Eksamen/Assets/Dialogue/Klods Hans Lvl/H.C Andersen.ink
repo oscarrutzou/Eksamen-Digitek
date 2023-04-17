@@ -69,8 +69,3 @@ Oppe på toppen af en klippe, finder du den sidste ting. #speaker: H.C Andersen 
 = ThirdWaitStich
 Held og lykke med at faa kongedatteren! #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 -> DONE
-
-
-
-
-
