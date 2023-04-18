@@ -3,12 +3,9 @@ INCLUDE ../globals.ink
 -> Start
 
 === Start ===
-//Switch statement for at se hvor lang i historien spilleren er
-{brothers_firstTalkCalled: |-> FirstTalk}
-{brothers_secondTalkCalled: |-> SecondTalk}
+{brothers_firstTalkCalled: -> SecondTalk |-> FirstTalk}
+//{brothers_secondTalkCalled: |-> SecondTalk}
 -> END
-//Start block end
-
 
 === FirstTalk ===
 
@@ -18,13 +15,13 @@ Ha! Se bror det er den yngste. #speaker: Bror 1 #portrait:dr_green_neutral #layo
 
 Klods Hans, hvor er du paa vej hen? #speaker: Bror 2 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
-Jeg vil tage hen til prinsessen, da jeg faar sådan en lyst til at gifte mig. Ta'r hun mig, så ta'r hun mig! og ta'r hun mig ikke, så ta'r jeg hende alligevel! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
+Jeg vil tage hen til prinsessen, da jeg faar saadan en lyst til at gifte mig. Ta'r hun mig, saa ta'r hun mig! og ta'r hun mig ikke, saa ta'r jeg hende alligevel! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Haha! Tror du virkelig, at du kan vinde hendes hjerte? Du er ikke laert, og kan ingen gang få en ordentlig hest at ride på. #speaker: Bror 1 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Haha! Tror du virkelig, at du kan vinde hendes hjerte? Du er ikke laert, og kan ingen gang faa en ordentlig hest at ride på. #speaker: Bror 1 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
 Jeg har fundet gaver jeg vil foraere til kongedatteren, en doed krage, en gammel traesko, og noget pludder. Det kommer hun til at blive glad for. #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Ja, goer du det! Men vejen frem til slottet er farligt, så hvad med du ridder forreste på din smarte ged Klods Hans. #speaker: Bror 2 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Ja, goer du det! Men vejen frem til slottet er farligt, saa hvad med du ridder forreste paa din smarte ged Klods Hans. #speaker: Bror 2 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
 Det lyder fint. Halohoj her kommer jeg! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 

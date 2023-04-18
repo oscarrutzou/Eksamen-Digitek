@@ -47,13 +47,13 @@ Godt gaaet, Klods Hans! Du har fundet både mudder og en gammel traesko. #speake
 
 Tak skal du have! Var der mere jeg har brug for? #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Ja. Den sidste ting, du skal finde, ligger på toppen af en klippe. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Ja. Den sidste ting, du skal finde, ligger på en bakke. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
-Men du har brug for noget at ride på for at komme op på toppen af klippen og til den lange tur hen til kongedatteren. 
+Men du har brug for noget at ride på for at komme derop, da den er meget stejl.
 
 Hmm. Hvad kan jeg mon bruge? #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Jeg har en overraskelse til dig! Du kan faa denne ged, som du kan bruge. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Jeg har en overraskelse til dig! Du kan faa denne ged, som du kan bruge. Du kan ogsaa bruge den til at ride hen til kongedatteren. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
 En ged? Ej hvor en pragtfuld gave! Tusind tak! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
@@ -63,7 +63,7 @@ Haha det var så lidt. Held og lykke med at faa kongedatteren! #speaker: H.C And
 -> DONE
 
 = SecondWaitStich
-Oppe på toppen af en klippe, finder du den sidste ting. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Oppe på toppen af en bakke, finder du den sidste ting. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 -> DONE
 
 = ThirdWaitStich
