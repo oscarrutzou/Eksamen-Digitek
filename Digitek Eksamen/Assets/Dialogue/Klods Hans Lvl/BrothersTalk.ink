@@ -3,8 +3,7 @@ INCLUDE ../globals.ink
 -> Start
 
 === Start ===
-{brothers_firstTalkCalled: -> SecondTalk |-> FirstTalk}
-//{brothers_secondTalkCalled: |-> SecondTalk}
+{brothers_firstTalkCalled: -> CheckSecondTalk |-> FirstTalk}
 -> END
 
 === FirstTalk ===
@@ -28,6 +27,14 @@ Det lyder fint. Halohoj her kommer jeg! #speaker: Klods Hans #portrait:dr_green_
 ~ brothers_firstTalkCalled = true
 -> DONE
 
+= FirstWaitStich
+Halohoj her kommer jeg! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
+-> DONE
+
+=== CheckSecondTalk ===
+{hasFinnishedGridLvl: -> SecondTalk| -> FirstTalk.FirstWaitStich}
+
+-> DONE
 
 === SecondTalk ===
 Oemh. Hej.. Det er da en meget varm dag i dag. #speaker: Bror 1 #portrait:dr_green_neutral #layout:left #audio:animal_crossing_mid

@@ -40,8 +40,13 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
 
+    [Header("Menu UI")]
+    [SerializeField] private GameObject menuPanel;
+
     private string allLines;
     private Story currentStory;
+
+    private string nextLine;
 
     public bool dialogueIsPlaying { get; private set; } //Kun andre scripts kan læse men ikke ændre på den.
     private bool canContinueToNextLine = false;
@@ -139,6 +144,10 @@ public class DialogueManager : MonoBehaviour
 
         if (canContinueToNextLine && currentStory.currentChoices.Count == 0)
         {
+            //if (isIntro)
+            //{
+            //    ContinueIntroStory();
+            //}
             if (isIntro || InputManager.GetInstance().GetSubmitPressed())
             {
                 ContinueStory();
@@ -180,6 +189,7 @@ public class DialogueManager : MonoBehaviour
         {
             //Debug.Log("Send player to next scene after a bit");
             isIntro = false;
+            dialoguePanel.SetActive(false);
             GameManager.GetInstance().OnChangeFromMenuToLevel();
         }
     }
@@ -193,23 +203,119 @@ public class DialogueManager : MonoBehaviour
             {
                 StopCoroutine(displayLineCoroutine);
             }
-            string nextLine = currentStory.Continue();
+            nextLine = currentStory.Continue();
             // Handles tags
             HandleTags(currentStory.currentTags);
 
             if (isIntro)
             {
-                StartCoroutine(DisplayIntroText());
+                menuPanel.SetActive(false);
+                displayLineCoroutine = StartCoroutine(DisplayIntro(nextLine));
                 return;
             }
-
-            displayLineCoroutine = StartCoroutine(DisplayLine(nextLine));
+            else
+            {
+                displayLineCoroutine = StartCoroutine(DisplayLine(nextLine));
+            }
         }
         else if (!isIntro || InputManager.GetInstance().GetSubmitPressed())
         {
             ExitDialogueMode();
         }
     }
+
+    private void GetAllLines()
+    {
+        allLines = "";
+        allLines += dialogueText.text;
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (currentStory.canContinue)
+            {
+                allLines += currentStory.Continue();
+
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        Debug.Log(allLines);
+
+        //callOnceDisplayIntro = true;
+
+        dialogueText.text = allLines;
+        dialogueText.maxVisibleCharacters = allLines.Length;
+    }
+
+    private IEnumerator DisplayIntro(string line)
+    {
+        // Keep the previous line and append the new line
+        dialogueText.text += line; // "\n"+
+        dialogueText.maxVisibleCharacters = 0;
+
+        if (dialogueText.maxVisibleCharacters == 0)
+        {
+            dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+            Debug.Log("dialogueText.maxVisibleCharacters>EOR" + dialogueText.maxVisibleCharacters);
+
+        }
+        else
+        {
+            dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount - line.Length;
+        }
+
+        Debug.Log("dialogueText.maxVisibleCharacters" + dialogueText.maxVisibleCharacters);
+        // Everything that should be hidden while typing
+        continueIcon.SetActive(false);
+        HideChoices();
+        canContinueToNextLine = false;
+
+        bool isAddingRichTextTag = false;
+        foreach (char letter in line.ToCharArray())
+        {
+            // If submit pressed, write the whole line at once
+            if (InputManager.GetInstance().GetSubmitPressed())
+            {
+                GetAllLines();
+                break; // Exits foreach loop
+            }
+
+            // Checks for rich text tag and adds it without waiting
+            if (letter == '<' || isAddingRichTextTag)
+            {
+                isAddingRichTextTag = true;
+                if (letter == '>')
+                {
+                    isAddingRichTextTag = false;
+                }
+            }
+            else // If it's not a rich text tag, adds letters after waiting a bit
+            {
+                PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
+                dialogueText.maxVisibleCharacters++;
+                yield return new WaitForSeconds(typingSpeed);
+            }
+        }
+
+
+        if (!currentStory.canContinue)
+        {
+            continueIcon.SetActive(true);
+            Debug.Log("!canContinue");
+        }
+        else
+        {
+            Debug.Log("canContinue");
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        //callOnceDisplayIntro = true;
+        canContinueToNextLine = true;
+    }
+
 
     private IEnumerator DisplayIntroText()
     {

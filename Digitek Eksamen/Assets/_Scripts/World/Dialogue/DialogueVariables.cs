@@ -62,6 +62,8 @@ public class DialogueVariables
         DialogueManager.GetInstance().SetVariableState("brothers_firstTalkCalled", new Ink.Runtime.BoolValue(false));
 
         DialogueManager.GetInstance().SetVariableState("brothers_secondTalkCalled", new Ink.Runtime.BoolValue(false));
+        
+        DialogueManager.GetInstance().SetVariableState("hasFinnishedGridLvl", new Ink.Runtime.BoolValue(false));
 
 
         SaveVariables();

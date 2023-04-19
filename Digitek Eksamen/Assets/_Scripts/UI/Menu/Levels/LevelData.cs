@@ -7,4 +7,6 @@ public class LevelData : ScriptableObject
     public bool locked;
     public string LvlName;
     public TextAsset inkJSON;
+
+    public int LvlCollectable;
 }

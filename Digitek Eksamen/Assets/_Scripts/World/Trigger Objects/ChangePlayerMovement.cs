@@ -14,12 +14,11 @@ public class ChangePlayerMovement : MonoBehaviour
     [SerializeField] private bool startRun = false; //player done quest
     [SerializeField] private bool stopRun = false;
 
-    private SpriteRenderer visualGFX;
+    [SerializeField] private GameObject visualVFXObject;
 
     private void Start()
     {
         colliderTrigger = GetComponent<Collider2D>();
-        visualGFX = GetComponent<SpriteRenderer>();
 
     }
 
@@ -37,7 +36,7 @@ public class ChangePlayerMovement : MonoBehaviour
             && PlayerController.GetInstance().mountMovement)
         {
             colliderTrigger.isTrigger = true;
-            visualGFX.enabled = false;
+            visualVFXObject.SetActive(false);
         }
     }
 
@@ -68,7 +67,8 @@ public class ChangePlayerMovement : MonoBehaviour
         playerObject.transform.position = playerSpawnPoint.transform.position;
         gameManager.StartGridMovement();
         colliderTrigger.isTrigger = false;
-        visualGFX.enabled = true;
+        visualVFXObject.SetActive(true);
+
     }
 
     public void GridToNormalMovement()
@@ -76,7 +76,10 @@ public class ChangePlayerMovement : MonoBehaviour
         gameManager.StopGridMovement();
         playerController.normalMovement = true;
         colliderTrigger.isTrigger = false;
-        visualGFX.enabled = true;
+        visualVFXObject.SetActive(true);
+
+        Ink.Runtime.BoolValue newValue = new Ink.Runtime.BoolValue(true);
+        DialogueManager.GetInstance().SetVariableState("hasFinnishedGridLvl", new Ink.Runtime.BoolValue(true));
     }
 
 }

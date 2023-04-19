@@ -45,6 +45,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public static AudioManager GetInstance()
+    {
+        return instance;
+    }
+
 
     void Start()
     {
@@ -52,12 +57,12 @@ public class AudioManager : MonoBehaviour
 
         //Når man kalder den, tag og reference AudioManager før man ka spille lyden self:d
 
-        //Play("Theme");
+        Play("MainTheme");
     }
 
 
     //For at nemmere kunne kalde sounds igennem andre scipts, eller hvis man har mange sounds.
-    public  void Play(string name)
+    public void Play(string name)
     {
         //Finder den sound med det samme man har skrevet ind i Play.
         Sound s = Array.Find(sounds, sound => sound.name == name);

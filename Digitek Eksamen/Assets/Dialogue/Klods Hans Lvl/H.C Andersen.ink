@@ -20,7 +20,7 @@ INCLUDE ../globals.ink
 === FirstTalk ===
 Hej Klods Hans! Jeg hedder H.C. Andersen. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
-Jeg har hoert fra dine broedre at de ikke tror du har en chance med kongedatteren, men det tror jeg ikke på det. 
+Jeg har hoert fra dine broedre at de ikke tror du har en chance med kongedatteren, men det tror jeg ikke paa det. 
 
 Jeg ved du er en speciel person og kan goere det hvis du proever. 
 
@@ -30,7 +30,7 @@ Har du da nogen ide omkring hvad jeg skal goere for at faa hende? #speaker: Klod
 
 Ja, det er jo en god ide at have en gave med. Proev derfor at kig rundt og se om du kan finde noget hun ville kunne lide. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
-Kom tilbage til mig når du har fundet to gaver. 
+Kom tilbage til mig naar du har fundet to gaver. 
 
 Oki dokki! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
@@ -43,7 +43,7 @@ Led efter de lysende markoerer, de vil lede dig på rette vej. #speaker: H.C And
 
 
 === SecondTalk ===
-Godt gaaet, Klods Hans! Du har fundet både mudder og en gammel traesko. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Godt gaaet, Klods Hans! Du har fundet baade mudder og en gammel traesko. #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
 Tak skal du have! Var der mere jeg har brug for? #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
@@ -57,7 +57,7 @@ Jeg har en overraskelse til dig! Du kan faa denne ged, som du kan bruge. Du kan 
 
 En ged? Ej hvor en pragtfuld gave! Tusind tak! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Haha det var så lidt. Held og lykke med at faa kongedatteren! #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Haha det var saa lidt. Held og lykke med at faa kongedatteren! #speaker: H.C Andersen #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
 ~ hc_secondTalkCalled = true
 -> DONE
