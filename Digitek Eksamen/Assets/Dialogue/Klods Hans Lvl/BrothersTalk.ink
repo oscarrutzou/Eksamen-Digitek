@@ -16,7 +16,7 @@ Klods Hans, hvor er du paa vej hen? #speaker: Bror 2 #portrait:dr_green_neutral 
 
 Jeg vil tage hen til prinsessen, da jeg faar saadan en lyst til at gifte mig. Ta'r hun mig, saa ta'r hun mig! og ta'r hun mig ikke, saa ta'r jeg hende alligevel! #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
-Haha! Tror du virkelig, at du kan vinde hendes hjerte? Du er ikke laert, og kan ingen gang faa en ordentlig hest at ride på. #speaker: Bror 1 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
+Haha! Tror du virkelig, at du kan vinde hendes hjerte? Du er ikke laert, og kan ingen gang faa en ordentlig hest at ride paa. #speaker: Bror 1 #portrait:dr_green_neutral #layout:right #audio:animal_crossing_mid
 
 Jeg har fundet gaver jeg vil foraere til kongedatteren, en doed krage, en gammel traesko, og noget pludder. Det kommer hun til at blive glad for. #speaker: Klods Hans #portrait:dr_green_neutral #layout:left #audio:animal_crossing_high
 
