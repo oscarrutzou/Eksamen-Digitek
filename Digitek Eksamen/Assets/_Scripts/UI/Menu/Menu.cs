@@ -13,6 +13,9 @@ public class Menu : MonoBehaviour
     public GameObject playerObject;
     public PlayerController playerController;
 
+    [Header("Menu Panel")]
+    [SerializeField] private GameObject menuPanel; //Brugt ved både pause og death menu
+
     [Header("Pause Menu")]
     public bool gameIsPaused = false;
     public GameObject pauseMenuUI;
@@ -21,14 +24,20 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject deathMenuUI;
     [SerializeField] private GameObject changePlayerMovStartObject;
     [SerializeField] private Transform playerRestartPoint;
-    private bool deathMenuActive = false;
+    //private bool deathMenuActive = false;
 
     [Header("Level info")]
-    [SerializeField] private int levelNumber;
-    [SerializeField] private LevelData[] levelData;
+    public int levelNumber;
+    public LevelData[] levelData;
     [SerializeField] private int currentlevelIntro;
 
+    [Header("Collectable info")]
+    [SerializeField] private int collectetCollectable;
+    [SerializeField] private int maxCollectable;
+
     [Header("Music")]
+    [SerializeField] private AudioMixerGroup masterMixer;
+    [SerializeField] private Slider masterVolumeSlider;
     [SerializeField] private AudioMixerGroup musicMixer;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private AudioMixerGroup sfxMixer;
@@ -46,8 +55,12 @@ public class Menu : MonoBehaviour
         }
         instance = this;
 
-        if (!PlayerPrefs.HasKey("musicVolume") && !PlayerPrefs.HasKey("sfxVolume") && !PlayerPrefs.HasKey("dialogueVolume"))
+        if (!PlayerPrefs.HasKey("masterVolume")
+            && !PlayerPrefs.HasKey("musicVolume") 
+            && !PlayerPrefs.HasKey("sfxVolume") 
+            && !PlayerPrefs.HasKey("dialogueVolume"))
         {
+            PlayerPrefs.SetFloat("masterVolume", 1);
             PlayerPrefs.SetFloat("musicVolume", 1);
             PlayerPrefs.SetFloat("sfxVolume", 1);
             PlayerPrefs.SetFloat("dialogueVolume", 1);
@@ -67,30 +80,33 @@ public class Menu : MonoBehaviour
     public void SetVolume(float volume)
     {
         //Dramatisk går fra -60DB til -40DB, dog kan mennesket ikke hører under -40DB så det går:)
+        masterMixer.audioMixer.SetFloat("masterVolume", Mathf.Log10(volume) * 20);
         musicMixer.audioMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
         sfxMixer.audioMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
         dialogueMixer.audioMixer.SetFloat("dialogueVolume", Mathf.Log10(volume) * 20);
-        //Debug.Log("PlayerPrefs.GetFloat(dialogueVolume)" + PlayerPrefs.GetFloat("dialogueVolume"));
+    }
+
+    public void ChangeMasterVolume()
+    {
+        AudioListener.volume = musicVolumeSlider.value;
+        PlayerPrefs.SetFloat("masterVolume", masterVolumeSlider.value);
     }
 
     public void ChangeMusicVolume()
     {
-        //Sætter volume til valuen på slideren og laver en save.
-        AudioListener.volume = musicVolumeSlider.value;
+        //AudioListener.volume = musicVolumeSlider.value;
         PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
-
+        
     }
     public void ChangeSFXVolume()
     {
-        //Sætter volume til valuen på slideren og laver en save.
-        AudioListener.volume = sfxVolumeSlider.value;
+        //AudioListener.volume = sfxVolumeSlider.value;
         PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
-
     }
+
     public void ChangeDialogueVolume()
     {
-        //Sætter volume til valuen på slideren og laver en save.
-        AudioListener.volume = dialogueVolumeSlider.value;
+        //AudioListener.volume = dialogueVolumeSlider.value;
         PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
 
     }
@@ -98,6 +114,8 @@ public class Menu : MonoBehaviour
     private void Load()
     {
         //Sætter den lig med hvad vi har gemt
+        masterVolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
+
         musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
         sfxVolumeSlider.value = PlayerPrefs.GetFloat("sfxVolume");
         dialogueVolumeSlider.value = PlayerPrefs.GetFloat("dialogueVolume");
@@ -106,6 +124,7 @@ public class Menu : MonoBehaviour
     private void Save()
     {
         //Sætter value fra slider ind i vores key name
+        PlayerPrefs.SetFloat("masterVolume", masterVolumeSlider.value);
         PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
         PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
@@ -142,22 +161,24 @@ public class Menu : MonoBehaviour
             Pause();
         }
     }
+
     public void Pause()
     {
         //Aktivere objectet
+        menuPanel.SetActive(true);
         pauseMenuUI.SetActive(true);
         gameIsPaused = true;
-        Time.timeScale = 1f;
+        PlayerController.GetInstance().isAllowedToMove = false;
     }
 
     public void Resume()
     {
-        //Stopper objectet
         if (pauseMenuUI != null)
         {
+            menuPanel.SetActive(false);
             pauseMenuUI.SetActive(false);
             gameIsPaused = false;
-            Time.timeScale = 1;
+            PlayerController.GetInstance().isAllowedToMove = true;
         }
         else
         {
@@ -204,17 +225,86 @@ public class Menu : MonoBehaviour
 
     #endregion
 
+    #region Collectable
+    public void AddCurrentCollectableScore()
+    {
+        //LevelData level = levelData[levelNumber - 1];
+
+        //++levelData[levelNumber - 1].lvlMaxCollectable;
+        if (collectetCollectable < maxCollectable)
+        {
+            ++collectetCollectable;
+        }
+        else return;
+
+        Debug.Log("collectetCollectable" + collectetCollectable);
+
+    }
+
+    public void SaveCollectetScore()
+    {
+        if (!PlayerPrefs.HasKey("collectedScore" + levelNumber)) //Bruger lvl number som går fra 1 og op
+        {
+            PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+            Debug.Log("Dont have key PlayerPrefs.GetInt(collectedScore + levelNumber): " + PlayerPrefs.GetInt("collectedScore" + levelNumber));
+
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("collectedScore" + levelNumber) < collectetCollectable)
+            {
+                PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+                Debug.Log("HasKey PlayerPrefs.GetInt(collectedScore + levelNumber): " + PlayerPrefs.GetInt("collectedScore" + levelNumber));
+
+            }
+            else 
+            {
+                Debug.Log("HasKey123 PlayerPrefs.GetInt(collectedScore + levelNumber): " + PlayerPrefs.GetInt("collectedScore" + levelNumber));
+                PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+                return; 
+            }
+        }
+    }
+
+    public void DeleteHighScoreOnLvl()
+    {
+        for (int i = 1; i <= levelData.Length; i++)
+        {
+            PlayerPrefs.DeleteKey("collectedScore" + i);
+        }
+    }
+
+    public void GoThoughShowScore()
+    {
+        for (int i = 1; i <= levelData.Length; i++)
+        {
+            ShowMaxCollectetScore(i);
+        }
+    }
+
+    //Kald i menu
+    public void ShowMaxCollectetScore(int maxCollectedInLvl)
+    {
+        Debug.Log(PlayerPrefs.GetInt("collectedScore" + maxCollectedInLvl));
+
+        PlayerPrefs.GetInt("collectedScore" + maxCollectedInLvl);
+    }
+
+    #endregion
+
     public void OnDeathMenu()
     {
-        deathMenuActive = true;
-        deathMenuUI.SetActive(deathMenuActive);
+        menuPanel.SetActive(true);
+        //deathMenuActive = true;
+        deathMenuUI.SetActive(true);
     }
 
     public void TryAgainDeathMenu()
     {
         //Lav alt mørkt og kun start efter måske 1 sec. Måske en count down?
-        deathMenuActive = false;
-        deathMenuUI.SetActive(deathMenuActive);
+        menuPanel.SetActive(false);
+        //deathMenuActive = false;
+        deathMenuUI.SetActive(false);
         playerObject.transform.position = playerRestartPoint.transform.position;
         playerController.Died = false;
         playerController.GridMovement(true);

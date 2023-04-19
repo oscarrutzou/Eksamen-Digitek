@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class BrotherCollider : MonoBehaviour
 {
+
+
+    [SerializeField] private GameObject BrothersGameObjects;
+
     [SerializeField] private GameObject BlockPlayerCollider;
 
     private void Start()
     {
+        BrothersGameObjects.SetActive(false);
         BlockPlayerCollider.SetActive(true);
     }
 
     private void Update()
     {
-        if (((Ink.Runtime.IntValue)DialogueManager.GetInstance().GetVariableState("questItemsCollected")).value == 3
-            && ((Ink.Runtime.BoolValue)DialogueManager.GetInstance().GetVariableState("brothers_firstTalkCalled")).value == true)
+        if (((Ink.Runtime.IntValue)DialogueManager.GetInstance().GetVariableState("questItemsCollected")).value == 3)
         {
-            BlockPlayerCollider.SetActive(false);
+            BrothersGameObjects.SetActive(true);
+
+            if (((Ink.Runtime.BoolValue)DialogueManager.GetInstance().GetVariableState("brothers_firstTalkCalled")).value == true)
+            {
+                BlockPlayerCollider.SetActive(false);
+            }
         }
     }
 

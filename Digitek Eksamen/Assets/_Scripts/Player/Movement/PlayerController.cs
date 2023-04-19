@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 finalDirection;
 
     public bool Died = false;
+    public bool isAllowedToMove = true;
 
     private static PlayerController instance;
 
@@ -116,10 +117,16 @@ public class PlayerController : MonoBehaviour
         } //Interact
 
         //Jump
-        if (InputManager.GetInstance().GetJumpPressed())
+        //if (InputManager.GetInstance().GetJumpPressed())
+        //{
+        //    MountJump();
+        //}
+
+        if (!isAllowedToMove)
         {
-            MountJump();
-        }
+            animator.SetBool("isMoving", false);
+            return;
+         }
 
         //Movement
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
@@ -319,6 +326,8 @@ public class PlayerController : MonoBehaviour
 
         if (canAutoMoveBool)
         {
+            animator.SetBool("isMoving", true);
+
             if (GridMovAutoLeft)
             {
                 //Move left

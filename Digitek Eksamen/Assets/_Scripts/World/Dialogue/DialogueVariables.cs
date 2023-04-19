@@ -65,6 +65,7 @@ public class DialogueVariables
         
         DialogueManager.GetInstance().SetVariableState("hasFinnishedGridLvl", new Ink.Runtime.BoolValue(false));
 
+        //Menu.GetInstance().DeleteHighScoreOnLvl();
 
         SaveVariables();
         InitializeDictionary();

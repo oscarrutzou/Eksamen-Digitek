@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CollectableTrigger : MonoBehaviour
@@ -10,7 +11,9 @@ public class CollectableTrigger : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("PickUp");
+            Menu.GetInstance().AddCurrentCollectableScore();
+            //Deactivate
+            this.gameObject.SetActive(false);
         }
     }
 

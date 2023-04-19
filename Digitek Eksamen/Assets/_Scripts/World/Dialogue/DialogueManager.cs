@@ -242,7 +242,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        Debug.Log(allLines);
+        //Debug.Log(allLines);
 
         //callOnceDisplayIntro = true;
 
@@ -259,15 +259,14 @@ public class DialogueManager : MonoBehaviour
         if (dialogueText.maxVisibleCharacters == 0)
         {
             dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
-            Debug.Log("dialogueText.maxVisibleCharacters>EOR" + dialogueText.maxVisibleCharacters);
-
+            //Debug.Log("dialogueText.maxVisibleCharacters>EOR" + dialogueText.maxVisibleCharacters);
         }
         else
         {
             dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount - line.Length;
         }
 
-        Debug.Log("dialogueText.maxVisibleCharacters" + dialogueText.maxVisibleCharacters);
+        //Debug.Log("dialogueText.maxVisibleCharacters" + dialogueText.maxVisibleCharacters);
         // Everything that should be hidden while typing
         continueIcon.SetActive(false);
         HideChoices();
@@ -304,11 +303,11 @@ public class DialogueManager : MonoBehaviour
         if (!currentStory.canContinue)
         {
             continueIcon.SetActive(true);
-            Debug.Log("!canContinue");
+            //Debug.Log("!canContinue");
         }
         else
         {
-            Debug.Log("canContinue");
+            //Debug.Log("canContinue");
             yield return new WaitForSeconds(1.5f);
         }
 
@@ -316,71 +315,6 @@ public class DialogueManager : MonoBehaviour
         canContinueToNextLine = true;
     }
 
-
-    private IEnumerator DisplayIntroText()
-    {
-        allLines = "";
-        allLines += currentStory.currentText;
-
-        for (int i = 0; i < 10; i++)
-        {
-            if (currentStory.canContinue)
-            {
-                allLines += currentStory.Continue();
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        dialogueText.text = allLines;
-        dialogueText.maxVisibleCharacters = 0;
-
-        // Everything that should be hidden while typing
-        continueIcon.SetActive(false);
-        HideChoices();
-
-        canContinueToNextLine = false;
-
-        bool isAddingRichTextTag = false;
-
-        foreach (char letter in allLines.ToCharArray())
-        {
-            // If submit pressed, write the whole line at once
-            if (InputManager.GetInstance().GetSubmitPressed())
-            {
-                dialogueText.maxVisibleCharacters = allLines.Length;
-                break; // Exits foreach loop
-            }
-
-            // Checks for rich text tag and adds it without waiting
-            if (letter == '<' || isAddingRichTextTag)
-            {
-                isAddingRichTextTag = true;
-                if (letter == '>')
-                {
-                    isAddingRichTextTag = false;
-                }
-            }
-            else // If it's not a rich text tag, adds letters after waiting a bit
-            {
-                PlayDialogueSound(dialogueText.maxVisibleCharacters, dialogueText.text[dialogueText.maxVisibleCharacters]);
-                dialogueText.maxVisibleCharacters++;
-                yield return new WaitForSeconds(typingSpeed);
-            }
-        }
-
-        // Fjern hvis den skal kunne bruges på flere sider. 
-        
-        //dialogueText.text = allLines;
-
-        // Shows everything that was hidden again
-        continueIcon.SetActive(true);
-        DisplayChoices();
-
-        canContinueToNextLine = true;
-    }
     private IEnumerator DisplayLine(string line)
     {
         dialogueText.text = line;
@@ -492,7 +426,6 @@ public class DialogueManager : MonoBehaviour
             choiceButton.SetActive(false);
         }
     }
-
 
     private void HandleTags(List<string> currentTags)
     {

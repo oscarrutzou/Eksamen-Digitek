@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour
 
     public void MovePressed(InputAction.CallbackContext context)
     {
-        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying && PlayerController.GetInstance().isAllowedToMove)
         {
             moveDirection = context.ReadValue<Vector2>();
         }
@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour
 
     public void GridMovePressed(InputAction.CallbackContext context)
     {
-        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying && PlayerController.GetInstance().isAllowedToMove)
         {
             gridMoveDirection = context.ReadValue<Vector2>();
             if (!GameManager.GetInstance().isInMainMenu)
