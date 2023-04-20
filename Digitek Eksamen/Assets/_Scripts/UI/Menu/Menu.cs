@@ -26,6 +26,9 @@ public class Menu : MonoBehaviour
     [SerializeField] private Transform playerRestartPoint;
     //private bool deathMenuActive = false;
 
+    [Header("Win Menu")]
+    [SerializeField] private GameObject winMenuUI;
+
     [Header("Level info")]
     public int levelNumber;
     public LevelData[] levelData;
@@ -34,16 +37,14 @@ public class Menu : MonoBehaviour
     [Header("Collectable info")]
     [SerializeField] private int collectetCollectable;
     [SerializeField] private int maxCollectable;
+    [SerializeField] private TextMeshProUGUI[] collectedInfoText;
 
     [Header("Music")]
-    [SerializeField] private AudioMixerGroup masterMixer;
-    [SerializeField] private Slider masterVolumeSlider;
-    [SerializeField] private AudioMixerGroup musicMixer;
-    [SerializeField] private Slider musicVolumeSlider;
-    [SerializeField] private AudioMixerGroup sfxMixer;
-    [SerializeField] private Slider sfxVolumeSlider;
-    [SerializeField] public AudioMixerGroup dialogueMixer;
-    [SerializeField] private Slider dialogueVolumeSlider;
+    public AudioMixer masterMixer;
+    [SerializeField] private Slider[] masterSliders;
+    [SerializeField] private Slider[] musicSliders;
+    [SerializeField] private Slider[] sfxSliders;
+    [SerializeField] private Slider[] dialogueSliders;
 
 
     private static Menu instance;
@@ -55,79 +56,89 @@ public class Menu : MonoBehaviour
         }
         instance = this;
 
-        if (!PlayerPrefs.HasKey("masterVolume")
-            && !PlayerPrefs.HasKey("musicVolume") 
-            && !PlayerPrefs.HasKey("sfxVolume") 
-            && !PlayerPrefs.HasKey("dialogueVolume"))
-        {
-            PlayerPrefs.SetFloat("masterVolume", 1);
-            PlayerPrefs.SetFloat("musicVolume", 1);
-            PlayerPrefs.SetFloat("sfxVolume", 1);
-            PlayerPrefs.SetFloat("dialogueVolume", 1);
-            Save();
-        }
-        else
-        {
-            Load();
-        }
+
     }
     public static Menu GetInstance()
     {
         return instance;
     }
 
+    private void Start()
+    {
+        LoadSlidersData();
+    }
+
     #region OptionMenu
-    public void SetVolume(float volume)
+    private void LoadSlidersData()
     {
-        //Dramatisk går fra -60DB til -40DB, dog kan mennesket ikke hører under -40DB så det går:)
-        masterMixer.audioMixer.SetFloat("masterVolume", Mathf.Log10(volume) * 20);
-        musicMixer.audioMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
-        sfxMixer.audioMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
-        dialogueMixer.audioMixer.SetFloat("dialogueVolume", Mathf.Log10(volume) * 20);
+        // Load the volume settings from PlayerPrefs or use a default value of 1f
+        float masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        float dialogueVolume = PlayerPrefs.GetFloat("DialogueVolume", 1f);
+
+        // Set the volume of the mixer groups
+
+        masterMixer.SetFloat("masterMixer", LinearToDecibel(masterVolume));
+        masterMixer.SetFloat("musicMixer", LinearToDecibel(musicVolume));
+        masterMixer.SetFloat("sfxMixer", LinearToDecibel(sfxVolume));
+        masterMixer.SetFloat("dialogueMixer", LinearToDecibel(dialogueVolume));
+
+
+
+        // Set the value of the sliders
+        foreach (Slider slider in masterSliders)
+        {
+            slider.value = masterVolume;
+        }
+        foreach (Slider slider in musicSliders)
+        {
+            slider.value = musicVolume;
+        }
+        foreach (Slider slider in sfxSliders)
+        {
+            slider.value = sfxVolume;
+        }
+        foreach (Slider slider in dialogueSliders)
+        {
+            slider.value = dialogueVolume;
+        }
     }
 
-    public void ChangeMasterVolume()
+    public void SetMasterVolume(float volume)
     {
-        AudioListener.volume = musicVolumeSlider.value;
-        PlayerPrefs.SetFloat("masterVolume", masterVolumeSlider.value);
+        masterMixer.SetFloat("masterMixer", LinearToDecibel(volume));
+        PlayerPrefs.SetFloat("MasterVolume", volume);
     }
 
-    public void ChangeMusicVolume()
+    public void SetMusicVolume(float volume)
     {
-        //AudioListener.volume = musicVolumeSlider.value;
-        PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
-        
-    }
-    public void ChangeSFXVolume()
-    {
-        //AudioListener.volume = sfxVolumeSlider.value;
-        PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
+        masterMixer.SetFloat("musicMixer", LinearToDecibel(volume));
+        PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
-    public void ChangeDialogueVolume()
+    public void SetSFXVolume(float volume)
     {
-        //AudioListener.volume = dialogueVolumeSlider.value;
-        PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
-
+        masterMixer.SetFloat("sfxMixer", LinearToDecibel(volume));
+        PlayerPrefs.SetFloat("SFXVolume", volume);
     }
 
-    private void Load()
+    public void SetDialogueVolume(float volume)
     {
-        //Sætter den lig med hvad vi har gemt
-        masterVolumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
-
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
-        sfxVolumeSlider.value = PlayerPrefs.GetFloat("sfxVolume");
-        dialogueVolumeSlider.value = PlayerPrefs.GetFloat("dialogueVolume");
+        masterMixer.SetFloat("dialogueMixer", LinearToDecibel(volume));
+        PlayerPrefs.SetFloat("DialogueVolume", volume);
     }
 
-    private void Save()
+    private float LinearToDecibel(float linear)
     {
-        //Sætter value fra slider ind i vores key name
-        PlayerPrefs.SetFloat("masterVolume", masterVolumeSlider.value);
-        PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
-        PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
-        PlayerPrefs.SetFloat("dialogueVolume", dialogueVolumeSlider.value);
+        float dB;
+
+        if (linear != 0)
+            dB = 20.0f * Mathf.Log10(linear);
+        else
+            dB = -144.0f;
+
+        return dB;
     }
     #endregion
 
@@ -164,6 +175,8 @@ public class Menu : MonoBehaviour
 
     public void Pause()
     {
+        SaveCollectetScore();
+        ShowCollectedScore(levelNumber);
         //Aktivere objectet
         menuPanel.SetActive(true);
         pauseMenuUI.SetActive(true);
@@ -192,6 +205,54 @@ public class Menu : MonoBehaviour
 
         //Den skal ikke være hardkodet.
         SceneManager.LoadScene(0);
+    }
+    #endregion
+
+    #region Death Menu
+    public void OnDeathMenu()
+    {
+        SaveCollectetScore();
+        ShowCollectedScore(levelNumber);
+        menuPanel.SetActive(true);
+        deathMenuUI.SetActive(true);
+    }
+
+    public void TryAgainDeathMenu()
+    {
+        //Lav alt mørkt og kun start efter måske 1 sec. Måske en count down?
+        menuPanel.SetActive(false);
+        deathMenuUI.SetActive(false);
+        playerObject.transform.position = playerRestartPoint.transform.position;
+        StartCoroutine(WaitRestartPointBeforeMove());
+    }
+
+    private IEnumerator WaitRestartPointBeforeMove()
+    {
+        playerController.Died = false;
+        playerController.GridMovement(true);
+        playerController.animator.SetBool("isMoving", false);
+
+        yield return new WaitForFixedUpdate();
+
+        playerController.Died = true;
+        playerController.GridMovement(true);
+        playerController.animator.SetBool("isMoving", false);
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        playerController.Died = false;
+        playerController.GridMovement(true);
+    }
+
+    #endregion
+
+    #region Win Menu
+    public void OnWinMenu()
+    {
+        SaveCollectetScore();
+        ShowCollectedScore(levelNumber);
+        menuPanel.SetActive(true);
+        winMenuUI.SetActive(true);
     }
     #endregion
 
@@ -226,6 +287,14 @@ public class Menu : MonoBehaviour
     #endregion
 
     #region Collectable
+    public void ShowCollectedScore(int lvlNumber)
+    {
+        foreach (TextMeshProUGUI info in collectedInfoText)
+        {
+            info.text = PlayerPrefs.GetInt("collectedScore" + lvlNumber).ToString() + " / " + maxCollectable.ToString();
+        }
+    }
+
     public void AddCurrentCollectableScore()
     {
         //LevelData level = levelData[levelNumber - 1];
@@ -236,9 +305,6 @@ public class Menu : MonoBehaviour
             ++collectetCollectable;
         }
         else return;
-
-        Debug.Log("collectetCollectable" + collectetCollectable);
-
     }
 
     public void SaveCollectetScore()
@@ -246,20 +312,15 @@ public class Menu : MonoBehaviour
         if (!PlayerPrefs.HasKey("collectedScore" + levelNumber)) //Bruger lvl number som går fra 1 og op
         {
             PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
-            Debug.Log("Dont have key PlayerPrefs.GetInt(collectedScore + levelNumber): " + PlayerPrefs.GetInt("collectedScore" + levelNumber));
-
         }
         else
         {
             if (PlayerPrefs.GetInt("collectedScore" + levelNumber) < collectetCollectable)
             {
                 PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
-                Debug.Log("HasKey PlayerPrefs.GetInt(collectedScore + levelNumber): " + PlayerPrefs.GetInt("collectedScore" + levelNumber));
-
             }
             else 
             {
-                Debug.Log("HasKey123 PlayerPrefs.GetInt(collectedScore + levelNumber): " + PlayerPrefs.GetInt("collectedScore" + levelNumber));
                 PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
                 return; 
             }
@@ -273,41 +334,5 @@ public class Menu : MonoBehaviour
             PlayerPrefs.DeleteKey("collectedScore" + i);
         }
     }
-
-    public void GoThoughShowScore()
-    {
-        for (int i = 1; i <= levelData.Length; i++)
-        {
-            ShowMaxCollectetScore(i);
-        }
-    }
-
-    //Kald i menu
-    public void ShowMaxCollectetScore(int maxCollectedInLvl)
-    {
-        Debug.Log(PlayerPrefs.GetInt("collectedScore" + maxCollectedInLvl));
-
-        PlayerPrefs.GetInt("collectedScore" + maxCollectedInLvl);
-    }
-
     #endregion
-
-    public void OnDeathMenu()
-    {
-        menuPanel.SetActive(true);
-        //deathMenuActive = true;
-        deathMenuUI.SetActive(true);
-    }
-
-    public void TryAgainDeathMenu()
-    {
-        //Lav alt mørkt og kun start efter måske 1 sec. Måske en count down?
-        menuPanel.SetActive(false);
-        //deathMenuActive = false;
-        deathMenuUI.SetActive(false);
-        playerObject.transform.position = playerRestartPoint.transform.position;
-        playerController.Died = false;
-        playerController.GridMovement(true);
-    }
-
 }

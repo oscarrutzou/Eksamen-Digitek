@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInputActions playerInputActions;
     private SpriteRenderer spriteRenderer;
 
-    private Animator animator;
+    public Animator animator;
     private Rigidbody2D rb;
 
     [Header("Speed")]
@@ -346,7 +346,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("horizontalMovement", new Vector2(0, 0).x);
                 animator.SetFloat("verticalMovement", new Vector2(0, -1).y);
                 finalDirection = new Vector2(0, -autoDirection.y);
-                Debug.Log("finalDirection" + finalDirection);
             }
             else
             {
@@ -366,7 +365,6 @@ public class PlayerController : MonoBehaviour
                 {
                     //Bliver kaldt da playeren har ramt ind i en væg
                     PlayerDied();
-                    Debug.Log("Dead");
                 }
             }
         }

@@ -8,5 +8,5 @@ public class LevelData : ScriptableObject
     public string LvlName;
     public TextAsset inkJSON;
 
-    public int lvlMaxCollectable;
+    //public int lvlMaxCollectable;
 }

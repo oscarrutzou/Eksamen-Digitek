@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour
     //For at der kun kan kører en AudioManager.
     public static AudioManager instance;
 
+    public AudioMixer masterMixer;
+
     void Awake()
     {
         //For at sikre der kun kører en AuidoManager.
@@ -42,6 +44,13 @@ public class AudioManager : MonoBehaviour
             s.sorce.volume = s.volume;
             s.sorce.pitch = s.pitch;
             s.sorce.loop = s.loop;
+
+            AudioMixerGroup[] groups = masterMixer.FindMatchingGroups(s.mixerGroup);
+            if (groups.Length > 0)
+            {
+                // Assign the first matching group to the outputAudioMixerGroup of the AudioSource
+                s.sorce.outputAudioMixerGroup = groups[0];
+            }
         }
     }
 

@@ -7,6 +7,7 @@ using Ink.Runtime;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
+using UnityEngine.Audio;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -104,8 +105,15 @@ public class DialogueManager : MonoBehaviour
         }
         InitializeAudioInfoDictionary();
 
-        audioSource.outputAudioMixerGroup = menu.dialogueMixer;
 
+        // Find the AudioMixerGroup that corresponds to the dialogueMixer parameter
+        AudioMixerGroup[] groups = menu.masterMixer.FindMatchingGroups("dialogueMixer");
+        if (groups.Length > 0)
+        {
+            // Assign the first matching group to the outputAudioMixerGroup of the AudioSource
+            audioSource.outputAudioMixerGroup = groups[0];
+            Debug.Log("audioSource.outputAudioMixerGroup" + audioSource.outputAudioMixerGroup);
+        }
 
         //Fjern denne hvis der skal gemees variabler igennem gameplays.
         dialogueVariables.DeleteSavedVariables();

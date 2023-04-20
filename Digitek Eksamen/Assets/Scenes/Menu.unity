@@ -875,7 +875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &132120451
 RectTransform:
   m_ObjectHideFlags: 0
@@ -938,7 +938,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -183.1, y: 101.99998}
+  m_AnchoredPosition: {x: -183.1, y: 101.99997}
   m_SizeDelta: {x: -252.34, y: -474.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &136407779
@@ -1075,7 +1075,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -183.10004, y: -68.96999}
+  m_AnchoredPosition: {x: -183.10004, y: -68.97}
   m_SizeDelta: {x: -252.34, y: -474.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &144054507
@@ -1268,19 +1268,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeSFXVolume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1937547029}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_MethodName: SetSFXVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1324,7 +1312,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1817,8 +1805,9 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     loop: 1
-    audioMixer: {fileID: 24100000, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
+    mixerGroup: Music
     sorce: {fileID: 0}
+  masterMixer: {fileID: 24100000, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
 --- !u!4 &227835260
 Transform:
   m_ObjectHideFlags: 0
@@ -2599,8 +2588,8 @@ RectTransform:
   m_Father: {fileID: 1198436529}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4994995, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 5.300003, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2968,8 +2957,8 @@ RectTransform:
   m_Father: {fileID: 111600669}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4994995, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 5.3000183, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4599,7 +4588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &816898587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5290,7 +5279,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6495,8 +6484,8 @@ RectTransform:
   m_Father: {fileID: 1849532292}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4994995, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 5.3000183, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7058,19 +7047,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeMusicVolume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1937547029}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_MethodName: SetMasterVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7589,19 +7566,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeMusicVolume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1937547029}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_MethodName: SetMusicVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7897,7 +7862,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8930,7 +8895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -183.10004, y: 16.210047}
+  m_AnchoredPosition: {x: -183.10004, y: 16.210052}
   m_SizeDelta: {x: -252.34, y: -474.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668471539
@@ -9744,19 +9709,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1937547029}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: ChangeDialogueVolume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1937547029}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_MethodName: SetDialogueVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10323,6 +10276,8 @@ MonoBehaviour:
   deathMenuUI: {fileID: 0}
   changePlayerMovStartObject: {fileID: 0}
   playerRestartPoint: {fileID: 0}
+  winMenuUI: {fileID: 0}
+  collectedInfoText: {fileID: 0}
   levelNumber: 1
   levelData:
   - {fileID: 11400000, guid: fa88fa58ca2433b4ca2b89b1fee67d4e, type: 2}
@@ -10330,14 +10285,15 @@ MonoBehaviour:
   currentlevelIntro: 0
   collectetCollectable: 0
   maxCollectable: 0
-  masterMixer: {fileID: 24300002, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
-  masterVolumeSlider: {fileID: 1392347872}
-  musicMixer: {fileID: -4876404827634857748, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
-  musicVolumeSlider: {fileID: 1432082879}
-  sfxMixer: {fileID: 5268567329552577043, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
-  sfxVolumeSlider: {fileID: 155670002}
-  dialogueMixer: {fileID: 5184101032786426952, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
-  dialogueVolumeSlider: {fileID: 1839793508}
+  masterMixer: {fileID: 24100000, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
+  masterSliders:
+  - {fileID: 1392347872}
+  musicSliders:
+  - {fileID: 1432082879}
+  sfxSliders:
+  - {fileID: 155670002}
+  dialogueSliders:
+  - {fileID: 1839793508}
 --- !u!114 &1937547030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11164,8 +11120,8 @@ RectTransform:
   m_Father: {fileID: 266724377}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4994995, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 5.3000183, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11547,7 +11503,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
