@@ -18,6 +18,8 @@ public class InputManager : MonoBehaviour
 
     private static InputManager instance;
 
+    public PlayerController playerController;
+
     private void Awake()
     {
         if (instance != null)
@@ -34,9 +36,15 @@ public class InputManager : MonoBehaviour
 
     public void MovePressed(InputAction.CallbackContext context)
     {
-        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying && PlayerController.GetInstance().isAllowedToMove)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
-            moveDirection = context.ReadValue<Vector2>();
+            if (playerController == null) return;
+            
+            if (PlayerController.GetInstance().isAllowedToMove)
+            {
+                moveDirection = context.ReadValue<Vector2>();
+            }
+            
         }
         else if (context.canceled)
         {
@@ -46,13 +54,20 @@ public class InputManager : MonoBehaviour
 
     public void GridMovePressed(InputAction.CallbackContext context)
     {
-        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying && PlayerController.GetInstance().isAllowedToMove)
+        if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
-            gridMoveDirection = context.ReadValue<Vector2>();
+            if (playerController == null) return;
+
             if (!GameManager.GetInstance().isInMainMenu)
             {
                 PlayerController.GetInstance().HandleGridMove(gridMoveDirection);
             }
+
+            if (PlayerController.GetInstance().isAllowedToMove)
+            {
+                gridMoveDirection = context.ReadValue<Vector2>();
+            }
+
         }
         else if (context.canceled)
         {
@@ -64,6 +79,7 @@ public class InputManager : MonoBehaviour
     {
         if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
+            if (playerController == null) return;
             jumpPressed = true;
         }
         else if (context.canceled)
@@ -77,6 +93,7 @@ public class InputManager : MonoBehaviour
     {
         if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
+            if (playerController == null) return;
             pausePressed = true;
         }
         else if (context.canceled)

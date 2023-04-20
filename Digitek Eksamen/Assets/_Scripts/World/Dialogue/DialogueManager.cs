@@ -163,6 +163,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    public void TestSignal()
+    {
+        Debug.Log("Start dialogue");
+    }
 
     public void EnterDialogueMode(TextAsset inkJSON)
     {
@@ -182,7 +186,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     //EP 2, 21.10 hvis der skal være jump med i spillet. Så det ikke overlapper
-    private void ExitDialogueMode()
+    public void ExitDialogueMode()
     {
         dialogueVariables.StopListening(currentStory);
 
