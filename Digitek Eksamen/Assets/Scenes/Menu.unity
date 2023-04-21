@@ -4588,7 +4588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &816898587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9145,7 +9145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1701963739
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10277,7 +10277,6 @@ MonoBehaviour:
   changePlayerMovStartObject: {fileID: 0}
   playerRestartPoint: {fileID: 0}
   winMenuUI: {fileID: 0}
-  collectedInfoText: {fileID: 0}
   levelNumber: 1
   levelData:
   - {fileID: 11400000, guid: fa88fa58ca2433b4ca2b89b1fee67d4e, type: 2}
@@ -10285,6 +10284,8 @@ MonoBehaviour:
   currentlevelIntro: 0
   collectetCollectable: 0
   maxCollectable: 0
+  collectedInfoText:
+  - {fileID: 0}
   masterMixer: {fileID: 24100000, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
   masterSliders:
   - {fileID: 1392347872}
@@ -10322,6 +10323,8 @@ MonoBehaviour:
   PlayerInteract: {fileID: 0}
   Menu: {fileID: 1937547029}
   AudioManager: {fileID: 227835259}
+  director: {fileID: 0}
+  timelineAssets: []
 --- !u!4 &1937547032
 Transform:
   m_ObjectHideFlags: 0
@@ -10933,6 +10936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cb543f89ac96d04d9eea0a507cf336c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
 --- !u!114 &2043396114
 MonoBehaviour:
   m_ObjectHideFlags: 0

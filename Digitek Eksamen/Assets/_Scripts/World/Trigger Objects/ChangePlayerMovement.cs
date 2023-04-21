@@ -55,7 +55,8 @@ public class ChangePlayerMovement : MonoBehaviour
 
             if (playerController.gridMovement && stopRun)
             {
-                GridToNormalMovement();
+                GameManager.GetInstance().ChangeToCutScene1_1();
+                //GridToNormalMovement();
             }
         }
     }

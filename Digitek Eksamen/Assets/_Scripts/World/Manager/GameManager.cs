@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public bool isInMainMenu { get; set; }
     public bool isInLevel { get; set; }
 
+    public bool playerIsAllowedToMove = true;
 
     [Header("Timeline")]
     public PlayableDirector director;
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartCutscene1_1();
+        //StartCutscene1_3();
     }
 
     public static GameManager GetInstance()
@@ -70,6 +71,11 @@ public class GameManager : MonoBehaviour
         {
             Menu.GetInstance().ChangeScene();
         }
+    }
+
+    public void ChangeToCutScene1_1()
+    {
+        SceneManager.LoadScene(2);
     }
 
 
@@ -127,7 +133,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("StartCutscene1_2");
         director.playableAsset = timelineAssets[1];
         director.Play();
-
     }
 
 
@@ -139,6 +144,8 @@ public class GameManager : MonoBehaviour
         //Start klods hans samtale. 
         //Giv adgang til submit
         Debug.Log("StartCutscene1_3");
+        director.playableAsset = timelineAssets[2];
+        director.Play();
     }
 
     public void StartCutscene1_4()
@@ -149,6 +156,8 @@ public class GameManager : MonoBehaviour
         //Bg farve blir samme som menu, fade
         //Vis Vind menu
         Debug.Log("StartCutscene1_4");
+        director.playableAsset = timelineAssets[3];
+        director.Play();
     }
 
     public void StartDialogue(TextAsset inkJSON)

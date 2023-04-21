@@ -251,8 +251,8 @@ public class Menu : MonoBehaviour
     {
         SaveCollectetScore();
         ShowCollectedScore(levelNumber);
-        menuPanel.SetActive(true);
-        winMenuUI.SetActive(true);
+        //menuPanel.SetActive(true);
+        //winMenuUI.SetActive(true);
     }
     #endregion
 
@@ -293,6 +293,8 @@ public class Menu : MonoBehaviour
         {
             info.text = PlayerPrefs.GetInt("collectedScore" + lvlNumber).ToString() + " / " + maxCollectable.ToString();
         }
+
+        Debug.Log("SHowCollectedScore");
     }
 
     public void AddCurrentCollectableScore()

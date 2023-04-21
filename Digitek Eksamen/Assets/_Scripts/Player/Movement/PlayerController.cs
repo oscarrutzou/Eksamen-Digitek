@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -61,7 +62,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 finalDirection;
 
     public bool Died = false;
-    public bool isAllowedToMove = true;
+
+    [DoNotSerialize] public bool isAllowedToMove = true;
 
     private static PlayerController instance;
 
@@ -94,6 +96,9 @@ public class PlayerController : MonoBehaviour
         canAutoMoveBool = false;
         //canJump = false;
         tempMoveSpeed = moveSpeed;
+
+
+        isAllowedToMove = GameManager.GetInstance().playerIsAllowedToMove;
     }
 
     private void FixedUpdate()
@@ -132,6 +137,7 @@ public class PlayerController : MonoBehaviour
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
             movementInput = InputManager.GetInstance().GetMoveDirection();
+            //Debug.Log("Movement" + movementInput);
             NormalMovement(movementInput);
         }
         else if (gridMovement && canAutoMoveBool)
@@ -452,16 +458,20 @@ public class PlayerController : MonoBehaviour
 
             if (count == 0)
             {
+                //Debug.Log("Should move");
                 rb.MovePosition(rb.position + direction * tempMoveSpeed * Time.fixedDeltaTime);
                 return true;
             }
             else
             {
+                //Debug.Log("Shouldnt move");
+
                 return false;
             }
         }
         else
         {
+            //Debug.Log("Shouldnt move no direction");
             return false;
         }
     }
