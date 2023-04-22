@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public bool isInMainMenu { get; set; }
     public bool isInLevel { get; set; }
+    public bool isInCutScene { get; set; }
+
 
     public bool playerIsAllowedToMove = true;
 
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour
         {
             isInMainMenu = true;
             isInLevel = false;
+            isInCutScene = false;
             if (hasPlayedAwakeMenu) return;
             FadeMenuInMainMenu();
         }
@@ -83,6 +86,7 @@ public class GameManager : MonoBehaviour
         {
             isInMainMenu = false;
             isInLevel = true;
+            isInCutScene = true;
             if (hasPlayedAwakeCutScene) return;
             StartCutscene1_1();
             hasPlayedAwakeCutScene = true;

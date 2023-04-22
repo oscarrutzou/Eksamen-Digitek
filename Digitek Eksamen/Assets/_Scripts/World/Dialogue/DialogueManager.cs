@@ -163,21 +163,23 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+
+    //Kaldt når man skal starte en dialog
     public void EnterDialogueMode(TextAsset inkJSON)
     {
+        //Sætter Story (fra ink) til den man får givet.
         currentStory = new Story(inkJSON.text);
-        dialogueIsPlaying = true;
-        dialoguePanel.SetActive(true);
+        dialogueIsPlaying = true; //Sørger for at alle ved at dialog er i gang
+        dialoguePanel.SetActive(true); //Activere dialog panelet.
 
-        dialogueVariables.StartListening(currentStory);
+        dialogueVariables.StartListening(currentStory); //Til variabler senere 
 
         //Restter portræt, layout and navn
         displayNameText.text = "Name";
-        //portraitAnimator.Play("default");
         layoutAnimator.Play("right");
         dialogueText.text = "";
 
-        ContinueStory();
+        ContinueStory(); //Starter story
     }
 
     //EP 2, 21.10 hvis der skal være jump med i spillet. Så det ikke overlapper
@@ -196,37 +198,45 @@ public class DialogueManager : MonoBehaviour
         } else if (isIntro)
         {
             isIntro = false;
-            //dialoguePanel.SetActive(false);
             GameManager.GetInstance().OnChangeFromMenuToLevel();
-            //dialogueVariables.StopListening(currentStory);
-            //dialogueIsPlaying = false;
         }
     }
 
     private void ContinueStory()
     {
+        //canContinue er fra Ink og tjekker om der er mere i Storyen
         if (currentStory.canContinue)
         {
-            // Sets the text
+            // Stopper Coroutinenen hvis den har været i gang.
             if (displayLineCoroutine != null)
             {
                 StopCoroutine(displayLineCoroutine);
             }
+
+            //Et variable til at kende det næste der sker i Storyen
             nextLine = currentStory.Continue();
-            // Handles tags
+
+            // Tjekker tags i gennem fra linjen.
             HandleTags(currentStory.currentTags);
 
+            //Tjekker om det er dialog som spillet som introen til levelet eller ej
             if (isIntro)
             {
+                //Stopper menuPanel og starter coroutine DisplayIntro
+                //Den er ligesom DisplayLine coroutine,
+                //men viser alt teksten under hinanden uden at slette det tidligere tekst.
                 menuPanel.SetActive(false);
                 displayLineCoroutine = StartCoroutine(DisplayIntro(nextLine));
                 return;
             }
             else
             {
+                //Hvis linjen ved en coroutine som hedder DisplayLine
+                //Den viser kun næste linje.
                 displayLineCoroutine = StartCoroutine(DisplayLine(nextLine));
             }
         }
+        //Hvis der ikke er mere test og man trykker på submit så går man ud af dialog moden.
         else if (!isIntro || InputManager.GetInstance().GetSubmitPressed())
         {
             ExitDialogueMode();
@@ -436,34 +446,43 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //Tjekker Tags
     private void HandleTags(List<string> currentTags)
     {
+        //Går igennem hvert tag
         foreach (string tag in currentTags)
         {
-            //Parser tags
+            //Parser tags og tjekker om man godt kan parse dem ordenlidt
             string[] splitTag = tag.Split(':');
             if (splitTag.Length != 2)
             {
                 Debug.LogError("Tag kunne ikke ordenlig blive parsed: " + tag);
             }
+            //Finder Key og valuen og sætter dem til forskellige dele af arrayet.
             string tagKey = splitTag[0].Trim();
             string tagValue = splitTag[1].Trim();
 
-            //Håndtere tags
+            //Går gennem alle forskellige tagKeys og tjekker om hvad de er
             switch (tagKey)
             {
+                //Sætter name teksten til valuen
                 case SPEAKER_TAG:
                     displayNameText.text = tagValue;
                     break;
+                //Sætter portættet til den rigtige value.
+                //Den bruger animtoren til at vælge de forskellige portrætter.
                 case PORTRAIT_TAG:
-                    portraitAnimator.Play(tagValue); //Husk at animation navn skal være samme som tag value i inkJSON.
+                    portraitAnimator.Play(tagValue);
                     break;
+                //Tjekker de forskellige layouts f.eks. om det skal være en intro layout
                 case LAYOUT_TAG:
                     CheckForIntro(tagValue);
                     break;
+                //Sætter lyden som de siger til den rette value
                 case AUDIO_TAG:
                     SetCurrentAudioInfo(tagValue);
                     break;
+                //Hvis der var nogle tags som ikke havde en plads i switch så bliver dette kaldt
                 default:
                     Debug.LogWarning("Tag kom ind men kunne ikke håndteres: " + tag);
                     break;

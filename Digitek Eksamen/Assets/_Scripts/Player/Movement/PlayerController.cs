@@ -29,8 +29,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
 
     [Header("On Mount")]
-    [SerializeField] private float jumpForce = 2f;
-
     private float lastXInput;
     private float lastYInput;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
@@ -121,27 +119,25 @@ public class PlayerController : MonoBehaviour
             Interact();
         } //Interact
 
-        //Jump
-        //if (InputManager.GetInstance().GetJumpPressed())
-        //{
-        //    MountJump();
-        //}
-
         if (!isAllowedToMove)
         {
             animator.SetBool("isMoving", false);
             return;
          }
 
-        //Movement
+        //Movement hvis man ikke er i gridmovement.
         if (normalMovement && !gridMovement || mountMovement && !gridMovement)
         {
+            //Får movementInput direction fra inputmanager.
             movementInput = InputManager.GetInstance().GetMoveDirection();
-            //Debug.Log("Movement" + movementInput);
-            NormalMovement(movementInput);
+            //Funktion til at teste om man kan flytte sig den retning.
+            //Hvis man ikke kan, så bevæger man sig ikke.
+            NormalMovement(movementInput); 
         }
-        else if (gridMovement && canAutoMoveBool)
+        //Laver grid movement hvis gridmovement er true.
+        else if (gridMovement && canAutoMoveBool) 
         {
+            //Sætter en konstant movement speed og flytter spilleren.
             AutoGridMove();
         }
     }
@@ -401,77 +397,81 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Normal Movement
+    //Direction kommer fra InputManageren.
     private void NormalMovement(Vector2 direction)
     {
-        if (normalMovement || mountMovement)
+        //Bliver brugt både når man er uder eller på sin ged.
+        if (normalMovement || mountMovement) 
         {
-
-            #region Movement Input
-            if (direction != Vector2.zero)
+            if (direction != Vector2.zero) //Tjek der er input.
             {
-                bool success = TryMove(direction);
+                //Tjekker om man kan flytte sig den direction man trykkede.
+                bool success = TryMove(direction); 
 
+                //Først tjek x direction.
                 if (!success)
                 {
                     success = TryMove(new Vector2(direction.x, 0));
                 }
 
+                //Så tjek y direction.
                 if (!success)
                 {
                     success = TryMove(new Vector2(0, direction.y));
                 }
 
-                if (normalMovement || mountMovement) //|| gridMovement
-                {
-                    //Lav om til goat animation
-                    animator.SetBool("isMoving", success);
-                    animator.SetFloat("horizontalMovement", direction.x);
-                    animator.SetFloat("verticalMovement", direction.y);
-                }
+                //Flytter spilleren ved dens rigidbody.
+                //Bruger fixedDeltaTime, for at gøre hastigheden ens på alle computere.
+                rb.MovePosition(rb.position + direction * tempMoveSpeed * Time.fixedDeltaTime);
+
+                //Hvis begge er true så kan man bevæge sig.
+                //Direction værdier bliver sat i animator.
+                animator.SetBool("isMoving", success);
+                animator.SetFloat("horizontalMovement", direction.x);
+                animator.SetFloat("verticalMovement", direction.y);
             }
-            else
+            else //Player er står stille 
             {
                 if (!mountMovement && !gridMovement)
                 {
-                    //normal movement
+                    //
                     animator.SetBool("isMoving", false);
                 }
                 else if (mountMovement || gridMovement)
                 {
-                    //Lav om til goat animation
+
                     animator.SetBool("isMoving", false);
                 }
             }
-            #endregion
         }
     }
 
+    //Tester om man kan bevæge sig i en vector2 retning.
     private bool TryMove(Vector2 direction)
     {
+        //Extra sikkerhed for at sørge for man prøver at flytte sig
         if (direction != Vector2.zero)
         {
+            //Laver et cast og ser om det er muligt at komme i den direction.
+            //Kigger på collisions og bruger de samme værdier som vi bruger til at flytte spilleren.
             int count = rb.Cast(
                     direction,
                     movementFilter,
                     castCollisions,
                     moveSpeed * Time.fixedDeltaTime + collisionOffset);
-
+            
+            //Hvis int er 0, betyder det at det er okay at flytte sig. 
             if (count == 0)
             {
-                //Debug.Log("Should move");
-                rb.MovePosition(rb.position + direction * tempMoveSpeed * Time.fixedDeltaTime);
                 return true;
             }
-            else
+            else //Returner false, hvis den laver en collision med noget i rb.Cast. 
             {
-                //Debug.Log("Shouldnt move");
-
                 return false;
             }
         }
-        else
+        else //Direction er 0
         {
-            //Debug.Log("Shouldnt move no direction");
             return false;
         }
     }
@@ -503,36 +503,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void MountJump()
-    {
-        if (isJumping && mountMovement)
-        {
-            return;
-        }
-        else if (!isJumping && mountMovement)
-        {
-           StartCoroutine(WaitForJump());
-        }
-    }
-
-    private IEnumerator WaitForJump()
-    {
-        isJumping = true;
-        Vector2 jumpDirection = new Vector2(0, jumpForce);
-        rb.AddForce(jumpDirection, ForceMode2D.Impulse);
-        Debug.Log("Jump before wait");
-        yield return new WaitForSecondsRealtime(1f);
-        Debug.Log("Jump after wait");
-        isJumping = false;
-    }
-
     #endregion
 
     #region Misc functions
     private void Interact()
     {
-        //Debug.Log("Interact");
-
         playerInteract.Interact();
     }
 
