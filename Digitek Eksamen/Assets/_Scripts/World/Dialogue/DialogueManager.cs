@@ -163,11 +163,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void TestSignal()
-    {
-        Debug.Log("Start dialogue");
-    }
-
     public void EnterDialogueMode(TextAsset inkJSON)
     {
         currentStory = new Story(inkJSON.text);
@@ -188,21 +183,23 @@ public class DialogueManager : MonoBehaviour
     //EP 2, 21.10 hvis der skal være jump med i spillet. Så det ikke overlapper
     public void ExitDialogueMode()
     {
-        dialogueVariables.StopListening(currentStory);
-
-        dialogueIsPlaying = false;
-        dialoguePanel.SetActive(false);
-        dialogueText.text = "";
-
-        //Sætter default audio på for fejl
-        SetCurrentAudioInfo(defaultAudioInfo.id);
-
-        if (isIntro)
+        if (!isIntro)
         {
-            //Debug.Log("Send player to next scene after a bit");
-            isIntro = false;
+            dialogueVariables.StopListening(currentStory);
+
+            dialogueIsPlaying = false;
             dialoguePanel.SetActive(false);
+            dialogueText.text = "";
+
+            //Sætter default audio på for fejl
+            SetCurrentAudioInfo(defaultAudioInfo.id);
+        } else if (isIntro)
+        {
+            isIntro = false;
+            //dialoguePanel.SetActive(false);
             GameManager.GetInstance().OnChangeFromMenuToLevel();
+            //dialogueVariables.StopListening(currentStory);
+            //dialogueIsPlaying = false;
         }
     }
 

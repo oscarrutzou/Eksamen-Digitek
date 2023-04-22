@@ -3,6 +3,13 @@ INCLUDE ../globals.ink
 -> Start
 
 === Start ===
+->Text
+
+
+-> END
+
+
+=== Text ===
 Sikke en dejlig lugt herhenne! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
 
 Det er fordi jeg steger hanekyllinger! #speaker: Kongedatter #portrait:kongedatter_neutral #layout:right #audio:animal_crossing_high

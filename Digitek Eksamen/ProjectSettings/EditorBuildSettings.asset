@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: ba783e1e8f4305b4a9046207c3fec48d
   - enabled: 1
-    path: Assets/Scenes/KlodsHans.unity
-    guid: f82005605f4cf364ab66d888af031831
+    path: Assets/Scenes/KlodsHansLvl.unity
+    guid: 2ac149d49b5efdf47ab8d75d575b2958
   - enabled: 1
     path: Assets/Scenes/KH_CutScene_Princess.unity
     guid: 931850f61af428147af996cb239935b3

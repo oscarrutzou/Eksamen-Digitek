@@ -53,27 +53,11 @@ public class InputManager : MonoBehaviour
         if (context.performed && !DialogueManager.GetInstance().dialogueIsPlaying)
         {
             if (!GameManager.GetInstance().playerIsAllowedToMove) return;
-            Debug.Log("playerIsAllowedToMove");
 
             if (!PlayerController.GetInstance().gridMovement) return;
-            Debug.Log("playermove");
-
 
             gridMoveDirection = context.ReadValue<Vector2>();
             PlayerController.GetInstance().HandleGridMove(gridMoveDirection);
-            //if (!GameManager.GetInstance().isInMainMenu)
-            //{
-            //    PlayerController.GetInstance().HandleGridMove(gridMoveDirection);
-            //}
-            ////Debug.Log("Gridmove");
-
-
-            //if (GameManager.GetInstance().playerIsAllowedToMove)
-            //{
-            //    gridMoveDirection = context.ReadValue<Vector2>();
-            //    Debug.Log(gridMoveDirection);
-            //}
-
         }
         else if (context.canceled)
         {

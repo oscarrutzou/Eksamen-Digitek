@@ -38,7 +38,7 @@ Oki dokki! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio
 -> DONE
 
 = FirstWaitStich
-Led efter de lysende markoerer, de vil lede dig på rette vej. #speaker: H.C Andersen #portrait:hc_andersen_neutral #layout:right #audio:animal_crossing_mid
+Led efter de lysende markoerer, de vil lede dig til de rette gaver. #speaker: H.C Andersen #portrait:hc_andersen_neutral #layout:right #audio:animal_crossing_mid
 -> DONE
 
 
@@ -47,7 +47,7 @@ Godt gaaet, Klods Hans! Du har fundet baade mudder og en gammel traesko. #speake
 
 Tak skal du have! Var der mere jeg har brug for? #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
 
-Ja. Den sidste ting, du skal finde, ligger på en bakke. #speaker: H.C Andersen #portrait:hc_andersen_neutral #layout:right #audio:animal_crossing_mid
+Ja. Den sidste ting, du skal finde, ligger paa en bakke. #speaker: H.C Andersen #portrait:hc_andersen_neutral #layout:right #audio:animal_crossing_mid
 
 Men du har brug for noget at ride paa for at komme derop, da den er meget stejl.
 
@@ -63,7 +63,7 @@ Haha det var saa lidt. Held og lykke med at faa kongedatteren! #speaker: H.C And
 -> DONE
 
 = SecondWaitStich
-Oppe på toppen af en bakke, finder du den sidste ting. #speaker: H.C Andersen #portrait:hc_andersen_neutral #layout:right #audio:animal_crossing_mid
+Oppe paa toppen af en bakke, finder du den sidste ting. #speaker: H.C Andersen #portrait:hc_andersen_neutral #layout:right #audio:animal_crossing_mid
 -> DONE
 
 = ThirdWaitStich

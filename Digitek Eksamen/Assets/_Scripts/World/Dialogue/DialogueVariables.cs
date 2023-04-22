@@ -65,6 +65,13 @@ public class DialogueVariables
         
         DialogueManager.GetInstance().SetVariableState("hasFinnishedGridLvl", new Ink.Runtime.BoolValue(false));
 
+        DialogueManager.GetInstance().SetVariableState("brother1_Done", new Ink.Runtime.BoolValue(false));
+
+        DialogueManager.GetInstance().SetVariableState("brother2_Done", new Ink.Runtime.BoolValue(false));
+
+        DialogueManager.GetInstance().SetVariableState("klodsHans_Done", new Ink.Runtime.BoolValue(false));
+
+        Debug.Log("DeletedSavedVariables");
         //Menu.GetInstance().DeleteHighScoreOnLvl();
 
         SaveVariables();

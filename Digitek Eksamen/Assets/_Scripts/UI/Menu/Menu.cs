@@ -47,6 +47,11 @@ public class Menu : MonoBehaviour
     [SerializeField] private Slider[] dialogueSliders;
 
 
+    [Header("Transitions")]
+    public bool isMenuFadingOut = false;
+    public bool isMenuFadingIn = false;
+
+
     private static Menu instance;
     private void Awake()
     {
@@ -175,22 +180,30 @@ public class Menu : MonoBehaviour
 
     public void Pause()
     {
-        SaveCollectetScore();
-        ShowCollectedScore(levelNumber);
+        if (isMenuFadingIn) return;
+
         //Aktivere objectet
         menuPanel.SetActive(true);
         pauseMenuUI.SetActive(true);
-        gameIsPaused = true;
+        GameManager.GetInstance().FadeMenuIn();
+
+        isMenuFadingIn = true;
         PlayerController.GetInstance().isAllowedToMove = false;
+
+        SaveCollectetScore();
+        ShowCollectedScore(levelNumber);
+
     }
 
     public void Resume()
     {
         if (pauseMenuUI != null)
         {
-            menuPanel.SetActive(false);
-            pauseMenuUI.SetActive(false);
-            gameIsPaused = false;
+            if (isMenuFadingOut) return;
+
+
+            GameManager.GetInstance().FadeMenuOut();
+            
             PlayerController.GetInstance().isAllowedToMove = true;
         }
         else
@@ -198,6 +211,29 @@ public class Menu : MonoBehaviour
             return;
         }
     }
+
+    //Kaldt i signal tracks
+
+    public void FadeIn()
+    {
+        gameIsPaused = true;
+        isMenuFadingIn = false;
+    }
+
+
+    public void IsFadingOut()
+    {
+        isMenuFadingOut = true;
+    }
+
+    public void FadeMenuOut()
+    {
+        menuPanel.SetActive(false);
+        pauseMenuUI.SetActive(false);
+        gameIsPaused = false;
+        isMenuFadingOut = false;
+    }
+
 
     public void LoadMenu()
     {
@@ -215,16 +251,29 @@ public class Menu : MonoBehaviour
         ShowCollectedScore(levelNumber);
         menuPanel.SetActive(true);
         deathMenuUI.SetActive(true);
+        GameManager.GetInstance().FadeMenuIn();
     }
 
     public void TryAgainDeathMenu()
     {
-        //Lav alt mørkt og kun start efter måske 1 sec. Måske en count down?
-        menuPanel.SetActive(false);
-        deathMenuUI.SetActive(false);
+        //StartChangePos & player
+        menuPanel.SetActive(true);
+        GameManager.GetInstance().FadeMenuOutFadeBlackIn();
+
+        ////Lav alt mørkt og kun start efter måske 1 sec. Måske en count down?
+        //menuPanel.SetActive(false);
+        //deathMenuUI.SetActive(false);
+        //playerObject.transform.position = playerRestartPoint.transform.position;
+        //StartCoroutine(WaitRestartPointBeforeMove());
+    }
+
+
+    public void SignalTryAgainRestartPos()
+    {
         playerObject.transform.position = playerRestartPoint.transform.position;
         StartCoroutine(WaitRestartPointBeforeMove());
     }
+
 
     private IEnumerator WaitRestartPointBeforeMove()
     {
@@ -238,10 +287,13 @@ public class Menu : MonoBehaviour
         playerController.GridMovement(true);
         playerController.animator.SetBool("isMoving", false);
 
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
 
         playerController.Died = false;
         playerController.GridMovement(true);
+
+        menuPanel.SetActive(false);
+        deathMenuUI.SetActive(false);
     }
 
     #endregion
@@ -249,10 +301,7 @@ public class Menu : MonoBehaviour
     #region Win Menu
     public void OnWinMenu()
     {
-        SaveCollectetScore();
         ShowCollectedScore(levelNumber);
-        //menuPanel.SetActive(true);
-        //winMenuUI.SetActive(true);
     }
     #endregion
 
@@ -279,11 +328,6 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void ChangeScene()
-    {
-        SceneManager.LoadScene(currentlevelIntro);
-    }
-
     #endregion
 
     #region Collectable
@@ -291,10 +335,12 @@ public class Menu : MonoBehaviour
     {
         foreach (TextMeshProUGUI info in collectedInfoText)
         {
+
             info.text = PlayerPrefs.GetInt("collectedScore" + lvlNumber).ToString() + " / " + maxCollectable.ToString();
+            Debug.Log(info.text);
         }
 
-        Debug.Log("SHowCollectedScore");
+        Debug.Log("SHowCollectedScore"+ PlayerPrefs.GetInt("collectedScore" + lvlNumber));
     }
 
     public void AddCurrentCollectableScore()

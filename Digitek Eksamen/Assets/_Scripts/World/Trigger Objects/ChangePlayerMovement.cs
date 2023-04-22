@@ -55,8 +55,9 @@ public class ChangePlayerMovement : MonoBehaviour
 
             if (playerController.gridMovement && stopRun)
             {
-                GameManager.GetInstance().ChangeToCutScene1_1();
-                //GridToNormalMovement();
+
+                GameManager.GetInstance().FadeBlackInChangeScene();
+                //MountToGridMovement();
             }
         }
     }
