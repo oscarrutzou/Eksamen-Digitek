@@ -24,7 +24,7 @@ Jeg har hoert fra dine broedre at de ikke tror du har en chance med kongedattere
 
 Jeg ved du er en speciel person og kan goere det hvis du proever. 
 
-Halohoj Hr. Andersen! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
+Halehoj Hr. Andersen! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
 
 Har du da nogen ide omkring hvad jeg skal goere for at faa hende? #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
 

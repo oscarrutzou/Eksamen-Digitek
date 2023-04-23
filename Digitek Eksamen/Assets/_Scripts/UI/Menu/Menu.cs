@@ -187,11 +187,12 @@ public class Menu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         GameManager.GetInstance().FadeMenuIn();
 
+        SaveCollectetScore();
+        ShowCollectedScore(levelNumber);
+
         isMenuFadingIn = true;
         PlayerController.GetInstance().isAllowedToMove = false;
 
-        SaveCollectetScore();
-        ShowCollectedScore(levelNumber);
 
     }
 
@@ -247,6 +248,9 @@ public class Menu : MonoBehaviour
     #region Death Menu
     public void OnDeathMenu()
     {
+        FadeMenuOut();
+        isMenuFadingIn = false;
+
         SaveCollectetScore();
         ShowCollectedScore(levelNumber);
         menuPanel.SetActive(true);
@@ -302,7 +306,14 @@ public class Menu : MonoBehaviour
     public void OnWinMenu()
     {
         ShowCollectedScore(levelNumber);
+        DeleteCollectedScore();
     }
+
+    public void DeleteCollectedScore()
+    {
+        PlayerPrefs.SetInt("collectedScore" + levelNumber, 0);
+    }
+
     #endregion
 
     #region Level Selector
@@ -337,7 +348,7 @@ public class Menu : MonoBehaviour
         {
 
             info.text = PlayerPrefs.GetInt("collectedScore" + lvlNumber).ToString() + " / " + maxCollectable.ToString();
-            Debug.Log(info.text);
+            Debug.Log("info.text" + info.text);
         }
 
         Debug.Log("SHowCollectedScore"+ PlayerPrefs.GetInt("collectedScore" + lvlNumber));
@@ -346,11 +357,13 @@ public class Menu : MonoBehaviour
     public void AddCurrentCollectableScore()
     {
         //LevelData level = levelData[levelNumber - 1];
-
+        Debug.Log("Add");
         //++levelData[levelNumber - 1].lvlMaxCollectable;
         if (collectetCollectable < maxCollectable)
         {
             ++collectetCollectable;
+            Debug.Log("Add success");
+
         }
         else return;
     }
@@ -360,27 +373,33 @@ public class Menu : MonoBehaviour
         if (!PlayerPrefs.HasKey("collectedScore" + levelNumber)) //Bruger lvl number som går fra 1 og op
         {
             PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+            Debug.Log("SetInt" + PlayerPrefs.GetInt("collectedScore" + levelNumber));
+
         }
         else
         {
             if (PlayerPrefs.GetInt("collectedScore" + levelNumber) < collectetCollectable)
             {
                 PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+                Debug.Log("SetIntBiggerthanSaved" + PlayerPrefs.GetInt("collectedScore" + levelNumber));
+
             }
             else 
             {
-                PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+                //PlayerPrefs.SetInt("collectedScore" + levelNumber, collectetCollectable);
+                Debug.Log("GetIntscore" + PlayerPrefs.GetInt("collectedScore" + levelNumber));
+
                 return; 
             }
         }
     }
 
-    public void DeleteHighScoreOnLvl()
-    {
-        for (int i = 1; i <= levelData.Length; i++)
-        {
-            PlayerPrefs.DeleteKey("collectedScore" + i);
-        }
-    }
+    //public void DeleteHighScoreOnLvl()
+    //{
+    //    for (int i = 1; i <= levelData.Length; i++)
+    //    {
+    //        PlayerPrefs.DeleteKey("collectedScore" + i);
+    //    }
+    //}
     #endregion
 }

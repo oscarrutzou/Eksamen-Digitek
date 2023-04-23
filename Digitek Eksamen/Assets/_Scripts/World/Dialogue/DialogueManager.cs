@@ -21,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private DialogueAudioInfoSO defaultAudioInfo;
     [SerializeField] private DialogueAudioInfoSO[] audioInfos;
     [SerializeField] private bool makePredictable;
+    [SerializeField] private AudioMixerGroup dialogueMixerGroup;
 
     public AudioSource audioSource;
 
@@ -105,17 +106,8 @@ public class DialogueManager : MonoBehaviour
         }
         InitializeAudioInfoDictionary();
 
+        audioSource.outputAudioMixerGroup = dialogueMixerGroup;
 
-        // Find the AudioMixerGroup that corresponds to the dialogueMixer parameter
-        AudioMixerGroup[] groups = menu.masterMixer.FindMatchingGroups("dialogueMixer");
-        if (groups.Length > 0)
-        {
-            // Assign the first matching group to the outputAudioMixerGroup of the AudioSource
-            audioSource.outputAudioMixerGroup = groups[0];
-            Debug.Log("audioSource.outputAudioMixerGroup" + audioSource.outputAudioMixerGroup);
-        }
-
-        //Fjern denne hvis der skal gemees variabler igennem gameplays.
         dialogueVariables.DeleteSavedVariables();
     }
 

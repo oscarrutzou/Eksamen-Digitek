@@ -253,8 +253,10 @@ public class GameManager : MonoBehaviour
     public void SignalChangeScene(int buildIndex)
     {
         SceneManager.LoadScene(buildIndex);
+        Debug.Log("SHowCollectedScoreSignalChangeScene" + PlayerPrefs.GetInt("collectedScore" + 1));
+
     }
-        //public void ChangeToCutScene1_1()
+    //public void ChangeToCutScene1_1()
     //{
     //    FadeBlackIn();
     //    SceneManager.LoadScene(2);
@@ -271,6 +273,7 @@ public class GameManager : MonoBehaviour
         //Start bror 1 snak, dialog enter
         //Stop når han bliver afvist og inden han flytter sig igen
         if (hasPLayed1_1) return;
+        Debug.Log("StartCutscene1_1" + PlayerPrefs.GetInt("collectedScore" + 1));
 
         Debug.Log("StartCutscene1_1");
         director.playableAsset = timelineAssets[0];

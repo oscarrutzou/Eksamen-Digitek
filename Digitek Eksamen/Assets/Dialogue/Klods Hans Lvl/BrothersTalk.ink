@@ -8,7 +8,7 @@ INCLUDE ../globals.ink
 
 === FirstTalk ===
 
-Halohoj, her kommer jeg! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
+Halehoj, her kommer jeg! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
 
 Ha! Se bror det er den yngste. #speaker: Bror 1 #portrait:bror_1_neutral #layout:right #audio:animal_crossing_mid
 
@@ -28,7 +28,7 @@ Det lyder fint. Halohoj her kommer jeg! #speaker: Klods Hans #portrait:klods_han
 -> DONE
 
 = FirstWaitStich
-Halohoj her kommer jeg! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
+Halehoj her kommer jeg! #speaker: Klods Hans #portrait:klods_hans_neutral #layout:left #audio:animal_crossing_high
 -> DONE
 
 === CheckSecondTalk ===

@@ -1855,7 +1855,7 @@ MonoBehaviour:
     mixerGroup: SFX
     sorce: {fileID: 0}
   - name: Shoe
-    clip: {fileID: 8300000, guid: 631ef3404ce3ae34ea3f03fbbe2fd597, type: 3}
+    clip: {fileID: 8300000, guid: 982f7734246e0e849ab0e5b417fc0d4f, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -1940,6 +1940,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5afaee0d43eca64189cdbd1fb532f2d, type: 2}
   - {fileID: 11400000, guid: 65cef8d8c0808ee49a3c6272c8111c3d, type: 2}
   makePredictable: 1
+  dialogueMixerGroup: {fileID: 5184101032786426952, guid: 7682cc0b99c7eb74491fc2989c2e8a61, type: 2}
   audioSource: {fileID: 0}
   dialoguePanel: {fileID: 854048915}
   continueIcon: {fileID: 1548038115}
@@ -10591,6 +10592,7 @@ MonoBehaviour:
   dialogueSliders:
   - {fileID: 1839793508}
   isMenuFadingOut: 0
+  isMenuFadingIn: 0
 --- !u!114 &1937547030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11275,7 +11277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cb543f89ac96d04d9eea0a507cf336c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
 --- !u!114 &2043396114
 MonoBehaviour:
   m_ObjectHideFlags: 0

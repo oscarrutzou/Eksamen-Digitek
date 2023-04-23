@@ -400,46 +400,40 @@ public class PlayerController : MonoBehaviour
     //Direction kommer fra InputManageren.
     private void NormalMovement(Vector2 direction)
     {
-        //Bliver brugt både når man er uder eller på sin ged.
-        if (normalMovement || mountMovement) 
+        if (normalMovement || mountMovement)
         {
-            if (direction != Vector2.zero) //Tjek der er input.
+            if (direction != Vector2.zero) //Tjekker om det input
             {
                 //Tjekker om man kan flytte sig den direction man trykkede.
-                bool success = TryMove(direction); 
+                bool success = TryMove(direction);
 
                 //Først tjek x direction.
                 if (!success)
                 {
                     success = TryMove(new Vector2(direction.x, 0));
                 }
-
                 //Så tjek y direction.
                 if (!success)
                 {
                     success = TryMove(new Vector2(0, direction.y));
                 }
 
-                //Flytter spilleren ved dens rigidbody.
-                //Bruger fixedDeltaTime, for at gøre hastigheden ens på alle computere.
-                rb.MovePosition(rb.position + direction * tempMoveSpeed * Time.fixedDeltaTime);
-
-                //Hvis begge er true så kan man bevæge sig.
+                //Sætter bool til true eller false.
                 //Direction værdier bliver sat i animator.
                 animator.SetBool("isMoving", success);
                 animator.SetFloat("horizontalMovement", direction.x);
                 animator.SetFloat("verticalMovement", direction.y);
             }
-            else //Player er står stille 
+            else
             {
                 if (!mountMovement && !gridMovement)
                 {
-                    //
+                    //normal movement
                     animator.SetBool("isMoving", false);
                 }
                 else if (mountMovement || gridMovement)
                 {
-
+                    //Lav om til goat animation
                     animator.SetBool("isMoving", false);
                 }
             }
@@ -452,6 +446,7 @@ public class PlayerController : MonoBehaviour
         //Extra sikkerhed for at sørge for man prøver at flytte sig
         if (direction != Vector2.zero)
         {
+
             //Laver et cast og ser om det er muligt at komme i den direction.
             //Kigger på collisions og bruger de samme værdier som vi bruger til at flytte spilleren.
             int count = rb.Cast(
@@ -459,10 +454,11 @@ public class PlayerController : MonoBehaviour
                     movementFilter,
                     castCollisions,
                     moveSpeed * Time.fixedDeltaTime + collisionOffset);
-            
-            //Hvis int er 0, betyder det at det er okay at flytte sig. 
+            //Hvis int er 0, betyder det at det er okay at flytte sig.
             if (count == 0)
             {
+                //Flytter spilleren
+                rb.MovePosition(rb.position + direction * tempMoveSpeed * Time.fixedDeltaTime);
                 return true;
             }
             else //Returner false, hvis den laver en collision med noget i rb.Cast. 
@@ -475,7 +471,6 @@ public class PlayerController : MonoBehaviour
             return false;
         }
     }
-
     #endregion
 
     #region OnMount 
